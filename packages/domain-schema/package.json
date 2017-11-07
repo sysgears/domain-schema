@@ -12,9 +12,9 @@
     "watch": "tsc -w",
     "lint": "tslint --fix -p tsconfig.json --type-check",
     "tests": " ",
-    "test": "npm run tests && npm run lint",
+    "test": "yarn tests && yarn lint",
     "precommit": "lint-staged",
-    "prepublishOnly": "npm run clean && npm run compile"
+    "prepublishOnly": "yarn clean && yarn build"
   },
   "devDependencies": {
     "@types/node": "^7.0.18",
