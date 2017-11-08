@@ -26,7 +26,7 @@ class DomainSchema extends Schema {
     } else {
       this._schemaClass = clazz;
       this._schema = new clazz();
-      this._values = this._buildValues();
+      this._values = this._normalizeValues();
       if (!(this._schema instanceof Schema)) {
         DomainSchema._throwWrongSchema(clazz);
       }
@@ -57,7 +57,7 @@ class DomainSchema extends Schema {
     throw new Error(`Schema ${clazz ? clazz.name : clazz} must be an instance of Schema`);
   }
 
-  private _buildValues(): any {
+  private _normalizeValues(): any {
     const values = {};
     for (const key of Object.keys(this._schema)) {
       if (key === '__') {
