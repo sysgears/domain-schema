@@ -2,11 +2,11 @@
 
 [![Twitter Follow](https://img.shields.io/twitter/follow/sysgears.svg?style=social)](https://twitter.com/sysgears)
 
-Domain Schema is a set of packages lets you design you application using Domain Driven Design Principles.
-You create your schema with any fields your application needs. 
-Then use them as a single source of truth in your application to generate database schemas, forms, GraphQL types, etc.
-`domain-schema` package tries to help you with this, not stay on your way, by imposing minimal limitations on the shape
-of domain schemas, not the fields and the meaning you can use.
+Domain Schema is a set of packages that let you design your application using Domain Driven Design Principles.
+You create your schemas with any fields your application needs. 
+Then use them as a single source of truth in the application to generate database schemas, forms, GraphQL types, etc.
+Domain Schema set of packages try to help you with this task, not stay on your way, by imposing minimal limitations on the shape
+of your domain schemas, not the fields and the meaning you can use.
 
 Example Domain Schema using ES6 syntax:
 ```js
