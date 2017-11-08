@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "module": "commonjs",
+    "rootDir": "packages",
+    "baseUrl": "packages/",
+    "lib": ["es2016"],
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "declaration": true,
+    "noImplicitAny": false,
+    "allowSyntheticDefaultImports": true,
+    "experimentalDecorators": true,
+    "pretty": true,
+    "removeComments": true,
+    "paths": {
+      "*": ["*/src"]
+    }
+  },
+  "exclude": [
+    "node_modules",
+    "dist",
+    "lib"
+  ],
+}
