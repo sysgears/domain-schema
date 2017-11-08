@@ -1,11 +1,12 @@
+import Debug from 'debug';
 import DomainSchema from 'domain-schema';
 
-const DEBUG = false;
+const debug = Debug('domain-graphql');
 
 export default class {
   constructor() {}
 
-  _generateField(typeName, key, value) {
+  public _generateField(typeName, key, value) {
     let result = `    ${key}: `;
     switch (value.type.name) {
       case 'Boolean':
@@ -35,13 +36,13 @@ export default class {
     return result;
   }
 
-  generateTypes(schema) {
+  public generateTypes(schema) {
     const domainSchema = new DomainSchema(schema);
 
-    let results = [];
+    const results = [];
     let result = `type ${domainSchema.name} {\n`;
-    for (let key of domainSchema.keys()) {
-      let value = domainSchema.values[key];
+    for (const key of domainSchema.keys()) {
+      const value = domainSchema.values[key];
       if (!value.private) {
         result += this._generateField(domainSchema.name, key, value) + '\n';
         if (value.isSchema) {
@@ -53,9 +54,7 @@ export default class {
     result += '}';
     results.push(result);
 
-    if (DEBUG) {
-      console.log(results.join('\n'));
-    }
+    debug(results.join('\n'));
 
     return results.join('\n');
   }

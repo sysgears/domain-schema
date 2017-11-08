@@ -1,21 +1,22 @@
+/* tslint:disable:max-classes-per-file */
 export interface SchemaClass {
   new (): Schema;
 }
 
 export class Schema {
-  __?: any;
+  public __?: any;
 }
 
 class DomainSchema extends Schema {
+  public static Integer = class Integer {};
+  public static ID = class ID {};
+
   private _schemaClass: SchemaClass;
   private _schema: Schema;
   private _values: any;
 
-  static Integer = class Integer {};
-  static ID = class ID {};
-
-  static _throwWrongSchema(SchemaClass) {
-    throw new Error(`Schema ${SchemaClass ? SchemaClass.name : SchemaClass} must be an instance of Schema`);
+  public static _throwWrongSchema(clazz: any) {
+    throw new Error(`Schema ${clazz ? clazz.name : clazz} must be an instance of Schema`);
   }
 
   constructor(clazz: SchemaClass) {
@@ -36,9 +37,9 @@ class DomainSchema extends Schema {
     }
   }
 
-  _buildValues(): any {
+  public _buildValues(): any {
     const values = {};
-    for (let key of Object.keys(this._schema)) {
+    for (const key of Object.keys(this._schema)) {
       if (key === '__') {
         continue;
       }
@@ -64,7 +65,7 @@ class DomainSchema extends Schema {
     return this._values;
   }
 
-  keys() {
+  public keys() {
     return Object.keys(this._values);
   }
 
@@ -76,18 +77,18 @@ class DomainSchema extends Schema {
     return this._schema;
   }
 
-  static isSchema(SchemaClass) {
-    if (SchemaClass instanceof DomainSchema) {
+  public static isSchema(clazz: any) {
+    if (clazz instanceof DomainSchema) {
       return true;
-    } else if (!DomainSchema._isConstructable(SchemaClass)) {
+    } else if (!DomainSchema._isConstructable(clazz)) {
       return false;
     } else {
-      const schema = new SchemaClass();
+      const schema = new clazz();
       return schema instanceof Schema;
     }
   }
 
-  static _isConstructable(f) {
+  public static _isConstructable(f) {
     try {
       Reflect.construct(String, [], f);
     } catch (e) {

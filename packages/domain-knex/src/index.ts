@@ -1,8 +1,9 @@
-import { decamelize } from 'humps';
+import Debug from 'debug';
 import DomainSchema from 'domain-schema';
+import { decamelize } from 'humps';
 import Knex from 'knex';
 
-const DEBUG = false;
+const debug = Debug('domain-knex');
 
 export default class {
   private knex: Knex;
@@ -11,8 +12,8 @@ export default class {
     this.knex = knex;
   }
 
-  _addColumn(tableName, table, key, value) {
-    let columnName = decamelize(key);
+  public _addColumn(tableName, table, key, value) {
+    const columnName = decamelize(key);
     let column;
     switch (value.type.name) {
       case 'Boolean':
@@ -38,10 +39,10 @@ export default class {
     }
   }
 
-  async _createTables(parentTableName, schema): Promise<any> {
+  public async _createTables(parentTableName, schema): Promise<any> {
     const domainSchema = new DomainSchema(schema);
     const tableName = decamelize(domainSchema.name);
-    return await this.knex.schema.createTable(tableName, table => {
+    return this.knex.schema.createTable(tableName, table => {
       if (parentTableName) {
         table
           .integer(`${parentTableName}_id`)
@@ -49,9 +50,7 @@ export default class {
           .references('id')
           .inTable(parentTableName)
           .onDelete('CASCADE');
-        if (DEBUG) {
-          console.log(`Foreign key ${tableName} -> ${parentTableName}.${parentTableName}_id`);
-        }
+        debug(`Foreign key ${tableName} -> ${parentTableName}.${parentTableName}_id`);
       }
 
       table.increments('id');
@@ -59,21 +58,17 @@ export default class {
 
       const promises = [];
 
-      for (let key of domainSchema.keys()) {
+      for (const key of domainSchema.keys()) {
         const column = decamelize(key);
         const value = domainSchema.values[key];
         if (value.isSchema) {
           const hostTableName = domainSchema.__.transient ? parentTableName : tableName;
           const newPromise = this._createTables(hostTableName, value.type);
           promises.push(newPromise);
-          if (DEBUG) {
-            console.log(`Schema key: ${tableName}.${column} -> ${value.type.name}`);
-          }
+          debug(`Schema key: ${tableName}.${column} -> ${value.type.name}`);
         } else if (!value.transient && key !== 'id') {
           this._addColumn(tableName, table, key, value);
-          if (DEBUG) {
-            console.log(`Scalar key: ${tableName}.${column} -> ${value.type.name}`);
-          }
+          debug(`Scalar key: ${tableName}.${column} -> ${value.type.name}`);
         }
       }
 
@@ -81,7 +76,7 @@ export default class {
     });
   }
 
-  _getTableNames(schema) {
+  public _getTableNames(schema) {
     const domainSchema = new DomainSchema(schema);
     const tableName = decamelize(domainSchema.name);
     let tableNames = [];
@@ -89,7 +84,7 @@ export default class {
     if (domainSchema.__.transient) {
       tableNames.push(tableName);
     }
-    for (let key of domainSchema.keys()) {
+    for (const key of domainSchema.keys()) {
       const value = domainSchema.values[key];
       if (value.isSchema) {
         tableNames = tableNames.concat(this._getTableNames(value.type));
@@ -99,7 +94,7 @@ export default class {
     return tableNames;
   }
 
-  createTables(schema) {
+  public createTables(schema) {
     const domainSchema = new DomainSchema(schema);
     if (domainSchema.__.transient) {
       throw new Error(`Unable to create tables for transient schema: ${domainSchema.name}`);
@@ -107,11 +102,9 @@ export default class {
     return this._createTables(null, domainSchema);
   }
 
-  dropTables(domainSchema) {
+  public dropTables(domainSchema) {
     const tableNames = this._getTableNames(domainSchema);
-    if (DEBUG) {
-      console.log('Dropping tables:', tableNames);
-    }
+    debug('Dropping tables:', tableNames);
     return Promise.all(tableNames.map(name => this.knex.schema.dropTable(name)));
   }
 }

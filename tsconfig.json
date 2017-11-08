@@ -14,12 +14,7 @@
     "pretty": true,
     "removeComments": true,
     "paths": {
-      "*": ["*/src"]
+      "*": ["*/lib"]
     }
-  },
-  "exclude": [
-    "node_modules",
-    "dist",
-    "lib"
-  ],
+  }
 }
