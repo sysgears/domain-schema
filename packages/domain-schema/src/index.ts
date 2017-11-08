@@ -48,7 +48,7 @@ class DomainSchema extends Schema {
         throw new Error(`'type' key is required for schema field ${this._schemaClass.name}.${key}`);
       }
       const def = typeof value === 'function' ? { type: value } : { ...value };
-      def.isSchema = DomainSchema.isSchema(def.type);
+      def.isSchema = DomainSchema._isSchema(def.type);
       def.type = def.isSchema ? new DomainSchema(def.type) : def.type;
 
       values[key] = def;
@@ -77,7 +77,7 @@ class DomainSchema extends Schema {
     return this._schema;
   }
 
-  public static isSchema(clazz: any) {
+  private static _isSchema(clazz: any) {
     if (clazz instanceof DomainSchema) {
       return true;
     } else if (!DomainSchema._isConstructable(clazz)) {
@@ -88,7 +88,7 @@ class DomainSchema extends Schema {
     }
   }
 
-  public static _isConstructable(f) {
+  private static _isConstructable(f) {
     try {
       Reflect.construct(String, [], f);
     } catch (e) {
