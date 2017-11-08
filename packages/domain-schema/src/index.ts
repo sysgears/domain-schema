@@ -15,11 +15,7 @@ class DomainSchema extends Schema {
   private _schema: Schema;
   private _values: any;
 
-  public static _throwWrongSchema(clazz: any) {
-    throw new Error(`Schema ${clazz ? clazz.name : clazz} must be an instance of Schema`);
-  }
-
-  constructor(clazz: SchemaClass) {
+  public constructor(clazz: SchemaClass) {
     super();
     if (clazz instanceof DomainSchema) {
       this._schemaClass = clazz._schemaClass;
@@ -37,7 +33,31 @@ class DomainSchema extends Schema {
     }
   }
 
-  public _buildValues(): any {
+  public get __() {
+    return this._schema.__ || {};
+  }
+
+  public get values() {
+    return this._values;
+  }
+
+  public keys() {
+    return Object.keys(this._values);
+  }
+
+  public get name() {
+    return this._schemaClass.name;
+  }
+
+  public get schema() {
+    return this._schema;
+  }
+
+  private static _throwWrongSchema(clazz: any) {
+    throw new Error(`Schema ${clazz ? clazz.name : clazz} must be an instance of Schema`);
+  }
+
+  private _buildValues(): any {
     const values = {};
     for (const key of Object.keys(this._schema)) {
       if (key === '__') {
@@ -55,26 +75,6 @@ class DomainSchema extends Schema {
     }
 
     return values;
-  }
-
-  get __() {
-    return this._schema.__ || {};
-  }
-
-  get values() {
-    return this._values;
-  }
-
-  public keys() {
-    return Object.keys(this._values);
-  }
-
-  get name() {
-    return this._schemaClass.name;
-  }
-
-  get schema() {
-    return this._schema;
   }
 
   private static _isSchema(clazz: any) {
