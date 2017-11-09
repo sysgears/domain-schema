@@ -33,6 +33,10 @@ class DomainSchema extends Schema {
     }
   }
 
+  public get isSchema() {
+    return true;
+  }
+
   public get __() {
     return this._schema.__ || {};
   }
@@ -68,8 +72,8 @@ class DomainSchema extends Schema {
         throw new Error(`'type' key is required for schema field ${this._schemaClass.name}.${key}`);
       }
       const def = typeof value === 'function' ? { type: value } : { ...value };
-      def.isSchema = DomainSchema._isSchema(def.type);
-      def.type = def.isSchema ? new DomainSchema(def.type) : def.type;
+
+      def.type = DomainSchema._isSchema(def.type) ? new DomainSchema(def.type) : def.type;
 
       values[key] = def;
     }

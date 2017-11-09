@@ -61,7 +61,7 @@ export default class {
       for (const key of domainSchema.keys()) {
         const column = decamelize(key);
         const value = domainSchema.values[key];
-        if (value.isSchema) {
+        if (value.type.isSchema) {
           const hostTableName = domainSchema.__.transient ? parentTableName : tableName;
           const newPromise = this._createTables(hostTableName, value.type);
           promises.push(newPromise);
@@ -86,7 +86,7 @@ export default class {
     }
     for (const key of domainSchema.keys()) {
       const value = domainSchema.values[key];
-      if (value.isSchema) {
+      if (value.type.isSchema) {
         tableNames = tableNames.concat(this._getTableNames(value.type));
       }
     }

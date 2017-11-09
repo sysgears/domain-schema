@@ -22,7 +22,7 @@ export default class {
         result += 'String';
         break;
       default:
-        if (value.isSchema) {
+        if (value.type.isSchema) {
           result += value.type.name;
         } else {
           throw new Error(`Don't know how to handle type ${value.type.name} of ${typeName}.${key}`);
@@ -45,7 +45,7 @@ export default class {
       const value = domainSchema.values[key];
       if (!value.private) {
         result += this._generateField(domainSchema.name, key, value) + '\n';
-        if (value.isSchema) {
+        if (value.type.isSchema) {
           results.push(this.generateTypes(value.type));
         }
       }
