@@ -42,6 +42,7 @@ class UserProfile extends Schema {
     optional: true,
     transient: true
   };
+  notes = [String];
 }
 
 class UserAuth extends Schema {
@@ -81,11 +82,11 @@ export const User = new DomainSchema(
       optional: true
     };
     auth = {
-      type: UserAuth,
+      type: [UserAuth],
       optional: true
     };
     profile = {
-      type: UserProfile,
+      type: [UserProfile],
       optional: true
     };
   }

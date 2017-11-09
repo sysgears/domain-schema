@@ -68,10 +68,12 @@ class DomainSchema extends Schema {
         continue;
       }
       const value = this._schema[key];
-      if (typeof value !== 'function' && !value.type) {
+      if (typeof value !== 'function' && value.constructor !== Array && !value.type) {
         throw new Error(`'type' key is required for schema field ${this._schemaClass.name}.${key}`);
+      } else if (value.constructor === Array && value.length !== 1) {
+        throw new Error(`Array key ${this._schemaClass.name}.${key} should contain one type inside`);
       }
-      const def = typeof value === 'function' ? { type: value } : { ...value };
+      const def = typeof value === 'function' || value.constructor === Array ? { type: value } : { ...value };
 
       def.type = DomainSchema._isSchema(def.type) ? new DomainSchema(def.type) : def.type;
 

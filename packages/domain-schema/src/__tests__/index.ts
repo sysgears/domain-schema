@@ -8,6 +8,7 @@ class SampleSchema extends Schema {
   __ = { foo: { bar: 'baz' } };
   normField = { type: String, baz: 'foo' };
   simpleField = Number;
+  arrayField = [Number];
   schemaField = InnerSchema;
 }
 
@@ -58,4 +59,20 @@ describe('DomainSchema', () => {
   it('schema value should have type.isSchema = true', () => {
     expect(new DomainSchema(SampleSchema).values.schemaField.type.isSchema).toBeTruthy();
   });
+
+  it('should reject values without type', () => {
+    expect(() => new DomainSchema(class extends Schema { field = {foo: 'bar'} })).toThrow();
+  });
+
+  it('should reject empty array values', () => {
+    expect(() => new DomainSchema(class extends Schema { field = [] })).toThrow();
+  });
+
+  it('should reject array with multiple values', () => {
+    expect(() => new DomainSchema(class extends Schema { field = [String, Number] })).toThrow();
+  });
+
+  it('schema should normalize array-type value', () => {
+    expect(new DomainSchema(SampleSchema).values.arrayField).toEqual({type: [Number]});
+  })
 });
