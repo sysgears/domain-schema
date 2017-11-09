@@ -12,4 +12,5 @@ install:
 os:
   - linux
 script:
+  - yarn build
   - yarn test
