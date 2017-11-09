@@ -1,7 +1,5 @@
 import DomainKnex from '../index';
 
 describe('DomainKnex', () => {
-  it('should do something', () => {
-
-  })
+  it('should create table with id and timestamps', () => {});
 });

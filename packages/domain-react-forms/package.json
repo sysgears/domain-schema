@@ -8,13 +8,18 @@
   "license": "MIT",
   "scripts": {
     "clean": "rm -rf ./lib",
-    "build": "tsc",
-    "watch": "tsc -w",
-    "lint": "tslint --fix -p tsconfig.json -c ../../tslint.json",
+    "build": "tsc -p tsconfig.build.json",
+    "watch": "tsc -p tsconfig.build.json -w",
+    "lint": "tslint -p tsconfig.json --fix -c ../../tslint.json",
     "tests": "jest",
     "test": "yarn tests && yarn lint",
     "prepublishOnly": "yarn clean && yarn build"
   },
+  "files": [
+    "lib/*.js",
+    "lib/*.d.ts",
+    "lib/*.map"
+  ],
   "devDependencies": {
     "@types/jest": "^21.1.5",
     "@types/node": "^7.0.18",

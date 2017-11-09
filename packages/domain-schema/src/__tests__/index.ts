@@ -1,20 +1,20 @@
 import DomainSchema, { Schema } from '../index';
 
 class InnerSchema extends Schema {
-  bool = Boolean
+  public bool = Boolean;
 }
 
 class SampleSchema extends Schema {
-  __ = { foo: { bar: 'baz' } };
-  normField = { type: String, baz: 'foo' };
-  simpleField = Number;
-  arrayField = [Number];
-  schemaField = InnerSchema;
+  public __ = { foo: { bar: 'baz' } };
+  public normField = { type: String, baz: 'foo' };
+  public simpleField = Number;
+  public arrayField = [Number];
+  public schemaField = InnerSchema;
 }
 
 describe('DomainSchema', () => {
   it('should instantiate from Schema class', () => {
-    new DomainSchema(class extends Schema {});
+    expect(new DomainSchema(class extends Schema {})).toBeDefined();
   });
 
   it('should instantiate from DomainSchema class', () => {
@@ -37,11 +37,11 @@ describe('DomainSchema', () => {
   });
 
   it('should keep normalized key', () => {
-    expect(new DomainSchema(SampleSchema).values.normField).toEqual({baz: 'foo', type: String});
+    expect(new DomainSchema(SampleSchema).values.normField).toEqual({ baz: 'foo', type: String });
   });
 
   it('should normalize simple key', () => {
-    expect(new DomainSchema(SampleSchema).values.simpleField).toEqual({type: Number});
+    expect(new DomainSchema(SampleSchema).values.simpleField).toEqual({ type: Number });
   });
 
   it('should return key in keys', () => {
@@ -61,18 +61,39 @@ describe('DomainSchema', () => {
   });
 
   it('should reject values without type', () => {
-    expect(() => new DomainSchema(class extends Schema { field = {foo: 'bar'} })).toThrow();
+    expect(
+      () =>
+        new DomainSchema(
+          class extends Schema {
+            public field = { foo: 'bar' };
+          }
+        )
+    ).toThrow();
   });
 
   it('should reject empty array values', () => {
-    expect(() => new DomainSchema(class extends Schema { field = [] })).toThrow();
+    expect(
+      () =>
+        new DomainSchema(
+          class extends Schema {
+            public field = [];
+          }
+        )
+    ).toThrow();
   });
 
   it('should reject array with multiple values', () => {
-    expect(() => new DomainSchema(class extends Schema { field = [String, Number] })).toThrow();
+    expect(
+      () =>
+        new DomainSchema(
+          class extends Schema {
+            public field = [String, Number];
+          }
+        )
+    ).toThrow();
   });
 
   it('schema should normalize array-type value', () => {
-    expect(new DomainSchema(SampleSchema).values.arrayField).toEqual({type: [Number]});
-  })
+    expect(new DomainSchema(SampleSchema).values.arrayField).toEqual({ type: [Number] });
+  });
 });

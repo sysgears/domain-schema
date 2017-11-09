@@ -1,7 +1,5 @@
 import DomainGraphQL from '../index';
 
 describe('DomainGraphQL', () => {
-  it('should do something', () => {
-
-  })
+  it('should do something', () => {});
 });

@@ -1,8 +1,3 @@
-/* tslint:disable:max-classes-per-file */
-export interface SchemaClass {
-  new (): Schema;
-}
-
 export class Schema {
   public __?: any;
 }
@@ -11,11 +6,11 @@ class DomainSchema extends Schema {
   public static Integer = class Integer {};
   public static ID = class ID {};
 
-  private _schemaClass: SchemaClass;
+  private _schemaClass: any;
   private _schema: Schema;
   private _values: any;
 
-  public constructor(clazz: SchemaClass) {
+  public constructor(clazz: any) {
     super();
     if (clazz instanceof DomainSchema) {
       this._schemaClass = clazz._schemaClass;
