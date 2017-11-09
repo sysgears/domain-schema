@@ -33,27 +33,27 @@ class DomainSchema extends Schema {
     }
   }
 
-  public get isSchema() {
+  public get isSchema(): boolean {
     return true;
   }
 
-  public get __() {
+  public get __(): any {
     return this._schema.__ || {};
   }
 
-  public get values() {
+  public get values(): any {
     return this._values;
   }
 
-  public keys() {
+  public keys(): string[] {
     return Object.keys(this._values);
   }
 
-  public get name() {
+  public get name(): string {
     return this._schemaClass.name;
   }
 
-  public get schema() {
+  public get schema(): Schema {
     return this._schema;
   }
 
@@ -83,7 +83,7 @@ class DomainSchema extends Schema {
     return values;
   }
 
-  private static _isSchema(clazz: any) {
+  private static _isSchema(clazz: any): boolean {
     if (clazz instanceof DomainSchema) {
       return true;
     } else if (!DomainSchema._isConstructable(clazz)) {
@@ -94,7 +94,7 @@ class DomainSchema extends Schema {
     }
   }
 
-  private static _isConstructable(f) {
+  private static _isConstructable(f): boolean {
     try {
       Reflect.construct(String, [], f);
     } catch (e) {
