@@ -12,6 +12,28 @@ class DomainKnex {
     this.knex = knex;
   }
 
+  public selectBy = (schema, fields) => {
+    // form table name
+    const tableName = decamelize(schema.name);
+
+    // select fields
+    const selectItems = [];
+    const joinNames = [];
+    this._getSelectFields(fields, schema, selectItems, joinNames);
+
+    debug('Select items:', selectItems);
+    debug('Join on tables:', joinNames);
+
+    return query => {
+      // join table names
+      joinNames.map(joinName => {
+        query.leftJoin(joinName, `${joinName}.${tableName}_id`, `${tableName}.id`);
+      });
+
+      return query.select(selectItems);
+    };
+  };
+
   public createTables(schema) {
     const domainSchema = new DomainSchema(schema);
     if (domainSchema.__.transient) {
@@ -102,6 +124,25 @@ class DomainKnex {
     }
 
     return tableNames;
+  }
+
+  private _getSelectFields(fields, domainSchema, selectItems, joinNames) {
+    for (const key of Object.keys(fields)) {
+      if (key !== '__typename') {
+        const value = domainSchema.values[key];
+        if (fields[key] === true) {
+          if (!value.transient) {
+            selectItems.push(`${decamelize(domainSchema.name)}.${decamelize(key)}`);
+          }
+        } else {
+          if (!value.type.__.transient) {
+            joinNames.push(decamelize(value.type.name));
+          }
+
+          this._getSelectFields(fields[key], value.type, selectItems, joinNames);
+        }
+      }
+    }
   }
 }
 
