@@ -17,9 +17,10 @@ class DomainKnex {
     const tableName = decamelize(schema.name);
 
     // select fields
+    const parentPath = [];
     const selectItems = [];
     const joinNames = [];
-    this._getSelectFields(fields, schema, selectItems, joinNames);
+    this._getSelectFields(fields, parentPath, schema, selectItems, joinNames);
 
     debug('Select items:', selectItems);
     debug('Join on tables:', joinNames);
@@ -126,20 +127,25 @@ class DomainKnex {
     return tableNames;
   }
 
-  private _getSelectFields(fields, domainSchema, selectItems, joinNames) {
+  private _getSelectFields(fields, parentPath, domainSchema, selectItems, joinNames) {
     for (const key of Object.keys(fields)) {
       if (key !== '__typename') {
         const value = domainSchema.values[key];
         if (fields[key] === true) {
           if (!value.transient) {
-            selectItems.push(`${decamelize(domainSchema.name)}.${decamelize(key)}`);
+            const as = parentPath.length > 0 ? `${parentPath.join('_')}_${key}` : key;
+            selectItems.push(`${decamelize(domainSchema.name)}.${decamelize(key)} as ${as}`);
           }
         } else {
           if (!value.type.__.transient) {
             joinNames.push(decamelize(value.type.name));
           }
 
-          this._getSelectFields(fields[key], value.type, selectItems, joinNames);
+          parentPath.push(key);
+
+          this._getSelectFields(fields[key], parentPath, value.type, selectItems, joinNames);
+
+          parentPath.pop();
         }
       }
     }
