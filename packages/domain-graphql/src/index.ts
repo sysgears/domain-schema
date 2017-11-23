@@ -7,7 +7,7 @@ export default class {
   constructor() {}
 
   public _generateField(typeName, key, value) {
-    let result = `    ${key}: `;
+    let result = `  ${key}: `;
     switch (value.type.name) {
       case 'Boolean':
         result += 'Boolean';
