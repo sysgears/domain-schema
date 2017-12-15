@@ -10,6 +10,10 @@ class SampleSchema extends Schema {
   public simpleField = Number;
   public arrayField = [Number];
   public schemaArrayField = [InnerSchema];
+  public schemaNormArrayField = {
+    type: [InnerSchema],
+    optional: true
+  };
   public schemaField = InnerSchema;
 }
 
@@ -100,5 +104,9 @@ describe('DomainSchema', () => {
 
   it('schema value in Array should have type.isSchema = true', () => {
     expect(new DomainSchema(SampleSchema).values.schemaArrayField.type[0].isSchema).toBeTruthy();
+  });
+
+  it('normalized schema value in Array should have type.isSchema = true', () => {
+    expect(new DomainSchema(SampleSchema).values.schemaNormArrayField.type[0].isSchema).toBeTruthy();
   });
 });
