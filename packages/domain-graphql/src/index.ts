@@ -24,6 +24,8 @@ export default class {
       default:
         if (value.type.isSchema) {
           result += value.type.name;
+        } else if (value.type.constructor === Array) {
+          result += `[${value.type[0].name}]`;
         } else {
           throw new Error(`Don't know how to handle type ${value.type.name} of ${typeName}.${key}`);
         }
@@ -47,6 +49,8 @@ export default class {
         result += this._generateField(domainSchema.name, key, value) + '\n';
         if (value.type.isSchema) {
           results.push(this.generateTypes(value.type));
+        } else if (value.type.constructor === Array) {
+          results.push(this.generateTypes(value.type[0]));
         }
       }
     }
