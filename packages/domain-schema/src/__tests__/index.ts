@@ -9,22 +9,23 @@ class SampleSchema extends Schema {
   public normField = { type: String, baz: 'foo' };
   public simpleField = Number;
   public arrayField = [Number];
+  public schemaArrayField = [InnerSchema];
   public schemaField = InnerSchema;
 }
 
 describe('DomainSchema', () => {
   it('should instantiate from Schema class', () => {
-    expect(new DomainSchema(class extends Schema {})).toBeDefined();
+    expect(new DomainSchema(class extends Schema { })).toBeDefined();
   });
 
   it('should instantiate from DomainSchema class', () => {
-    const schema = class extends Schema {};
+    const schema = class extends Schema { };
     const domainSchema = new DomainSchema(new DomainSchema(schema));
     expect(domainSchema.schema).toEqual(new schema());
   });
 
   it('.name should match the name of the class', () => {
-    class MySchema extends Schema {}
+    class MySchema extends Schema { }
     expect(new DomainSchema(MySchema).name).toEqual(MySchema.name);
   });
 
@@ -95,5 +96,9 @@ describe('DomainSchema', () => {
 
   it('schema should normalize array-type value', () => {
     expect(new DomainSchema(SampleSchema).values.arrayField).toEqual({ type: [Number] });
+  });
+
+  it('schema value in Array should have type.isSchema = true', () => {
+    expect(new DomainSchema(SampleSchema).values.schemaArrayField.type[0].isSchema).toBeTruthy();
   });
 });

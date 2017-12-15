@@ -70,7 +70,11 @@ class DomainSchema extends Schema {
       }
       const def = typeof value === 'function' || value.constructor === Array ? { type: value } : { ...value };
 
-      def.type = DomainSchema._isSchema(def.type) ? new DomainSchema(def.type) : def.type;
+      if (value.constructor === Array) {
+        def.type[0] = DomainSchema._isSchema(def.type[0]) ? new DomainSchema(def.type[0]) : def.type[0];
+      } else {
+        def.type = DomainSchema._isSchema(def.type) ? new DomainSchema(def.type) : def.type;
+      }
 
       values[key] = def;
     }
