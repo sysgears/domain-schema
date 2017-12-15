@@ -6,13 +6,13 @@ const debug = Debug('domain-graphql');
 export default class {
   constructor() {}
 
-  public generateTypes(schema) {
+  public generateTypes(schema, deep = false) {
     const domainSchema = new DomainSchema(schema);
 
-    return this._generateTypes(domainSchema, []);
+    return this._generateTypes(domainSchema, deep, [], []);
   }
 
-  public _generateField(field, value, results) {
+  public _generateField(field, value, deep, results, seen) {
     let result = '';
     switch (value.type.name) {
       case 'Boolean':
@@ -30,9 +30,11 @@ export default class {
       default:
         if (value.type.isSchema) {
           result += value.type.name;
-          this._generateTypes(value.type, results);
+          if (deep) {
+            this._generateTypes(value.type, deep, results, seen);
+          }
         } else if (value.type.constructor === Array) {
-          result += `[${this._generateField(field + '[]', { ...value, type: value.type[0] }, results)}]`;
+          result += `[${this._generateField(field + '[]', { ...value, type: value.type[0] }, deep, results, seen)}]`;
         } else {
           throw new Error(`Don't know how to handle type ${value.type.name} of ${field}`);
         }
@@ -45,12 +47,16 @@ export default class {
     return result;
   }
 
-  private _generateTypes(schema, results) {
+  private _generateTypes(schema, deep, results, seen) {
+    if (seen.indexOf(schema.name) >= 0) {
+      return;
+    }
+    seen.push(schema.name);
     let result = `type ${schema.name} {\n`;
     for (const key of schema.keys()) {
       const value = schema.values[key];
       if (!value.private) {
-        result += `  ${key}: ` + this._generateField(schema.name + '.' + key, value, results) + '\n';
+        result += `  ${key}: ` + this._generateField(schema.name + '.' + key, value, deep, results, seen) + '\n';
       }
     }
 

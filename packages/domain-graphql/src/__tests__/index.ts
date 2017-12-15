@@ -18,7 +18,5 @@ class SampleSchema extends Schema {
 }
 
 describe('DomainGraphQL', () => {
-  it('should do something', () => {
-    // console.log(new DomainGraphQL().generateTypes(SampleSchema));
-  });
+  it('should do something', () => {});
 });
