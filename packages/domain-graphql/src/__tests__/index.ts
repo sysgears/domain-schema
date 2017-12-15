@@ -11,6 +11,10 @@ class SampleSchema extends Schema {
   public simpleField = DomainSchema.Integer;
   public arrayField = [DomainSchema.Integer];
   public schemaArrayField = [InnerSchema];
+  public schemaNormArrayField = {
+    type: [InnerSchema],
+    optional: true
+  };
 }
 
 describe('DomainGraphQL', () => {
