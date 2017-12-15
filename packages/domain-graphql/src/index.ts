@@ -6,8 +6,14 @@ const debug = Debug('domain-graphql');
 export default class {
   constructor() {}
 
-  public _generateField(typeName, key, value) {
-    let result = `  ${key}: `;
+  public generateTypes(schema) {
+    const domainSchema = new DomainSchema(schema);
+
+    return this._generateTypes(domainSchema, []);
+  }
+
+  public _generateField(field, value, results) {
+    let result = '';
     switch (value.type.name) {
       case 'Boolean':
         result += 'Boolean';
@@ -24,10 +30,11 @@ export default class {
       default:
         if (value.type.isSchema) {
           result += value.type.name;
+          this._generateTypes(value.type, results);
         } else if (value.type.constructor === Array) {
-          result += `[${value.type[0].name}]`;
+          result += `[${this._generateField(field + '[]', { ...value, type: value.type[0] }, results)}]`;
         } else {
-          throw new Error(`Don't know how to handle type ${value.type.name} of ${typeName}.${key}`);
+          throw new Error(`Don't know how to handle type ${value.type.name} of ${field}`);
         }
     }
 
@@ -38,20 +45,12 @@ export default class {
     return result;
   }
 
-  public generateTypes(schema) {
-    const domainSchema = new DomainSchema(schema);
-
-    const results = [];
-    let result = `type ${domainSchema.name} {\n`;
-    for (const key of domainSchema.keys()) {
-      const value = domainSchema.values[key];
+  private _generateTypes(schema, results) {
+    let result = `type ${schema.name} {\n`;
+    for (const key of schema.keys()) {
+      const value = schema.values[key];
       if (!value.private) {
-        result += this._generateField(domainSchema.name, key, value) + '\n';
-        if (value.type.isSchema) {
-          results.push(this.generateTypes(value.type));
-        } else if (value.type.constructor === Array) {
-          results.push(this.generateTypes(value.type[0]));
-        }
+        result += `  ${key}: ` + this._generateField(schema.name + '.' + key, value, results) + '\n';
       }
     }
 

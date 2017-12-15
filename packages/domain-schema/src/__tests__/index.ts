@@ -15,17 +15,17 @@ class SampleSchema extends Schema {
 
 describe('DomainSchema', () => {
   it('should instantiate from Schema class', () => {
-    expect(new DomainSchema(class extends Schema { })).toBeDefined();
+    expect(new DomainSchema(class extends Schema {})).toBeDefined();
   });
 
   it('should instantiate from DomainSchema class', () => {
-    const schema = class extends Schema { };
+    const schema = class extends Schema {};
     const domainSchema = new DomainSchema(new DomainSchema(schema));
     expect(domainSchema.schema).toEqual(new schema());
   });
 
   it('.name should match the name of the class', () => {
-    class MySchema extends Schema { }
+    class MySchema extends Schema {}
     expect(new DomainSchema(MySchema).name).toEqual(MySchema.name);
   });
 
