@@ -5,6 +5,10 @@ class InnerSchema extends Schema {
   public bool = Boolean;
 }
 
+class ExternalSchema extends Schema {
+  public bool = Boolean;
+}
+
 class SampleSchema extends Schema {
   public __ = { foo: { bar: 'baz' } };
   public normField = { type: String, baz: 'foo' };
@@ -12,8 +16,9 @@ class SampleSchema extends Schema {
   public arrayField = [DomainSchema.Integer];
   public schemaArrayField = [InnerSchema];
   public schemaNormArrayField = {
-    type: [InnerSchema],
-    optional: true
+    type: [ExternalSchema],
+    optional: true,
+    external: true
   };
 }
 
