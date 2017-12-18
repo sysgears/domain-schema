@@ -1,6 +1,6 @@
 {
   "name": "domain-schema",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "A JavaScript Schema for Domain Driven Design",
   "repository": "https://github.com/sysgears/domain-schema.git",
   "author": "Victor Vlasenko <victor.vlasenko@sysgears.com>",

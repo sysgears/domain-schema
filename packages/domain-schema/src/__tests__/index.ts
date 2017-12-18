@@ -15,6 +15,7 @@ class SampleSchema extends Schema {
     optional: true
   };
   public schemaField = InnerSchema;
+  public domainSchemaField = new DomainSchema(InnerSchema);
 }
 
 describe('DomainSchema', () => {
@@ -63,6 +64,10 @@ describe('DomainSchema', () => {
 
   it('schema value should have type.isSchema = true', () => {
     expect(new DomainSchema(SampleSchema).values.schemaField.type.isSchema).toBeTruthy();
+  });
+
+  it('domain schema value should have type.isSchema = true', () => {
+    expect(new DomainSchema(SampleSchema).values.domainSchemaField.type.isSchema).toBeTruthy();
   });
 
   it('should reject values without type', () => {
