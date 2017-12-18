@@ -66,6 +66,6 @@ export default class {
 
     debug(results.join('\n'));
 
-    return results.join('\n');
+    return results.join('\n\n');
   }
 }
