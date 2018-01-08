@@ -25,6 +25,9 @@ export default class {
       case 'Integer':
         result += 'Int';
         break;
+      case 'Float':
+        result += 'Float';
+        break;
       case 'String':
         result += 'String';
         break;

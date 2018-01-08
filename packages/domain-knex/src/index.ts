@@ -56,6 +56,8 @@ class DomainKnex {
       column = table.boolean(columnName);
     } else if (value.type.name === 'Integer') {
       column = table.integer(columnName);
+    } else if (value.type.name === 'Float') {
+      column = table.float(columnName);
     } else if (value.type.name === 'String') {
       column = table.string(columnName, value.max || undefined);
     } else {
