@@ -56,10 +56,12 @@ class DomainKnex {
       column = table.boolean(columnName);
     } else if (value.type.name === 'Integer') {
       column = table.integer(columnName);
-    } else if (value.type.name === 'Float') {
+    } else if (value.type.name === 'Number') {
       column = table.float(columnName);
     } else if (value.type.name === 'String') {
       column = table.string(columnName, value.max || undefined);
+    } else if (value.type.name === 'Date') {
+      column = table.dateTime(columnName);
     } else {
       throw new Error(`Don't know how to handle type ${value.type.name} of ${tableName}.${columnName}`);
     }

@@ -4,7 +4,6 @@ export class Schema {
 
 class DomainSchema extends Schema {
   public static Integer = class Integer {};
-  public static Float = class Float {};
   public static ID = class ID {};
 
   private _schemaClass: any;

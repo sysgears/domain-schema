@@ -25,10 +25,13 @@ export default class {
       case 'Integer':
         result += 'Int';
         break;
-      case 'Float':
+      case 'Number':
         result += 'Float';
         break;
       case 'String':
+        result += 'String';
+        break;
+      case 'Date':
         result += 'String';
         break;
       default:
