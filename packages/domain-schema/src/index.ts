@@ -10,7 +10,7 @@ class DomainSchema extends Schema {
   private _schema: Schema;
   private _values: any;
 
-  public constructor(clazz: any) {
+  public constructor(clazz: any, _defs?: any) {
     super();
     if (clazz instanceof DomainSchema) {
       this._schemaClass = clazz._schemaClass;
@@ -21,7 +21,7 @@ class DomainSchema extends Schema {
     } else {
       this._schemaClass = clazz;
       this._schema = new clazz();
-      this._values = this._normalizeValues();
+      this._values = this._normalizeValues({ ..._defs, [clazz]: this });
       if (!(this._schema instanceof Schema)) {
         DomainSchema._throwWrongSchema(clazz);
       }
@@ -56,7 +56,7 @@ class DomainSchema extends Schema {
     throw new Error(`Schema ${clazz ? clazz.name : clazz} must be an instance of Schema`);
   }
 
-  private _normalizeValues(): any {
+  private _normalizeValues(_defs: any): any {
     const values = {};
     for (const key of Object.keys(this._schema)) {
       if (key === '__') {
@@ -74,9 +74,13 @@ class DomainSchema extends Schema {
           : { ...value };
 
       if (def.type.constructor === Array) {
-        def.type[0] = DomainSchema._isSchema(def.type[0]) ? new DomainSchema(def.type[0]) : def.type[0];
+        def.type[0] = DomainSchema._isSchema(def.type[0])
+          ? _defs.hasOwnProperty(def.type[0]) ? _defs[def.type[0]] : new DomainSchema(def.type[0], _defs)
+          : def.type[0];
       } else {
-        def.type = DomainSchema._isSchema(def.type) ? new DomainSchema(def.type) : def.type;
+        def.type = DomainSchema._isSchema(def.type)
+          ? _defs.hasOwnProperty(def.type) ? _defs[def.type] : new DomainSchema(def.type, _defs)
+          : def.type;
       }
 
       values[key] = def;

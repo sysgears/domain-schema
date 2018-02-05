@@ -1,5 +1,29 @@
 import DomainSchema, { Schema } from '../index';
 
+class Product extends Schema {
+  public id = DomainSchema.Integer;
+  public name = {
+    type: String,
+    searchText: true
+  };
+  public category = {
+    type: Category,
+    external: true
+  };
+}
+
+class Category extends Schema {
+  public id = DomainSchema.Integer;
+  public name = {
+    type: String
+  };
+  public products = {
+    type: [Product],
+    optional: true,
+    external: true
+  };
+}
+
 class InnerSchema extends Schema {
   public bool = Boolean;
 }
@@ -113,5 +137,10 @@ describe('DomainSchema', () => {
 
   it('normalized schema value in Array should have type.isSchema = true', () => {
     expect(new DomainSchema(SampleSchema).values.schemaNormArrayField.type[0].isSchema).toBeTruthy();
+  });
+
+  it('should handle cyclic schema defs', () => {
+    const productSchema = new DomainSchema(Product);
+    expect(productSchema.values.category.type.values.products.type[0]).toEqual(productSchema);
   });
 });

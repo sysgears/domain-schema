@@ -3,7 +3,7 @@
 [![npm version](https://badge.fury.io/js/domain-schema.svg)](https://badge.fury.io/js/domain-schema) [![Twitter Follow](https://img.shields.io/twitter/follow/sysgears.svg?style=social)](https://twitter.com/sysgears)
 
 Domain Schema is a set of packages that let you design your application using Domain Driven Design Principles.
-You create your schemas with any fields your application needs. 
+You create your schemas with any fields your application needs.
 Then use them as a single source of truth in the application to generate database schemas, forms, GraphQL types, etc.
 Domain Schema set of packages try to help you with this task, not stay on your way, by imposing minimal limitations on the shape
 of your domain schemas, not the fields and the meaning you can use.
@@ -91,6 +91,23 @@ export const User = new DomainSchema(
     };
   }
 );
+```
+
+Example cyclic Domain Schema definition
+```
+class Product extends Schema {
+  id = DomainSchema.Integer;
+  name = String;
+  category = Category;
+}
+
+class Category extends Schema {
+  public id = DomainSchema.Integer;
+  name = String;
+  products = [Product];
+}
+
+const ProductSchema = new DomainSchema(Product);
 ```
 
 ## Installation
