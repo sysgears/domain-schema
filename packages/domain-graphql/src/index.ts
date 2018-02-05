@@ -1,19 +1,19 @@
 import Debug from 'debug';
-import DomainSchema from 'domain-schema';
+import DomainSchema, { Schema } from 'domain-schema';
 
 const debug = Debug('domain-graphql');
 
 export default class {
   constructor() {}
 
-  public generateTypes(schema, options: any = {}) {
+  public generateTypes(schema: Schema, options: any = {}): string {
     const domainSchema = new DomainSchema(schema);
     options.deep = options.deep || true;
 
     return this._generateTypes(domainSchema, options, [], []);
   }
 
-  public _generateField(field, value, options, results, seen) {
+  public _generateField(field: string, value: any, options: any, results: string[], seen: string[]): string {
     let result = '';
     switch (value.type.name) {
       case 'Boolean':
@@ -54,7 +54,7 @@ export default class {
     return result;
   }
 
-  private _generateTypes(schema, options, results, seen) {
+  private _generateTypes(schema: DomainSchema, options: any, results: string[], seen: string[]): string {
     if (seen.indexOf(schema.name) >= 0 || schema.__.exclude) {
       return;
     }

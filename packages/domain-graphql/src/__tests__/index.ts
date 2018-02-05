@@ -1,26 +1,17 @@
 import DomainSchema, { Schema } from 'domain-schema';
 import DomainGraphQL from '../index';
 
-const CategorySchema = new DomainSchema(
-  class Category extends Schema {
-    public id = DomainSchema.Integer;
-    public name = {
-      type: String,
-      searchText: true
-    };
-  }
-);
+class Product extends Schema {
+  public id = DomainSchema.Integer;
+  public name = String;
+  public category = Category;
+}
 
-const ProductSchema = new DomainSchema(
-  class Product extends Schema {
-    public id = DomainSchema.Integer;
-    public name = {
-      type: String,
-      searchText: true
-    };
-    public category = CategorySchema;
-  }
-);
+class Category extends Schema {
+  public id = DomainSchema.Integer;
+  public name = String;
+  public products = [Product];
+}
 
 class InnerSchema extends Schema {
   public bool = Boolean;
@@ -45,6 +36,9 @@ class SampleSchema extends Schema {
 
 describe('DomainGraphQL', () => {
   it('should do something', () => {
+    expect(new DomainGraphQL().generateTypes(Product).replace(/[\s]+/g, ' ')).toEqual(
+      'type Category { id: Int! name: String! products: [Product!]! } type Product { id: Int! name: String! category: Category! }'
+    );
     // console.log(new DomainGraphQL().generateTypes(SampleSchema));
     // console.log('deep:', new DomainGraphQL().generateTypes(SampleSchema, true));
     // console.log('Product:', ProductSchema);

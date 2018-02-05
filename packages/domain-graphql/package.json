@@ -1,6 +1,6 @@
 {
   "name": "domain-graphql",
-  "version": "0.0.14",
+  "version": "0.0.15",
   "description": "GraphQL generator for Domain Schema",
   "repository": "https://github.com/sysgears/domain-schema.git",
   "author": "Victor Vlasenko <victor.vlasenko@sysgears.com>",
