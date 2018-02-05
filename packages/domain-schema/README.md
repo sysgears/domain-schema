@@ -94,7 +94,7 @@ export const User = new DomainSchema(
 ```
 
 Example cyclic Domain Schema definition
-```
+```js
 class Product extends Schema {
   id = DomainSchema.Integer;
   name = String;

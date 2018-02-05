@@ -2,26 +2,14 @@ import DomainSchema, { Schema } from '../index';
 
 class Product extends Schema {
   public id = DomainSchema.Integer;
-  public name = {
-    type: String,
-    searchText: true
-  };
-  public category = {
-    type: Category,
-    external: true
-  };
+  public name = String;
+  public category = Category;
 }
 
 class Category extends Schema {
   public id = DomainSchema.Integer;
-  public name = {
-    type: String
-  };
-  public products = {
-    type: [Product],
-    optional: true,
-    external: true
-  };
+  public name = String;
+  public products = [Product];
 }
 
 class InnerSchema extends Schema {
