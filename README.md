@@ -109,6 +109,7 @@ class Category extends Schema {
 
 const ProductSchema = new DomainSchema(Product);
 ```
+Such cyclic dependencies must be contained in one file.
 
 ## Contributors
 
