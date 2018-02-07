@@ -55,15 +55,16 @@ class DomainKnex {
     const columnName = decamelize(key);
     let column;
     const type = value.type.constructor === Array ? value.type[0] : value.type;
-    if (type.name === 'Boolean') {
+
+    if (value.type instanceof Boolean) {
       column = table.boolean(columnName);
-    } else if (type.name === 'Integer') {
+    } else if (value.type instanceof DomainSchema.Int) {
       column = table.integer(columnName);
-    } else if (type.name === 'Number') {
+    } else if (value.type instanceof DomainSchema.Float) {
       column = table.float(columnName);
-    } else if (type.name === 'String') {
+    } else if (value.type instanceof String) {
       column = table.string(columnName, value.max || undefined);
-    } else if (type.name === 'Date') {
+    } else if (value.type instanceof Date) {
       column = table.dateTime(columnName);
     } else {
       throw new Error(`Don't know how to handle type ${type.name} of ${tableName}.${columnName}`);

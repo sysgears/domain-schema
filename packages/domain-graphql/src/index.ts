@@ -15,36 +15,33 @@ export default class {
 
   public _generateField(field: string, value: any, options: any, results: string[], seen: string[]): string {
     let result = '';
-    switch (value.type.name) {
-      case 'Boolean':
-        result += 'Boolean';
-        break;
-      case 'ID':
-        result += 'ID';
-        break;
-      case 'Integer':
-        result += 'Int';
-        break;
-      case 'Number':
-        result += 'Float';
-        break;
-      case 'String':
-        result += 'String';
-        break;
-      case 'Date':
-        result += 'String';
-        break;
-      default:
-        if (value.type.isSchema) {
-          result += value.type.name;
-          if (options.deep && !value.external) {
-            this._generateTypes(value.type, options, results, seen);
-          }
-        } else if (value.type.constructor === Array) {
-          result += `[${this._generateField(field + '[]', { ...value, type: value.type[0] }, options, results, seen)}]`;
-        } else {
-          throw new Error(`Don't know how to handle type ${value.type.name} of ${field}`);
+    if (value.type instanceof Boolean) {
+      result += 'Boolean';
+    } else if (value.type instanceof DomainSchema.ID) {
+      result += 'ID';
+    } else if (value.type instanceof DomainSchema.Int) {
+      result += 'Int';
+    } else if (value.type instanceof DomainSchema.Float) {
+      result += 'Float';
+    } else if (value.type instanceof String) {
+      result += 'String';
+    } else if (value.type instanceof Date) {
+      result += 'Date';
+    } else if (value.type instanceof DomainSchema.DateTime) {
+      result += 'DateTime';
+    } else if (value.type instanceof DomainSchema.Time) {
+      result += 'Time';
+    } else {
+      if (value.type.isSchema) {
+        result += value.type.name;
+        if (options.deep && !value.external) {
+          this._generateTypes(value.type, options, results, seen);
         }
+      } else if (value.type.constructor === Array) {
+        result += `[${this._generateField(field + '[]', { ...value, type: value.type[0] }, options, results, seen)}]`;
+      } else {
+        throw new Error(`Don't know how to handle type ${value.type.name} of ${field}`);
+      }
     }
 
     if (!value.optional) {

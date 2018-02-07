@@ -3,8 +3,11 @@ export class Schema {
 }
 
 class DomainSchema extends Schema {
-  public static Integer = class Integer {};
-  public static ID = class ID {};
+  public static ID = class extends String {};
+  public static Int = class extends Number {};
+  public static Float = class extends Number {};
+  public static Time = class extends Date {};
+  public static DateTime = class extends Date {};
 
   private _schemaClass: any;
   private _schema: Schema;
