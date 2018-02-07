@@ -4,13 +4,13 @@ import Knex, { ColumnBuilder, CreateTableBuilder, ReferencingColumnBuilder } fro
 import DomainKnex from '../index';
 
 class Product extends Schema {
-  public id = DomainSchema.Integer;
+  public id = DomainSchema.Int;
   public name = String;
   public category = Category;
 }
 
 class Category extends Schema {
-  public id = DomainSchema.Integer;
+  public id = DomainSchema.Int;
   public name = String;
   public products = [Product];
 }
