@@ -15,21 +15,22 @@ export default class {
 
   public _generateField(field: string, value: any, options: any, results: string[], seen: string[]): string {
     let result = '';
-    if (value.type instanceof Boolean) {
+    const hasTypeOf = targetType => value.type === targetType || value.type.prototype instanceof targetType;
+    if (hasTypeOf(Boolean)) {
       result += 'Boolean';
-    } else if (value.type instanceof DomainSchema.ID) {
+    } else if (hasTypeOf(DomainSchema.ID)) {
       result += 'ID';
-    } else if (value.type instanceof DomainSchema.Int) {
+    } else if (hasTypeOf(DomainSchema.Int)) {
       result += 'Int';
-    } else if (value.type instanceof DomainSchema.Float) {
+    } else if (hasTypeOf(DomainSchema.Float)) {
       result += 'Float';
-    } else if (value.type instanceof String) {
+    } else if (hasTypeOf(String)) {
       result += 'String';
-    } else if (value.type instanceof Date) {
+    } else if (hasTypeOf(Date)) {
       result += 'Date';
-    } else if (value.type instanceof DomainSchema.DateTime) {
+    } else if (hasTypeOf(DomainSchema.DateTime)) {
       result += 'DateTime';
-    } else if (value.type instanceof DomainSchema.Time) {
+    } else if (hasTypeOf(DomainSchema.Time)) {
       result += 'Time';
     } else {
       if (value.type.isSchema) {

@@ -56,15 +56,17 @@ class DomainKnex {
     let column;
     const type = value.type.constructor === Array ? value.type[0] : value.type;
 
-    if (value.type instanceof Boolean) {
+    const hasTypeOf = targetType => type === targetType || type.prototype instanceof targetType;
+
+    if (hasTypeOf(Boolean)) {
       column = table.boolean(columnName);
-    } else if (value.type instanceof DomainSchema.Int) {
+    } else if (hasTypeOf(DomainSchema.Int)) {
       column = table.integer(columnName);
-    } else if (value.type instanceof DomainSchema.Float) {
+    } else if (hasTypeOf(DomainSchema.Float)) {
       column = table.float(columnName);
-    } else if (value.type instanceof String) {
+    } else if (hasTypeOf(String)) {
       column = table.string(columnName, value.max || undefined);
-    } else if (value.type instanceof Date) {
+    } else if (hasTypeOf(Date)) {
       column = table.dateTime(columnName);
     } else {
       throw new Error(`Don't know how to handle type ${type.name} of ${tableName}.${columnName}`);
