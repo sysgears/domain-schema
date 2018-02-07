@@ -2,13 +2,13 @@ import DomainSchema, { Schema } from 'domain-schema';
 import DomainGraphQL from '../index';
 
 class Product extends Schema {
-  public id = DomainSchema.Integer;
+  public id = DomainSchema.Int;
   public name = String;
   public category = Category;
 }
 
 class Category extends Schema {
-  public id = DomainSchema.Integer;
+  public id = DomainSchema.Int;
   public name = String;
   public products = [Product];
 }
@@ -24,8 +24,8 @@ class ExternalSchema extends Schema {
 class SampleSchema extends Schema {
   public __ = { foo: { bar: 'baz' } };
   public normField = { type: String, baz: 'foo' };
-  public simpleField = DomainSchema.Integer;
-  public arrayField = [DomainSchema.Integer];
+  public simpleField = DomainSchema.Int;
+  public arrayField = [DomainSchema.Int];
   public schemaArrayField = [InnerSchema];
   public schemaNormArrayField = {
     type: [ExternalSchema],
