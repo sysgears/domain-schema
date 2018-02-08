@@ -1,6 +1,6 @@
 {
   "name": "domain-knex",
-  "version": "0.0.18",
+  "version": "0.0.19",
   "description": "Knex generator for Domain Schema",
   "repository": "https://github.com/sysgears/domain-schema.git",
   "author": "Victor Vlasenko <victor.vlasenko@sysgears.com>",
@@ -24,7 +24,7 @@
     "@types/jest": "^21.1.5",
     "@types/knex": "^0.0.64",
     "@types/node": "^7.0.18",
-    "domain-schema": ">= 0.0.7",
+    "domain-schema": "^0.0.19",
     "jest": "^21.2.1",
     "prettier": "^1.6.1",
     "ts-jest": "^21.2.1",
@@ -34,7 +34,7 @@
     "typescript": "^2.4.1"
   },
   "peerDependencies": {
-    "domain-schema": ">= 0.0.7",
+    "domain-schema": "^0.0.19",
     "knex": ">= 0.1.0"
   },
   "prettier": {
