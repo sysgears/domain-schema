@@ -4,12 +4,14 @@ import Knex, { ColumnBuilder, CreateTableBuilder, ReferencingColumnBuilder } fro
 import DomainKnex from '../index';
 
 class Product extends Schema {
+  public __ = { name: 'Product' };
   public id = DomainSchema.Int;
   public name = String;
   public category = Category;
 }
 
 class Category extends Schema {
+  public __ = { name: 'Category' };
   public id = DomainSchema.Int;
   public name = String;
   public products = [Product];
@@ -37,7 +39,9 @@ describe('DomainKnex', () => {
     const createTableSpy = jest.spyOn(knexSchema, 'createTable');
     const incrementsSpy = jest.spyOn(table, 'increments');
     const timestampsSpy = jest.spyOn(table, 'timestamps');
-    class MySchema extends Schema {}
+    class MySchema extends Schema {
+      public __ = { name: 'MySchema' };
+    }
     expect(new DomainKnex(new KnexMock()).createTables(MySchema)).toBeDefined();
     expect(createTableSpy).toHaveBeenCalledWith('my_schema', expect.any(Function));
     expect(incrementsSpy).toHaveBeenCalledWith('id');

@@ -1,23 +1,26 @@
 import DomainSchema, { Schema } from '../index';
 
 class Product extends Schema {
+  public __ = { name: 'Product' };
   public id = DomainSchema.Int;
   public name = String;
   public category = Category;
 }
 
 class Category extends Schema {
+  public __ = { name: 'Category' };
   public id = DomainSchema.Int;
   public name = String;
   public products = [Product];
 }
 
 class InnerSchema extends Schema {
+  public __ = { name: 'InnerSchema' };
   public bool = Boolean;
 }
 
 class SampleSchema extends Schema {
-  public __ = { foo: { bar: 'baz' } };
+  public __ = { name: 'SampleSchema', foo: { bar: 'baz' } };
   public normField = { type: String, baz: 'foo' };
   public simpleField = Number;
   public arrayField = [Number];
@@ -32,18 +35,28 @@ class SampleSchema extends Schema {
 
 describe('DomainSchema', () => {
   it('should instantiate from Schema class', () => {
-    expect(new DomainSchema(class extends Schema {})).toBeDefined();
+    expect(
+      new DomainSchema(
+        class extends Schema {
+          public __ = { name: 'Schema' };
+        }
+      )
+    ).toBeDefined();
   });
 
   it('should instantiate from DomainSchema class', () => {
-    const schema = class extends Schema {};
+    const schema = class extends Schema {
+      public __ = { name: 'Schema' };
+    };
     const domainSchema = new DomainSchema(new DomainSchema(schema));
     expect(domainSchema.schema).toEqual(new schema());
   });
 
-  it('.name should match the name of the class', () => {
-    class MySchema extends Schema {}
-    expect(new DomainSchema(MySchema).name).toEqual(MySchema.name);
+  it('__.name should match the name of the class', () => {
+    class MySchema extends Schema {
+      public __ = { name: 'MySchema' };
+    }
+    expect(new DomainSchema(MySchema).__.name).toEqual(new MySchema().__.name);
   });
 
   it('should expose __ schema properties', () => {
@@ -87,10 +100,15 @@ describe('DomainSchema', () => {
       () =>
         new DomainSchema(
           class extends Schema {
+            public __ = { name: 'Schema' };
             public field = { foo: 'bar' };
           }
         )
     ).toThrow();
+  });
+
+  it('should reject schema without __.name', () => {
+    expect(() => new DomainSchema(class extends Schema {})).toThrow();
   });
 
   it('should reject empty array values', () => {
@@ -98,6 +116,7 @@ describe('DomainSchema', () => {
       () =>
         new DomainSchema(
           class extends Schema {
+            public __ = { name: 'Schema' };
             public field = [];
           }
         )
@@ -109,6 +128,7 @@ describe('DomainSchema', () => {
       () =>
         new DomainSchema(
           class extends Schema {
+            public __ = { name: 'Schema' };
             public field = [String, Number];
           }
         )
