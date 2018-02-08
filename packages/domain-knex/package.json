@@ -1,6 +1,6 @@
 {
   "name": "domain-knex",
-  "version": "0.0.17",
+  "version": "0.0.18",
   "description": "Knex generator for Domain Schema",
   "repository": "https://github.com/sysgears/domain-schema.git",
   "author": "Victor Vlasenko <victor.vlasenko@sysgears.com>",
