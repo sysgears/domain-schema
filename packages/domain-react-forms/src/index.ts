@@ -1,5 +1,18 @@
 import DomainSchema from 'domain-schema';
 
+const validators = [
+  'required',
+  'match',
+  'maxLength',
+  'minLength',
+  'numberCheck',
+  'minValue',
+  'email',
+  'alphaNumeric',
+  'phoneNumber',
+  'equals'
+];
+
 export default class DomainReactForms {
   constructor(private schema: DomainSchema) {}
 
@@ -13,9 +26,9 @@ export default class DomainReactForms {
             return;
           }
           const s = schema[v];
-          if (!Array.isArray(s.type)) {
+          if (!s.type.isSchema) {
             Object.keys(s).forEach((validator: any) => {
-              if (validator === 'type') {
+              if (!validators.includes(validator)) {
                 return;
               }
               const result = Validators[validator](values[v], s[validator], values);
@@ -24,23 +37,21 @@ export default class DomainReactForms {
               }
             });
           } else {
-            const res = validateForm(values[v], schema[v].type[0].values);
+            const res = validateForm(values[v], schema[v].type.values);
             if (Object.keys(res).length > 0) {
               collector[v] = res;
             }
           }
         });
-
       return collector;
     };
-
     return validateForm(formValues, this.schema.values);
   }
 }
 
 class Validators {
   // Non empty validation
-  public static optional = (value, schemaValue) => (schemaValue || value ? undefined : 'Required');
+  public static required = (value, schemaValue) => (schemaValue && !value ? 'Required' : undefined);
 
   // Match a particular field
   public static match = (value, comparableField, values) =>
@@ -72,4 +83,7 @@ class Validators {
   // Phone number validation
   public static phoneNumber = value =>
     value && !/^(0|[1-9][0-9]{9})$/i.test(value) ? 'Invalid phone number, must be 10 digits' : undefined;
+
+  public static equals = (value, comparableValue) =>
+    value !== comparableValue ? `Should match '${comparableValue}'` : undefined;
 }
