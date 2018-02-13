@@ -1,6 +1,6 @@
 import DomainSchema from 'domain-schema';
 
-const validators = [
+const supportedValidators = [
   'required',
   'match',
   'maxLength',
@@ -17,8 +17,8 @@ export default class DomainReactForms {
   constructor(private schema: DomainSchema) {}
 
   public validate(formValues: any) {
-    const validateForm = (values, schema) => {
-      const collector = {};
+    const errors = {};
+    const validateForm = (values, schema, collector) => {
       Object.keys(schema)
         .filter(v => schema.hasOwnProperty(v))
         .forEach(v => {
@@ -28,62 +28,118 @@ export default class DomainReactForms {
           const s = schema[v];
           if (!s.type.isSchema) {
             Object.keys(s).forEach((validator: any) => {
-              if (!validators.includes(validator)) {
+              if (!supportedValidators.includes(validator)) {
                 return;
               }
-              const result = Validators[validator](values[v], s[validator], values);
+              let msg = null;
+              let validatorsValue = s[validator];
+              if (validatorsValue.msg) {
+                msg = validatorsValue.msg;
+                validatorsValue = validatorsValue.value;
+              }
+              const result = Validators[validator](values[v], msg, validatorsValue, values);
               if (result) {
                 collector[v] = result;
               }
             });
           } else {
-            const res = validateForm(values[v], schema[v].type.values);
-            if (Object.keys(res).length > 0) {
-              collector[v] = res;
-            }
+            validateForm(values[v], schema[v].type.values, collector);
           }
         });
       return collector;
     };
-    return validateForm(formValues, this.schema.values);
+    return validateForm(formValues, this.schema.values, errors);
+  }
+
+  public static setValidationMessages(messages) {
+    Validators.setValidationMsg(messages);
   }
 }
 
 class Validators {
+  private static messages: any = {};
+
+  public static setValidationMsg = messages => {
+    Validators.messages = messages;
+  };
+
   // Non empty validation
-  public static required = (value, schemaValue) => (schemaValue && !value ? 'Required' : undefined);
+  public static required = (value, msg, schemaValue) =>
+    schemaValue && !value ? msg || Validators.getRequiredText() : undefined;
 
   // Match a particular field
-  public static match = (value, comparableField, values) =>
-    value !== values[comparableField] ? `Should match field '${comparableField}'` : undefined;
+  public static match = (value, msg, comparableField, values) =>
+    value !== values[comparableField] ? msg || Validators.getMatchText(comparableField) : undefined;
 
   // Max length validation
-  public static maxLength = (value, max) =>
-    value && value.length > max ? `Must be ${max} characters or less` : undefined;
+  public static maxLength = (value, msg, max) =>
+    value && value.length > max ? msg || Validators.getMaxLengthText(max) : undefined;
 
   // Min length validation
-  public static minLength = (value, min) =>
-    value && value.length < min ? `Must be ${min} characters or more` : undefined;
+  public static minLength = (value, msg, min) =>
+    value && value.length < min ? msg || Validators.getMinLengthText(min) : undefined;
 
   // Number validation
-  public static numberCheck = value => (value && isNaN(Number(value)) ? 'Must be a number' : undefined);
+  public static numberCheck = (value, msg) =>
+    value && isNaN(Number(value)) ? msg || Validators.getNumberCheckText() : undefined;
 
   // Minimum value validation
-  public static minValue = (value, minValue) =>
-    value && value < minValue ? `Must be at least ${minValue}` : undefined;
+  public static minValue = (value, msg, minValue) =>
+    value && value < minValue ? msg || Validators.getMinValueText(minValue) : undefined;
 
   // Email validation
-  public static email = value =>
-    value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value) ? 'Invalid email address' : undefined;
+  public static email = (value, msg) =>
+    value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value) ? msg || Validators.getEmailText() : undefined;
 
   // Alpha numeric validation
-  public static alphaNumeric = value =>
-    value && /[^a-zA-Z0-9 ]/i.test(value) ? 'Only alphanumeric characters' : undefined;
+  public static alphaNumeric = (value, msg) =>
+    value && /[^a-zA-Z0-9 ]/i.test(value) ? msg || Validators.getAlphaNumericText() : undefined;
 
   // Phone number validation
-  public static phoneNumber = value =>
-    value && !/^(0|[1-9][0-9]{9})$/i.test(value) ? 'Invalid phone number, must be 10 digits' : undefined;
+  public static phoneNumber = (value, msg) =>
+    value && !/^(0|[1-9][0-9]{9})$/i.test(value) ? msg || Validators.getPhoneNumberText() : undefined;
 
-  public static equals = (value, comparableValue) =>
-    value !== comparableValue ? `Should match '${comparableValue}'` : undefined;
+  // Equals validation
+  public static equals = (value, msg, comparableValue) =>
+    value !== comparableValue ? msg || Validators.getEqualsText(comparableValue) : undefined;
+
+  private static getRequiredText = () => {
+    return Validators.messages.required || 'Required';
+  };
+
+  private static getMatchText = comparableField => {
+    return Validators.messages.match || `Should match field '${comparableField}'`;
+  };
+
+  private static getMaxLengthText = max => {
+    return Validators.messages.maxLength || `Must be ${max} characters or less`;
+  };
+
+  private static getMinLengthText = min => {
+    return Validators.messages.minLength || `Must be ${min} characters or more`;
+  };
+
+  private static getNumberCheckText = () => {
+    return Validators.messages.numberCheck || 'Must be a number';
+  };
+
+  private static getMinValueText = minValue => {
+    return Validators.messages.minValue || `Must be at least ${minValue}`;
+  };
+
+  private static getEmailText = () => {
+    return Validators.messages.email || 'Invalid email address';
+  };
+
+  private static getAlphaNumericText = () => {
+    return Validators.messages.alphaNumeric || 'Only alphanumeric characters';
+  };
+
+  private static getPhoneNumberText = () => {
+    return Validators.messages.phoneNumber || 'Invalid phone number, must be 10 digits';
+  };
+
+  private static getEqualsText = comparableValue => {
+    return Validators.messages.equals || `Should match '${comparableValue}'`;
+  };
 }
