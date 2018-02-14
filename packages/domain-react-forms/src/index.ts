@@ -28,16 +28,21 @@ export default class DomainReactForms {
           const s = schema[v];
           if (!s.type.isSchema) {
             Object.keys(s).forEach((validator: any) => {
-              if (!supportedValidators[validator]) {
-                return;
-              }
-              let msg = null;
+              let result;
               let validatorsValue = s[validator];
-              if (validatorsValue.msg) {
-                msg = validatorsValue.msg;
-                validatorsValue = validatorsValue.value;
+              let msg;
+              if (supportedValidators[validator]) {
+                if (validatorsValue.msg) {
+                  msg = validatorsValue.msg;
+                  validatorsValue = validatorsValue.value;
+                }
+                result = Validators[validator](values[v], msg, validatorsValue, values);
+              } else if (validator === 'customValidators') {
+                // handling custom validators
+                validatorsValue.forEach(val => {
+                  result = val(values, v, schema) || result;
+                });
               }
-              const result = Validators[validator](values[v], msg, validatorsValue, values);
               if (result) {
                 collector[v] = result;
               }
@@ -106,5 +111,6 @@ class Validators {
   /* HELPERS */
 
   // Provides a message
-  private static pickMsg = (validator, txtSnippet) => supportedValidators[validator].createMsg(txtSnippet);
+  private static pickMsg = (validator, txtSnippet?) =>
+    Validators.messages[validator] || supportedValidators[validator].createMsg(txtSnippet);
 }
