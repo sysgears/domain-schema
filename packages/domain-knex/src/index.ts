@@ -116,7 +116,7 @@ class DomainKnex {
           debug(`Schema key: ${tableName}.${column} -> ${type.__.name}`);
         } else if (!value.transient && key !== 'id') {
           DomainKnex._addColumn(tableName, table, key, value);
-          debug(`Scalar key: ${tableName}.${column} -> ${type.__.name}`);
+          debug(`Scalar key: ${tableName}.${column} -> ${domainSchema.__.name}`);
         }
       }
 
