@@ -33,7 +33,7 @@
     "typescript": "^2.4.1"
   },
   "peerDependencies": {
-    "domain-schema": "^0.0.19"
+    "domain-schema": "^0.0.20"
   },
   "prettier": {
     "printWidth": 120,
