@@ -1,6 +1,6 @@
 {
   "name": "domain-react-forms",
-  "version": "0.0.19",
+  "version": "0.0.20",
   "description": "React Forms generator for Domain Schema",
   "repository": "https://github.com/sysgears/domain-schema.git",
   "author": "Victor Vlasenko <victor.vlasenko@sysgears.com>",
