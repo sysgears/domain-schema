@@ -20,35 +20,31 @@ export default class DomainReactForms {
     const errors = {};
     const validateForm = (values, schema, collector) => {
       Object.keys(schema)
-        .filter(v => schema.hasOwnProperty(v))
-        .forEach(v => {
-          if (v === 'id') {
+        .filter(field => schema.hasOwnProperty(field))
+        .forEach(field => {
+          if (field === 'id') {
             return;
           }
-          const s = schema[v];
+          const s = schema[field];
           if (!s.type.isSchema) {
             Object.keys(s).forEach((validator: any) => {
               let result;
-              let validatorsValue = s[validator];
-              let msg;
               if (supportedValidators[validator]) {
-                if (validatorsValue.msg) {
-                  msg = validatorsValue.msg;
-                  validatorsValue = validatorsValue.value;
-                }
-                result = Validators[validator](values[v], msg, validatorsValue, values);
-              } else if (validator === 'customValidators') {
+                result = s[validator].msg
+                  ? Validators[validator](values[field], s[validator].msg)(s[validator].value, values)
+                  : Validators[validator](values[field])(s[validator], values);
+              } else if (validator === 'validators') {
                 // handling custom validators
-                validatorsValue.forEach(val => {
-                  result = val(values, v, schema) || result;
+                s[validator].forEach(val => {
+                  result = val(values[field], values) || result;
                 });
               }
               if (result) {
-                collector[v] = result;
+                collector[field] = result;
               }
             });
           } else {
-            validateForm(values[v], schema[v].type.values, collector);
+            validateForm(values[field], schema[field].type.values, collector);
           }
         });
       return collector;
@@ -69,43 +65,43 @@ class Validators {
   };
 
   // Non empty validation
-  public static required = (value, msg, schemaValue) =>
+  public static required = (value, msg?) => schemaValue =>
     schemaValue && !value ? msg || Validators.pickMsg('required') : undefined;
 
   // Match a particular field
-  public static match = (value, msg, comparableField, values) =>
+  public static match = (value, msg?) => (comparableField, values) =>
     value !== values[comparableField] ? msg || Validators.pickMsg('match', comparableField) : undefined;
 
   // Max length validation
-  public static maxLength = (value, msg, max) =>
+  public static maxLength = (value, msg?) => max =>
     value && value.length > max ? msg || Validators.pickMsg('maxLength', max) : undefined;
 
   // Min length validation
-  public static minLength = (value, msg, min) =>
+  public static minLength = (value, msg?) => min =>
     value && value.length < min ? msg || Validators.pickMsg('minLength', min) : undefined;
 
   // Number validation
-  public static numberCheck = (value, msg) =>
+  public static numberCheck = (value, msg?) => () =>
     value && isNaN(Number(value)) ? msg || Validators.pickMsg('numberCheck') : undefined;
 
   // Minimum value validation
-  public static minValue = (value, msg, minValue) =>
+  public static minValue = (value, msg?) => minValue =>
     value && value < minValue ? msg || Validators.pickMsg('minValue', minValue) : undefined;
 
   // Email validation
-  public static email = (value, msg) =>
+  public static email = (value, msg?) => () =>
     value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value) ? msg || Validators.pickMsg('email') : undefined;
 
   // Alpha numeric validation
-  public static alphaNumeric = (value, msg) =>
+  public static alphaNumeric = (value, msg?) => () =>
     value && /[^a-zA-Z0-9 ]/i.test(value) ? msg || Validators.pickMsg('alphaNumeric') : undefined;
 
   // Phone number validation
-  public static phoneNumber = (value, msg) =>
+  public static phoneNumber = (value, msg?) => () =>
     value && !/^(0|[1-9][0-9]{9})$/i.test(value) ? msg || Validators.pickMsg('phoneNumber') : undefined;
 
   // Equals validation
-  public static equals = (value, msg, comparableValue) =>
+  public static equals = (value, msg?) => comparableValue =>
     value !== comparableValue ? msg || Validators.pickMsg('equals', comparableValue) : undefined;
 
   /* HELPERS */
