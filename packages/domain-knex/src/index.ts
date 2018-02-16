@@ -15,7 +15,7 @@ class DomainKnex {
   public selectBy = (schema: Schema, fields: string[]) => {
     const domainSchema = new DomainSchema(schema);
     // form table name
-    const tableName = decamelize(domainSchema.name);
+    const tableName = decamelize(domainSchema.__.name);
 
     // select fields
     const parentPath = [];
@@ -39,7 +39,7 @@ class DomainKnex {
   public createTables(schema: Schema): Promise<any> {
     const domainSchema = new DomainSchema(schema);
     if (domainSchema.__.transient) {
-      throw new Error(`Unable to create tables for transient schema: ${domainSchema.name}`);
+      throw new Error(`Unable to create tables for transient schema: ${domainSchema.__.name}`);
     }
     return this._createTables(null, domainSchema, []);
   }
@@ -69,7 +69,7 @@ class DomainKnex {
     } else if (hasTypeOf(Date)) {
       column = table.dateTime(columnName);
     } else {
-      throw new Error(`Don't know how to handle type ${type.name} of ${tableName}.${columnName}`);
+      throw new Error(`Don't know how to handle type ${type.__.name} of ${tableName}.${columnName}`);
     }
     if (value.unique) {
       column.unique();
@@ -83,12 +83,12 @@ class DomainKnex {
   }
 
   private async _createTables(parentTableName: string, schema: DomainSchema, seen: string[]): Promise<any> {
-    if (seen.indexOf(schema.name) >= 0) {
+    if (seen.indexOf(schema.__.name) >= 0) {
       return Promise.resolve(null);
     }
-    seen.push(schema.name);
+    seen.push(schema.__.name);
     const domainSchema = new DomainSchema(schema);
-    const tableName = decamelize(domainSchema.name);
+    const tableName = decamelize(domainSchema.__.name);
     return this.knex.schema.createTable(tableName, table => {
       if (parentTableName) {
         table
@@ -113,10 +113,10 @@ class DomainKnex {
           const hostTableName = domainSchema.__.transient ? parentTableName : tableName;
           const newPromise = this._createTables(hostTableName, type, seen);
           promises.push(newPromise);
-          debug(`Schema key: ${tableName}.${column} -> ${type.name}`);
+          debug(`Schema key: ${tableName}.${column} -> ${type.__.name}`);
         } else if (!value.transient && key !== 'id') {
           DomainKnex._addColumn(tableName, table, key, value);
-          debug(`Scalar key: ${tableName}.${column} -> ${type.name}`);
+          debug(`Scalar key: ${tableName}.${column} -> ${domainSchema.__.name}`);
         }
       }
 
@@ -125,11 +125,11 @@ class DomainKnex {
   }
 
   private _getTableNames(domainSchema: DomainSchema, seen: string[]): string[] {
-    if (seen.indexOf(domainSchema.name) >= 0) {
+    if (seen.indexOf(domainSchema.__.name) >= 0) {
       return [];
     }
-    seen.push(domainSchema.name);
-    const tableName = decamelize(domainSchema.name);
+    seen.push(domainSchema.__.name);
+    const tableName = decamelize(domainSchema.__.name);
     let tableNames = [];
 
     if (domainSchema.__.transient) {
@@ -154,22 +154,22 @@ class DomainKnex {
     joinNames: string[],
     seen: string[]
   ) {
-    if (seen.indexOf(domainSchema.name) >= 0) {
+    if (seen.indexOf(domainSchema.__.name) >= 0) {
       return;
     }
-    seen.push(domainSchema.name);
+    seen.push(domainSchema.__.name);
     for (const key of Object.keys(fields)) {
       if (key !== '__typename') {
         const value = domainSchema.values[key];
         if (fields[key] === true) {
           if (!value.transient) {
             const as = parentPath.length > 0 ? `${parentPath.join('_')}_${key}` : key;
-            selectItems.push(`${decamelize(domainSchema.name)}.${decamelize(key)} as ${as}`);
+            selectItems.push(`${decamelize(domainSchema.__.name)}.${decamelize(key)} as ${as}`);
           }
         } else {
           const type = value.type.constructor === Array ? value.type[0] : value.type;
           if (!type.__.transient) {
-            joinNames.push(decamelize(type.name));
+            joinNames.push(decamelize(type.__.name));
           }
 
           parentPath.push(key);

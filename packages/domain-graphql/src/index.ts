@@ -34,14 +34,14 @@ export default class {
       result += 'Time';
     } else {
       if (value.type.isSchema) {
-        result += value.type.name;
+        result += value.type.__.name;
         if (options.deep && !value.external) {
           this._generateTypes(value.type, options, results, seen);
         }
       } else if (value.type.constructor === Array) {
         result += `[${this._generateField(field + '[]', { ...value, type: value.type[0] }, options, results, seen)}]`;
       } else {
-        throw new Error(`Don't know how to handle type ${value.type.name} of ${field}`);
+        throw new Error(`Don't know how to handle type ${value.type.__.name} of ${field}`);
       }
     }
 
@@ -53,15 +53,15 @@ export default class {
   }
 
   private _generateTypes(schema: DomainSchema, options: any, results: string[], seen: string[]): string {
-    if (seen.indexOf(schema.name) >= 0 || schema.__.exclude) {
+    if (seen.indexOf(schema.__.name) >= 0 || schema.__.exclude) {
       return;
     }
-    seen.push(schema.name);
-    let result = `type ${schema.name} {\n`;
+    seen.push(schema.__.name);
+    let result = `type ${schema.__.name} {\n`;
     for (const key of schema.keys()) {
       const value = schema.values[key];
       if (!value.private) {
-        result += `  ${key}: ` + this._generateField(schema.name + '.' + key, value, options, results, seen) + '\n';
+        result += `  ${key}: ` + this._generateField(schema.__.name + '.' + key, value, options, results, seen) + '\n';
       }
     }
 

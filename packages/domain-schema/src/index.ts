@@ -48,7 +48,7 @@ class DomainSchema extends Schema {
   }
 
   public get name(): string {
-    return this._schemaClass.name;
+    return this.__.name;
   }
 
   public get schema(): Schema {
@@ -56,20 +56,23 @@ class DomainSchema extends Schema {
   }
 
   private static _throwWrongSchema(clazz: any) {
-    throw new Error(`Schema ${clazz ? clazz.name : clazz} must be an instance of Schema`);
+    throw new Error(`Schema class ${clazz ? clazz.name : clazz} must be an instance of Schema`);
   }
 
   private _normalizeValues(_defs: any): any {
     const values = {};
+    if (!('__' in this._schema) || !this.__.name) {
+      throw new Error(`Schema class ${this._schemaClass.name} must define __.name`);
+    }
     for (const key of Object.keys(this._schema)) {
       if (key === '__') {
         continue;
       }
       const value = this._schema[key];
       if (typeof value !== 'function' && value.constructor !== Array && !value.type && !value.isSchema) {
-        throw new Error(`'type' key is required for schema field ${this._schemaClass.name}.${key}`);
+        throw new Error(`'type' key is required for schema field ${this.__.name}.${key}`);
       } else if (value.constructor === Array && value.length !== 1) {
-        throw new Error(`Array key ${this._schemaClass.name}.${key} should contain one type inside`);
+        throw new Error(`Array key ${this.__.name}.${key} should contain one type inside`);
       }
       const def =
         typeof value === 'function' || value instanceof Schema || value.constructor === Array

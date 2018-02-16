@@ -11,6 +11,7 @@ of your domain schemas, not the fields and the meaning you can use.
 Example Domain Schema using ES6 syntax:
 ```js
 class AuthCertificate extends Schema {
+  __ = { name: 'AuthCertificate' };
   serial = {
     type: String,
     unique: true
@@ -18,6 +19,7 @@ class AuthCertificate extends Schema {
 }
 
 class AuthFacebook extends Schema {
+  __ = { name: 'AuthFacebook' };
   fbId = {
     type: String,
     unique: true
@@ -29,6 +31,7 @@ class AuthFacebook extends Schema {
 }
 
 class UserProfile extends Schema {
+  __ = { name: 'UserProfile' };
   firstName = {
     type: String,
     optional: true
@@ -46,7 +49,7 @@ class UserProfile extends Schema {
 }
 
 class UserAuth extends Schema {
-  __ = { transient: true };
+  __ = { name: 'UserAuth', transient: true };
   certificate = {
     type: AuthCertificate,
     optional: true
@@ -59,6 +62,7 @@ class UserAuth extends Schema {
 
 export const User = new DomainSchema(
   class User extends Schema {
+    __ = { name: 'User' };
     id = DomainSchema.Integer;
     username = {
       type: String,
@@ -96,12 +100,14 @@ export const User = new DomainSchema(
 Example cyclic Domain Schema definition
 ```js
 class Product extends Schema {
+  __ = { name: 'Product' };
   id = DomainSchema.Integer;
   name = String;
   category = Category;
 }
 
 class Category extends Schema {
+  __ = { name: 'Category' };
   public id = DomainSchema.Integer;
   name = String;
   products = [Product];
