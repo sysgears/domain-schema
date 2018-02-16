@@ -11,6 +11,7 @@ npm install -g domain-react-forms
 ```js
 const userFormSchema = new DomainSchema(
   class User extends Schema {
+    __ = { name: 'User' };
     id = DomainSchema.Int;
     username = {
       type: String,
@@ -41,6 +42,7 @@ const userFormSchema = new DomainSchema(
   }
 );
 class Profile extends Schema {
+  __ = { name: 'Profile' };
   firstName = {
     type: String,
     required: {
@@ -57,7 +59,11 @@ class Profile extends Schema {
 const userForm =  new DomainReactForms(userFormSchema);
 
 // change error messages
-DomainReactForms.setValidationMessages({required: 'This is Required!'});
+DomainReactForms.setValidationMessages({
+  required: ({field}) => {
+    return `Field '${field}' is required`
+  }
+});
 
 const values = {
   // form values
