@@ -1,7 +1,7 @@
 {
-  "name": "domain-react-forms",
-  "version": "0.0.9",
-  "description": "React Forms generator for Domain Schema",
+  "name": "domain-validation",
+  "version": "0.0.20",
+  "description": "Validation for Domain Schema",
   "repository": "https://github.com/sysgears/domain-schema.git",
   "author": "Victor Vlasenko <victor.vlasenko@sysgears.com>",
   "main": "lib/index.js",
@@ -23,8 +23,7 @@
   "devDependencies": {
     "@types/jest": "^21.1.5",
     "@types/node": "^7.0.18",
-    "domain-schema": ">= 0.0.7",
-    "domain-validation": ">= 0.0.20",
+    "domain-schema": ">= 0.0.20",
     "jest": "^21.2.1",
     "prettier": "^1.6.1",
     "ts-jest": "^21.2.1",
@@ -34,8 +33,7 @@
     "typescript": "^2.4.1"
   },
   "peerDependencies": {
-    "domain-schema": ">= 0.0.7",
-    "domain-validation": ">= 0.0.20"
+    "domain-schema": ">= 0.0.20"
   },
   "prettier": {
     "printWidth": 120,
