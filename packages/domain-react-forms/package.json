@@ -34,7 +34,7 @@
     "typescript": "^2.4.1"
   },
   "peerDependencies": {
-    "domain-validation": "^0.0.20"
+    "domain-validation": "^0.0.20",
     "domain-schema": "^0.0.20"
   },
   "prettier": {
