@@ -1,5 +1,5 @@
 import DomainSchema from 'domain-schema';
-import DomainValidator from 'domain-validation';
+import DomainValidator from 'domain-schema-validation';
 
 export default class DomainReactForms {
   constructor(private schema: DomainSchema) {}

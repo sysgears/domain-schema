@@ -5,7 +5,7 @@
 ## Installation
 
 ```bash
-npm install domain-validation
+npm install domain-schema-validation
 ```
 
 ## License
