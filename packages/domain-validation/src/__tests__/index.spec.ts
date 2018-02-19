@@ -1,7 +1,7 @@
 import DomainSchema, { Schema } from 'domain-schema';
 import DomainValidation from '../index';
 
-describe('DomainValidation', () => {
+describe('DomainValidator', () => {
   it('should validate simple schema', () => {
     const schema = new DomainSchema(
       class extends Schema {

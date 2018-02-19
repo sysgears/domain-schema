@@ -1,7 +1,7 @@
 import DomainSchema from 'domain-schema';
-import Validators, { supportedValidators } from './validators';
+import validators, { supportedValidators } from './validators';
 
-export default class DomainValidation {
+export default class DomainValidator {
   public static validate(initialValues: any, initialSchema: DomainSchema) {
     const errors = {};
     const validateSchema = (values, schema, collector) => {
@@ -17,11 +17,11 @@ export default class DomainValidation {
               let result;
               if (supportedValidators[validator]) {
                 result = s[validator].msg
-                  ? Validators[validator](values[field], s[validator].msg)(
+                  ? validators[validator](values[field], s[validator].msg)(
                       { values, field, schema },
                       s[validator].value
                     )
-                  : Validators[validator](values[field])({ values, field, schema }, s[validator]);
+                  : validators[validator](values[field])({ values, field, schema }, s[validator]);
               } else if (validator === 'validators') {
                 // handling custom validators
                 s[validator].forEach(val => {
@@ -42,6 +42,6 @@ export default class DomainValidation {
   }
 
   public static setValidationMessages(messages) {
-    Validators.setValidationMsg(messages);
+    validators.setValidationMsg(messages);
   }
 }
