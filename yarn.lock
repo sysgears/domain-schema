@@ -934,6 +934,12 @@ diff@^3.2.0:
   version "3.4.0"
   resolved "https://registry.yarnpkg.com/diff/-/diff-3.4.0.tgz#b1d85507daf3964828de54b37d0d73ba67dda56c"
 
+"domain-schema@>= 0.0.20":
+  version "0.0.20"
+  resolved "https://registry.yarnpkg.com/domain-schema/-/domain-schema-0.0.20.tgz#5d7d9293d69ec0e816463a019bde00ff92cb8750"
+  dependencies:
+    debug "^3.1.0"
+
 dot-prop@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/dot-prop/-/dot-prop-3.0.0.tgz#1b708af094a49c9a0e7dbcad790aba539dac1177"
