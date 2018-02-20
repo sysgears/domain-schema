@@ -1,4 +1,4 @@
-import DomainSchema, { Schema } from 'domain-schema';
+import DomainSchema, { Schema } from '@domain-schema/core';
 import Knex, { ColumnBuilder, CreateTableBuilder, ReferencingColumnBuilder } from 'knex';
 
 import DomainKnex from '../index';

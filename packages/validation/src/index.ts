@@ -1,4 +1,4 @@
-import DomainSchema from 'domain-schema';
+import DomainSchema from '@domain-schema/core';
 import validators, { supportedValidators } from './validators';
 
 export default class DomainValidator {

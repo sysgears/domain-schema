@@ -1,4 +1,4 @@
-import DomainSchema, { Schema } from 'domain-schema';
+import DomainSchema, { Schema } from '@domain-schema/core';
 import DomainValidation from '../index';
 
 describe('DomainValidator', () => {

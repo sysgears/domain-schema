@@ -1,9 +1,9 @@
+import DomainSchema, { Schema } from '@domain-schema/core';
 import Debug from 'debug';
-import DomainSchema, { Schema } from 'domain-schema';
 import { decamelize } from 'humps';
 import Knex, { TableBuilder } from 'knex';
 
-const debug = Debug('domain-knex');
+const debug = Debug('@domain-schema/knex');
 
 class DomainKnex {
   private knex: Knex;

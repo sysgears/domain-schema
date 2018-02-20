@@ -1,4 +1,4 @@
-import DomainSchema, { Schema } from 'domain-schema';
+import DomainSchema, { Schema } from '@domain-schema/core';
 import DomainGraphQL from '../index';
 
 class Product extends Schema {
