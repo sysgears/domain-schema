@@ -1,5 +1,5 @@
 import DomainReactForms from '../index';
 
 describe('DomainReactForms', () => {
-  it('should do something', () => {});
+  it('should generate simple form', () => {});
 });

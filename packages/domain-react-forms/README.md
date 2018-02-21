@@ -5,9 +5,14 @@
 ## Installation
 
 ```bash
-npm install -g domain-react-forms
+npm install domain-react-forms
 ```
-##Usage 
+or
+```bash
+yarn add domain-react-forms
+```
+## Usage 
+### Example
 ```js
 const userFormSchema = new DomainSchema(
   class User extends Schema {
