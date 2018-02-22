@@ -3,7 +3,9 @@
   "compilerOptions": {
     "rootDir": "src",
     "outDir": "lib",
-    "jsx": "react"
+    "paths": {
+      "@domain-schema/core": ["../core/lib"]
+    }
   },
-  "include": ["src/**/*"]
+  "include": ["src/**/*.ts"]
 }

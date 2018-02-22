@@ -1,7 +1,7 @@
+import DomainSchema, { Schema } from '@domain-schema/core';
 import Debug from 'debug';
-import DomainSchema, { Schema } from 'domain-schema';
 
-const debug = Debug('domain-graphql');
+const debug = Debug('@domain-schema/graphql');
 
 export default class {
   constructor() {}

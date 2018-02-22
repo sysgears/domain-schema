@@ -1,0 +1,12 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "rootDir": "src",
+    "outDir": "lib",
+    "paths": {
+      "@domain-schema/core": ["../core/lib"],
+      "@domain-schema/validation": ["../validation/lib"]
+    }
+  },
+  "include": ["src/**/*.ts"]
+}

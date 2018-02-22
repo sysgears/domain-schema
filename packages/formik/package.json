@@ -1,7 +1,7 @@
 {
-  "name": "domain-schema-validation",
-  "version": "0.0.20",
-  "description": "Validation for Domain Schema",
+  "name": "@domain-schema/formik",
+  "version": "0.0.30",
+  "description": "React Forms generator for Domain Schema",
   "repository": "https://github.com/sysgears/domain-schema.git",
   "author": "Victor Vlasenko <victor.vlasenko@sysgears.com>",
   "main": "lib/index.js",
@@ -21,11 +21,16 @@
     "lib/*.map"
   ],
   "devDependencies": {
+    "@domain-schema/core": ">= 0.0.30",
+    "@domain-schema/validation": ">= 0.0.30",
     "@types/jest": "^21.1.5",
     "@types/node": "^7.0.18",
-    "domain-schema": ">= 0.0.20",
+    "bootstrap": "4.0.0",
     "jest": "^21.2.1",
     "prettier": "^1.6.1",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "reactstrap": "^5.0.0-beta",
     "ts-jest": "^21.2.1",
     "tslint": "^5.2.0",
     "tslint-config-prettier": "^1.5.0",
@@ -33,7 +38,14 @@
     "typescript": "^2.7.2"
   },
   "peerDependencies": {
-    "domain-schema": ">= 0.0.20"
+    "@domain-schema/core": ">= 0.0.30",
+    "@domain-schema/validation": ">= 0.0.30",
+    "bootstrap": "4.0.0",
+    "domain-schema": "^0.0.20",
+    "domain-schema-validation": "^0.0.20",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "reactstrap": "^5.0.0-beta"
   },
   "prettier": {
     "printWidth": 120,
@@ -53,6 +65,7 @@
     ]
   },
   "dependencies": {
-    "debug": "^3.1.0"
+    "debug": "^3.1.0",
+    "prop-types": "^15.6.0"
   }
 }

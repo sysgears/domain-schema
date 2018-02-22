@@ -12,9 +12,6 @@
     "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,
     "pretty": true,
-    "removeComments": true,
-    "paths": {
-      "*": ["*/lib"]
-    }
+    "removeComments": true
   }
 }

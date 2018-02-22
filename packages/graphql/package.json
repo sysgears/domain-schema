@@ -1,7 +1,7 @@
 {
-  "name": "domain-schema",
-  "version": "0.0.20",
-  "description": "A JavaScript Schema for Domain Driven Design",
+  "name": "@domain-schema/graphql",
+  "version": "0.0.30",
+  "description": "GraphQL generator for Domain Schema",
   "repository": "https://github.com/sysgears/domain-schema.git",
   "author": "Victor Vlasenko <victor.vlasenko@sysgears.com>",
   "main": "lib/index.js",
@@ -23,6 +23,7 @@
   "devDependencies": {
     "@types/jest": "^21.1.5",
     "@types/node": "^7.0.18",
+    "@domain-schema/core": ">= 0.0.30",
     "jest": "^21.2.1",
     "prettier": "^1.6.1",
     "ts-jest": "^21.2.1",
@@ -30,6 +31,9 @@
     "tslint-config-prettier": "^1.5.0",
     "tslint-plugin-prettier": "^1.3.0",
     "typescript": "^2.7.2"
+  },
+  "peerDependencies": {
+    "@domain-schema/core": ">= 0.0.30"
   },
   "prettier": {
     "printWidth": 120,
