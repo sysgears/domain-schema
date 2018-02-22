@@ -1,11 +1,12 @@
 import DomainSchema from 'domain-schema';
 import DomainValidator from 'domain-schema-validation';
 import * as React from 'react';
-import { Button, Field, Form, Option, RenderCheckBox, RenderField, RenderSelect } from './components';
+import { Button, Field, Form, RenderCheckBox, RenderField, RenderRadio, RenderSelect } from './components';
 
 export const input = 'input';
 export const select = 'select';
 export const checkbox = 'checkbox';
+export const radio = 'radio';
 export const button = 'button';
 
 export default class DomainReactForms {
@@ -39,6 +40,10 @@ export default class DomainReactForms {
                 collector.push(this.genCheck(s, field));
                 break;
               }
+              case radio: {
+                collector.push(this.genRadio(s, field));
+                break;
+              }
               case button: {
                 collector.push(this.genButton(s, field));
                 break;
@@ -65,21 +70,7 @@ export default class DomainReactForms {
   }
 
   private genSelect(ctx, field) {
-    return (
-      <Field key={field} {...ctx.atrs} component={RenderSelect} type="select">
-        {ctx.options.map(option => {
-          return option.value ? (
-            <Option key={option.value} value={option.value}>
-              {option.key}
-            </Option>
-          ) : (
-            <Option key={option} value={option}>
-              {option}
-            </Option>
-          );
-        })}
-      </Field>
-    );
+    return <Field key={field} {...ctx.atrs} component={RenderSelect} type="select" values={ctx.values} />;
   }
 
   private genCheck(ctx, field) {
@@ -94,7 +85,11 @@ export default class DomainReactForms {
     );
   }
 
+  private genRadio(ctx, field) {
+    return <Field key={field} {...ctx.atrs} component={RenderRadio} type="radio" values={ctx.values} />;
+  }
+
   private genCustomField(ctx, field) {
-    // not yet implemented
+    return <Field key={field} {...ctx.atrs} component={ctx.fieldType} />;
   }
 }
