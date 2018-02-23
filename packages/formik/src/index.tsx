@@ -1,13 +1,8 @@
 import DomainSchema from '@domain-schema/core';
 import DomainValidator from '@domain-schema/validation';
 import * as React from 'react';
+import FieldTypes from './fieldTypes';
 import { Button, Field, Form, RenderCheckBox, RenderField, RenderRadio, RenderSelect } from './components';
-
-export const input = 'input';
-export const select = 'select';
-export const checkbox = 'checkbox';
-export const radio = 'radio';
-export const button = 'button';
 
 export default class DomainReactForms {
   constructor(private schema: DomainSchema) {}
@@ -18,7 +13,7 @@ export default class DomainReactForms {
 
   public generateForm(initModel: any, options?: any) {
     const result = [];
-    const validateSchema = (schema, model, collector) => {
+    const generate = (schema, model, collector) => {
       Object.keys(schema)
         .filter(field => schema.hasOwnProperty(field))
         .forEach(field => {
@@ -29,23 +24,23 @@ export default class DomainReactForms {
           if (!s.type.isSchema) {
             const m = this.filter(model[field], s.atrs);
             switch (s.fieldType) {
-              case input: {
+              case FieldTypes.input: {
                 collector.push(this.genInput(s, m, field));
                 break;
               }
-              case select: {
+              case FieldTypes.select: {
                 collector.push(this.genSelect(s, m, field));
                 break;
               }
-              case checkbox: {
+              case FieldTypes.checkbox: {
                 collector.push(this.genCheck(s, m, field));
                 break;
               }
-              case radio: {
+              case FieldTypes.radio: {
                 collector.push(this.genRadio(s, m, field));
                 break;
               }
-              case button: {
+              case FieldTypes.button: {
                 collector.push(this.genButton(s, m, field));
                 break;
               }
@@ -54,12 +49,12 @@ export default class DomainReactForms {
               }
             }
           } else {
-            validateSchema(schema[field].type.values, model[field], collector);
+            generate(schema[field].type.values, model[field], collector);
           }
         });
       return collector;
     };
-    return <Form {...options}>{validateSchema(this.schema.values, initModel, result)}</Form>;
+    return <Form {...options}>{generate(this.schema.values, initModel, result)}</Form>;
   }
 
   public static setValidationMessages(messages) {
@@ -104,3 +99,5 @@ export default class DomainReactForms {
     return result;
   }
 }
+
+export { default as FieldTypes } from './fieldTypes';
