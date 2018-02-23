@@ -7,23 +7,22 @@ export interface Props {
   type?: string;
   meta?: any;
   children?: any[];
+  options?: any;
 }
 
-const RenderField = ({ input, label, type, meta: { touched, error }, children }: Props) => {
+const RenderField = ({ input, label, options, type, meta: { touched, error }, children }: Props) => {
   let valid = null;
   if (touched && error) {
     valid = false;
   }
 
   return (
-    <FormGroup>
+    <FormGroup {...options}>
       {label && <Label>{label}</Label>}
-      <div>
-        <Input {...input} placeholder={label} type={type} valid={valid}>
-          {children}
-        </Input>
-        {touched && (error && <FormFeedback>{error}</FormFeedback>)}
-      </div>
+      <Input {...input} placeholder={label} type={type} valid={valid}>
+        {children}
+      </Input>
+      {touched && (error && <FormFeedback>{error}</FormFeedback>)}
     </FormGroup>
   );
 };

@@ -6,11 +6,12 @@ export interface Props {
   label?: string;
   type?: string;
   meta?: any;
+  options?: any;
 }
 
-const RenderCheckBox = ({ input, label, type, meta: { touched, error } }: Props) => {
+const RenderCheckBox = ({ input, options, label, type, meta: { touched, error } }: Props) => {
   return (
-    <FormGroup check>
+    <FormGroup check {...options}>
       <Label check>
         <Input {...input} placeholder={label} type={type} /> {label}
         {touched && (error && <div className="validation-err">{error}</div>)}

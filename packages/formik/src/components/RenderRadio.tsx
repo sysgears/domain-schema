@@ -7,11 +7,12 @@ export interface Props {
   type?: string;
   values?: any[];
   meta?: any;
+  options?: any;
 }
 
-const RenderRadio = ({ input, label, values, type, meta: { touched, error } }: Props) => {
+const RenderRadio = ({ input, label, options, values, type, meta: { touched, error } }: Props) => {
   return (
-    <FormGroup tag="fieldset">
+    <FormGroup tag="fieldset" {...options}>
       {label && <legend>{label}</legend>}
       {values.map(radio => {
         return radio.value ? (

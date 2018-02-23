@@ -9,16 +9,17 @@ export interface Props {
   type?: string;
   meta?: any;
   values?: any[];
+  options?: any;
 }
 
-const RenderSelect = ({ input, label, multiple, values, type, meta: { touched, error } }: Props) => {
+const RenderSelect = ({ input, label, options, multiple, values, type, meta: { touched, error } }: Props) => {
   let className = '';
   if (touched && error) {
     className = 'invalid-select';
   }
 
   return (
-    <FormGroup>
+    <FormGroup {...options}>
       {label && <Label>{label}</Label>}
       <Input className={className} {...input} type={type} multiple={multiple}>
         {values.map(option => {
