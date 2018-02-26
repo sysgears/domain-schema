@@ -1,17 +1,27 @@
 import DomainSchema from '@domain-schema/core';
 import DomainValidator from '@domain-schema/validation';
+import { withFormik } from 'formik';
 import * as React from 'react';
-import FieldTypes from './fieldTypes';
 import { Button, Field, Form, RenderCheckBox, RenderField, RenderRadio, RenderSelect } from './components';
+import FieldTypes from './fieldTypes';
 
 export default class DomainReactForms {
+  private model = {};
+  private handleSubmit;
+  private confFormik = {
+    mapPropsToValues: () => this.model,
+    handleSubmit: this.handleSubmit,
+    validate: values => this.validate(values)
+  };
+
   constructor(private schema: DomainSchema) {}
 
   public validate(formValues: any) {
     return DomainValidator.validate(formValues, this.schema);
   }
 
-  public generateForm(initModel: any, options?: any) {
+  public generateForm(options?: any) {
+    this.handleSubmit = options.handleSubmit;
     const result = [];
     const generate = (schema, model, collector) => {
       Object.keys(schema)
@@ -22,81 +32,75 @@ export default class DomainReactForms {
           }
           const s = schema[field];
           if (!s.type.isSchema) {
-            const m = this.filter(model[field], s.atrs);
+            model[field] = s.attrs.value || s.attrs.checked || '';
             switch (s.fieldType) {
               case FieldTypes.input: {
-                collector.push(this.genInput(s, m, field));
+                collector.push(this.genInput(s, field));
                 break;
               }
               case FieldTypes.select: {
-                collector.push(this.genSelect(s, m, field));
+                collector.push(this.genSelect(s, field));
                 break;
               }
               case FieldTypes.checkbox: {
-                collector.push(this.genCheck(s, m, field));
+                collector.push(this.genCheck(s, field));
                 break;
               }
               case FieldTypes.radio: {
-                collector.push(this.genRadio(s, m, field));
+                collector.push(this.genRadio(s, field));
                 break;
               }
               case FieldTypes.button: {
-                collector.push(this.genButton(s, m, field));
+                collector.push(this.genButton(s, field));
                 break;
               }
               default: {
-                collector.push(this.genCustomField(s, m, field));
+                collector.push(this.genCustomField(s, field));
               }
             }
           } else {
+            model[field] = {};
             generate(schema[field].type.values, model[field], collector);
           }
         });
       return collector;
     };
-    return <Form {...options}>{generate(this.schema.values, initModel, result)}</Form>;
+    // const form = generate(this.schema.values, this.model, result);
+    const fields = generate(this.schema.values, this.model, result);
+    return withFormik(this.confFormik)(() => <Form {...options}>{fields}</Form>);
+    // return withFormik(this.confFormik)(() => <Form {...options}>{form}</Form>);
   }
 
   public static setValidationMessages(messages) {
     DomainValidator.setValidationMessages(messages);
   }
 
-  private genInput(ctx, model, field) {
-    return <Field key={field} {...model} component={RenderField} options={ctx.parentAtrs} />;
+  private genInput(ctx, field) {
+    return <Field key={field} {...ctx.attrs} component={RenderField} options={ctx.parentAttrs} />;
   }
 
-  private genSelect(ctx, model, field) {
-    return <Field key={field} {...model} component={RenderSelect} type="select" options={ctx.parentAtrs} />;
+  private genSelect(ctx, field) {
+    return <Field key={field} {...ctx.attrs} component={RenderSelect} type="select" options={ctx.parentAttrs} />;
   }
 
-  private genCheck(ctx, model, field) {
-    return <Field key={field} {...model} component={RenderCheckBox} type="checkbox" options={ctx.parentAtrs} />;
+  private genCheck(ctx, field) {
+    return <Field key={field} {...ctx.attrs} component={RenderCheckBox} type="checkbox" options={ctx.parentAttrs} />;
   }
 
-  private genButton(ctx, model, field) {
+  private genButton(ctx, field) {
     return (
-      <Button key={field} {...model}>
+      <Button key={field} {...ctx.attrs}>
         {ctx.label}
       </Button>
     );
   }
 
-  private genRadio(ctx, model, field) {
-    return <Field key={field} {...model} component={RenderRadio} type="radio" options={ctx.parentAtrs} />;
+  private genRadio(ctx, field) {
+    return <Field key={field} {...ctx.attrs} component={RenderRadio} type="radio" options={ctx.parentAttrs} />;
   }
 
-  private genCustomField(ctx, model, field) {
-    return <Field key={field} {...model} component={ctx.fieldType} options={ctx.parentAtrs} />;
-  }
-
-  private filter(model, schema) {
-    const result = {};
-    for (const key in model) {
-      if (model.hasOwnProperty(key) && schema.includes(key)) {
-        result[key] = model[key];
-      }
-    }
-    return result;
+  private genCustomField(ctx, field) {
+    return <Field key={field} {...ctx.attrs} component={ctx.component} options={ctx.parentAttrs} />;
   }
 }
 
