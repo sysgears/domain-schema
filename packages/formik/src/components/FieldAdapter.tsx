@@ -36,7 +36,6 @@ export default class Field extends Component {
       touched: formik.touched[name],
       error: formik.errors[name]
     };
-    console.log(this.props);
     const input = {
       onChange: onChange ? onChange : formik.handleChange,
       // onChange: e => formik.setFieldValue(name, e.target.value),
