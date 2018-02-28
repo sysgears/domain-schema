@@ -12,6 +12,8 @@ export interface Props {
   checked?: boolean;
   defaultChecked?: boolean;
   disabled?: boolean;
+  parent?: any;
+  className?: string;
 }
 
 export default class Field extends Component {
@@ -28,7 +30,7 @@ export default class Field extends Component {
 
   public render() {
     const { formik } = this.context;
-    const { component, name, defaultValue, defaultChecked, onChange, onBlur, disabled } = this.props;
+    const { component, name, defaultValue, defaultChecked, onChange, parent, onBlur, disabled, className } = this.props;
     let { value, checked } = this.props;
     value = value || '';
     checked = checked || false;
@@ -37,16 +39,22 @@ export default class Field extends Component {
       error: formik.errors[name]
     };
     const input = {
-      onChange: onChange ? onChange : formik.handleChange,
-      // onChange: e => formik.setFieldValue(name, e.target.value),
+      onChange:
+        parent && parent.name
+          ? e =>
+              formik.setFieldValue(parent.name, {
+                ...parent.value,
+                [name]: e.target.value
+              })
+          : onChange ? onChange : formik.handleChange,
       onBlur: onBlur ? onBlur : formik.handleBlur,
-      // onBlur: e => formik.setFieldValue(name, e.target.value),
       name,
       value,
       checked,
       defaultValue,
       defaultChecked,
-      disabled
+      disabled,
+      className
     };
 
     return React.createElement(component, {

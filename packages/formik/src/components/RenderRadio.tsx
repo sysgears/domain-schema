@@ -12,19 +12,19 @@ export interface Props {
 
 const RenderRadio = ({ input, label, options, values, type, meta: { touched, error } }: Props) => {
   return (
-    <FormGroup tag="fieldset" {...options}>
+    <FormGroup tag="fieldset" {...options} value="Term 1 ...">
       {label && <legend>{label}</legend>}
       {values.map(radio => {
         return radio.value ? (
           <FormGroup key={radio.value} check>
             <Label check>
-              <Input {...input} type={type} value={radio.value} /> {radio.label}
+              <Input {...input} type={type} value={radio.value} checked={radio.value === input.value} /> {radio.label}
             </Label>
           </FormGroup>
         ) : (
           <FormGroup key={radio} check>
             <Label check>
-              <Input {...input} type={type} value={radio} /> {radio}
+              <Input {...input} type={type} value={radio} checked={radio === input.value} /> {radio}
             </Label>
           </FormGroup>
         );
