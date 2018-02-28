@@ -6,10 +6,9 @@ import { Button, Field, Form, RenderCheckBox, RenderField, RenderRadio, RenderSe
 import FieldTypes from './fieldTypes';
 
 export default class DomainReactForms {
-  private model = {};
   private handleSubmit;
   private confFormik = {
-    mapPropsToValues: () => this.model,
+    mapPropsToValues: () => this.getValuesFromSchema(),
     handleSubmit: this.handleSubmit,
     validate: values => this.validate(values)
   };
@@ -33,7 +32,6 @@ export default class DomainReactForms {
             }
             const s = schema[field];
             if (!s.type.isSchema) {
-              parent ? (this.model[parent][field] = s.defaultValue || '') : (this.model[field] = s.defaultValue || '');
               const value = parent ? values[parent][field] : values[field];
               switch (s.fieldType) {
                 case FieldTypes.input: {
@@ -65,7 +63,6 @@ export default class DomainReactForms {
                 }
               }
             } else {
-              this.model[field] = {};
               generate(schema[field].type.values, field, collector);
             }
           });
@@ -78,6 +75,28 @@ export default class DomainReactForms {
 
   public static setValidationMessages(messages) {
     DomainValidator.setValidationMessages(messages);
+  }
+
+  private getValuesFromSchema() {
+    const initModel = {};
+    const getValues = (schema, model) => {
+      Object.keys(schema)
+        .filter(field => schema.hasOwnProperty(field))
+        .forEach(field => {
+          if (field === 'id') {
+            return;
+          }
+          const s = schema[field];
+          if (!s.type.isSchema) {
+            model[field] = s.defaultValue || '';
+          } else {
+            model[field] = {};
+            getValues(schema[field].type.values, model[field]);
+          }
+        });
+      return model;
+    };
+    return getValues(this.schema.values, initModel);
   }
 
   private genInput(ctx, value, field, parent) {

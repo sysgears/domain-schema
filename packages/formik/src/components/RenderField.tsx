@@ -16,8 +16,6 @@ const RenderField = ({ input, label, options, type, meta: { touched, error }, ch
     valid = false;
   }
 
-  console.log(input);
-
   return (
     <FormGroup {...options}>
       {label && <Label>{label}</Label>}

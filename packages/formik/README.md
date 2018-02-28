@@ -5,11 +5,11 @@
 ## Installation
 
 ```bash
-npm install domain-react-forms
+npm install @domain-schema/formik
 ```
 or
 ```bash
-yarn add domain-react-forms
+yarn add @domain-schema/formik
 ```
 ## Usage 
 ### Example
@@ -20,6 +20,13 @@ const userFormSchema = new DomainSchema(
     id = DomainSchema.Int;
     username = {
       type: String,
+      fieldType: FieldTypes.input,
+      attrs: {
+        type: 'text',
+        name: 'username',
+        label: 'Username'
+      },
+      defaultValue: 'User',
       required: true,
       validators: [(value) => {
         return value.length > 3 ? undefined : 'Must Be more than 3 characters';
@@ -27,6 +34,12 @@ const userFormSchema = new DomainSchema(
     };
     email = {
       type: String,
+      fieldType: FieldTypes.input,
+      attrs: {
+        name: 'email',
+        type: 'email',
+        label: 'Email'
+      },
       required: true,
       email: true
     };
@@ -35,11 +48,23 @@ const userFormSchema = new DomainSchema(
     };
     password = {
       type: String,
+      fieldType: FieldTypes.input,
+      attrs: {
+        name: 'password',
+        type: 'password',
+        label: 'Password'
+      },
       required: true,
       minLength: 5
     };
     passwordConfirmation = {
       type: String,
+      fieldType: FieldTypes.input,
+      attrs: {
+        name: 'passwordConfirmation',
+        type: 'password',
+        label: 'Password Confirmation'
+      },
       required: true,
       minLength: 5,
       match: 'password'
@@ -50,6 +75,12 @@ class Profile extends Schema {
   __ = { name: 'Profile' };
   firstName = {
     type: String,
+    fieldType: FieldTypes.input,
+    attrs: {
+      name: 'firstName',
+      type: 'text',
+      label: 'First Name'
+    },
     required: {
       value: true,
       msg: 'Required First Name'
@@ -57,6 +88,12 @@ class Profile extends Schema {
   };
   lastName = {
       type: String,
+      fieldType: FieldTypes.input,
+      attrs: {
+        name: 'lastName',
+        type: 'text',
+        label: 'Last Name'
+      },
       required: true
   };
 };
@@ -70,10 +107,12 @@ DomainReactForms.setValidationMessages({
   }
 });
 
-const values = {
-  // form values
-};
-const errors = userForm.validate(values);
+const UserForm = userForm.generateForm(
+  () => {
+    // handle submit
+  },
+  { name: 'user', className: 'my-form' }
+);
 ```
 
 ### Built-in validators
