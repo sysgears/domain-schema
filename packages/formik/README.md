@@ -254,8 +254,8 @@ We can also define a custom validation error message for a **specific field** ri
 
 ### Custom validators
 
-To add a custom validation function you need to pass it on as ```validators``` property
-for field into schema:
+A user is able to add any number of custom validators whenever it need by passing functions to the ```validators```
+property of a schema field:
 ```js
     password = {
         type: String,
@@ -265,11 +265,11 @@ for field into schema:
         }]
     };
 ```
-  As arguments callback receive:
-  * value - the value to validate
-  * values - the validation object
+  Validation callback function gets the following params:
+  * ``value`` - the value for being validated
+  * ``values`` - the form object
   
-NOTE: Function must return a string with error message or undefined. 
+NOTE: validation function must return a string with an error message or ```undefined```. 
 
 ## License
 Copyright © 2017 [SysGears INC]. This source code is licensed under the [MIT] license.
