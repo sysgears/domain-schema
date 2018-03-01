@@ -124,7 +124,7 @@ const UserForm = userForm.generateForm(
 
 ### Built-in validators
 
-  * ```required``` - Checks that the value is a non empty value
+  * ```required``` - Checks if the value is a non empty value
   ```js
     name = {
       ...
@@ -132,7 +132,7 @@ const UserForm = userForm.generateForm(
       ...
     }
   ```
-  * ```match``` - Checks that the value matches to the value of specified field
+  * ```match``` - Checks if the value matches some specific field
   ```js
     password = {
       ...
@@ -143,16 +143,17 @@ const UserForm = userForm.generateForm(
       ...
     }
   ```
-  * ```max``` - Checks that the value or value length is not more than expected
+  * ```max``` - Checks if the value or value length does not exceed a specified number
+   (works with both numbers and strings)
   ```js
-    // Check length when type is String
+    // Checks length is type is String...
     name = {
       ...
       type: String,
       max: 6,
       ...
     }
-    // and value when type is Number
+    // ...and value when type is Number
     age = {
       ...
       type: Number,
@@ -160,8 +161,25 @@ const UserForm = userForm.generateForm(
       ...
     }
   ```
-  * ```min``` - Checks that the value or value length is not less than expected. Works like ```max```
-  * ```email``` - Checks that the value is a plausible looking email address
+  * ```min``` - Checks if the value or value length not less then a specified number
+  (works with both numbers and strings)
+    ```js
+      // Checks length if type is String...
+      name = {
+        ...
+        type: String,
+        min: 6,
+        ...
+      }
+      // ...and value when type is Number
+      age = {
+        ...
+        type: Number,
+        min: 16,
+        ...
+      }
+    ```
+  * ```email``` - Checks if the value corresponds to an email
   ```js
     name = {
       ...
@@ -169,7 +187,7 @@ const UserForm = userForm.generateForm(
       ...
     }
   ```
-  * ```alphaNumeric``` - Checks that the value consists of alphanumeric characters 
+  * ```alphaNumeric``` - Checks if the value consists of alphanumeric characters 
   ```js
     text = {
       ...
@@ -177,7 +195,7 @@ const UserForm = userForm.generateForm(
       ...
     }
   ```
-  * ```phoneNumber``` - Checks that the value is a valid phone number
+  * ```phoneNumber``` - Checks if the value corresponds to a phone number
   ```js
     phone = {
       ...
@@ -185,7 +203,7 @@ const UserForm = userForm.generateForm(
       ...
     }
   ```
-  * ```equals``` - Checks that the value equals to a specific value
+  * ```equals``` - Checks if the value equals to a specific value
   ```js
     role = {
       ...
@@ -195,15 +213,17 @@ const UserForm = userForm.generateForm(
   ```
 
 ### Customizing Validation Messages
-To set default messages to be used by all DomainReactForms instances use ``` setValidationMessages ``` function and pass on object with key as name of validator and value
-as message:
+Validation error messages can be overridden by defining messages in one place as a single
+object and passing it to the ``` setValidationMessages ``` function.
+In that object the ``keys`` are validator names and values can be either strings or functions, as follows:
+- Values are strings:
 ```js
     DomainReactForms.setValidationMessages({
       required: 'This field is required',
       phoneNumber: 'Error! Not a phone number!'
     });
 ```
-or as callback function:
+- Values are callback functions:
 ```js
     DomainReactForms.setValidationMessages({
       required: ({field}) => {
@@ -214,12 +234,12 @@ or as callback function:
       }
     });
 ```
-Where as argument there is an object which provides the following properties:
-  * values - the validation object
-  * field - the name of current field
-  * schema - the domain schema definition object
+Callback functions, in turn, get object with the following properties:
+  * ``values``  - the validation object
+  * ``field``   - the current field name
+  * ``schema``  - the domain schema definition object
 
-To add a custom validation message for **specific field**, define it in schema:
+We can also define a custom validation error message for a **specific field** right in the schema:
 ```js
     ...
     name = {
