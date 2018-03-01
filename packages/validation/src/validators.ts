@@ -1,10 +1,14 @@
 export const supportedValidators = {
   required: { createMsg: () => `Required` },
   match: { createMsg: ({ comparableField }) => `Should match field '${comparableField}'` },
-  maxLength: { createMsg: ({ max }) => `Must be ${max} characters or less` },
-  minLength: { createMsg: ({ min }) => `Must be ${min} characters or more` },
-  numberCheck: { createMsg: () => `Must be a number` },
-  minValue: { createMsg: ({ minVal }) => `Must be at least ${minVal}` },
+  max: {
+    createMsg: ({ maxVal, isString }) =>
+      isString ? `Must be ${maxVal} characters or less` : `Must be at most ${maxVal}`
+  },
+  min: {
+    createMsg: ({ minVal, isString }) =>
+      isString ? `Must be ${minVal} characters or more` : `Must be at least ${minVal}`
+  },
   email: { createMsg: () => `Invalid email address` },
   alphaNumeric: { createMsg: () => `Only alphanumeric characters` },
   phoneNumber: { createMsg: () => `Invalid phone number, must be 10 digits` },
@@ -25,21 +29,17 @@ const required = (value, msg?) => (context, schemaValue) =>
 const match = (value, msg?) => (context, comparableField) =>
   value !== context.values[comparableField] ? msg || pickMsg('match', { ...context, comparableField }) : undefined;
 
-// Max length validation
-const maxLength = (value, msg?) => (context, max) =>
-  value && value.length > max ? msg || pickMsg('maxLength', { ...context, max }) : undefined;
+// Min value/length validation
+const min = (value, msg?) => (context, minVal) =>
+  context.schema[context.field].type === String
+    ? value && value.length < minVal ? msg || pickMsg('min', { ...context, minVal, isString: true }) : undefined
+    : value && value < minVal ? msg || pickMsg('min', { ...context, minVal, isString: false }) : undefined;
 
-// Min length validation
-const minLength = (value, msg?) => (context, min) =>
-  value && value.length < min ? msg || pickMsg('minLength', { ...context, min }) : undefined;
-
-// Number validation
-const numberCheck = (value, msg?) => context =>
-  value && isNaN(Number(value)) ? msg || pickMsg('numberCheck', context) : undefined;
-
-// Minimum value validation
-const minValue = (value, msg?) => (context, minVal) =>
-  value && value < minValue ? msg || pickMsg('minValue', { ...context, minVal }) : undefined;
+// Max value/length validation
+const max = (value, msg?) => (context, maxVal) =>
+  context.schema[context.field].type === String
+    ? value && value.length > maxVal ? msg || pickMsg('max', { ...context, maxVal, isString: true }) : undefined
+    : value && value > maxVal ? msg || pickMsg('max', { ...context, maxVal, isString: false }) : undefined;
 
 // Email validation
 const email = (value, msg?) => context =>
@@ -68,10 +68,8 @@ export default {
   setValidationMsg,
   required,
   match,
-  maxLength,
-  minLength,
-  numberCheck,
-  minValue,
+  min,
+  max,
   email,
   alphaNumeric,
   phoneNumber,

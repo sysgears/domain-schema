@@ -14,6 +14,9 @@ yarn add @domain-schema/formik
 ## Usage 
 ### Example
 ```js
+import DomainSchema, { Schema } from '@domain-schema/core';
+import DomainReactForms, { FieldTypes } from '@domain-schema/formik';
+
 const userFormSchema = new DomainSchema(
   class User extends Schema {
     __ = { name: 'User' };
@@ -55,7 +58,7 @@ const userFormSchema = new DomainSchema(
         label: 'Password'
       },
       required: true,
-      minLength: 5
+      min: 5
     };
     passwordConfirmation = {
       type: String,
@@ -65,8 +68,6 @@ const userFormSchema = new DomainSchema(
         type: 'password',
         label: 'Password Confirmation'
       },
-      required: true,
-      minLength: 5,
       match: 'password'
     };
   }
@@ -115,18 +116,83 @@ const UserForm = userForm.generateForm(
 );
 ```
 
+### Supported field types
+  
+  TODO
+
+## Validation
+
 ### Built-in validators
 
-  * required - Non empty validation
-  * match - Match a particular field
-  * maxLength - Max length validation
-  * minLength - Min length validation
-  * numberCheck - Number validation
-  * minValue - Min value validation
-  * email - Email validation
-  * alphaNumeric - Alpha numeric validation
-  * phoneNumber - Phone number validation
-  * equals - Equals validation
+  * ```required``` - Checks that the value is a non empty value
+  ```js
+    name = {
+      ...
+      required: true,
+      ...
+    }
+  ```
+  * ```match``` - Checks that the value matches to the value of specified field
+  ```js
+    password = {
+      ...
+    };
+    passwordConfirmation = {
+      ...
+      match: 'password',
+      ...
+    }
+  ```
+  * ```max``` - Checks that the value or value length is not more than expected
+  ```js
+    // Check length when type is String
+    name = {
+      ...
+      type: String,
+      max: 6,
+      ...
+    }
+    // and value when type is Number
+    age = {
+      ...
+      type: Number,
+      max: 16,
+      ...
+    }
+  ```
+  * ```min``` - Checks that the value or value length is not less than expected. Works like ```max```
+  * ```email``` - Checks that the value is a plausible looking email address
+  ```js
+    name = {
+      ...
+      email: true,
+      ...
+    }
+  ```
+  * ```alphaNumeric``` - Checks that the value consists of alphanumeric characters 
+  ```js
+    text = {
+      ...
+      alphaNumeric: true,
+      ...
+    }
+  ```
+  * ```phoneNumber``` - Checks that the value is a valid phone number
+  ```js
+    phone = {
+      ...
+      phoneNumber: true,
+      ...
+    }
+  ```
+  * ```equals``` - Checks that the value equals to a specific value
+  ```js
+    role = {
+      ...
+      equals: 'admin',
+      ...
+    }
+  ```
 
 ### Customizing Validation Messages
 To set default messages to be used by all DomainReactForms instances use ``` setValidationMessages ``` function and pass on object with key as name of validator and value
@@ -134,7 +200,7 @@ as message:
 ```js
     DomainReactForms.setValidationMessages({
       required: 'This field is required',
-      numberCheck: 'Error! Not a number!'
+      phoneNumber: 'Error! Not a phone number!'
     });
 ```
 or as callback function:
@@ -143,8 +209,8 @@ or as callback function:
       required: ({field}) => {
         return `Field '${field}' is required`
       },
-      numberCheck: ({values, field}) => {
-        return `Error! '${values[field]}' is not a number`
+      phoneNumber: ({values, field}) => {
+        return `Error! '${values[field]}' is not a phone number`
       }
     });
 ```
