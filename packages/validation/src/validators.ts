@@ -1,6 +1,6 @@
 export const supportedValidators = {
   required: { createMsg: () => `Required` },
-  match: { createMsg: ({ comparableField }) => `Should match field '${comparableField}'` },
+  matches: { createMsg: ({ comparableField }) => `Should match field '${comparableField}'` },
   max: {
     createMsg: ({ maxVal, isString }) =>
       isString ? `Must be ${maxVal} characters or less` : `Must be at most ${maxVal}`
@@ -26,8 +26,8 @@ const required = (value, msg?) => (context, schemaValue) =>
   schemaValue && !value ? msg || pickMsg('required', { ...context, schemaValue }) : undefined;
 
 // Match a particular field
-const match = (value, msg?) => (context, comparableField) =>
-  value !== context.values[comparableField] ? msg || pickMsg('match', { ...context, comparableField }) : undefined;
+const matches = (value, msg?) => (context, comparableField) =>
+  value !== context.values[comparableField] ? msg || pickMsg('matches', { ...context, comparableField }) : undefined;
 
 // Min value/length validation
 const min = (value, msg?) => (context, minVal) =>
@@ -67,7 +67,7 @@ const pickMsg = (validator, context) =>
 export default {
   setValidationMsg,
   required,
-  match,
+  matches,
   min,
   max,
   email,

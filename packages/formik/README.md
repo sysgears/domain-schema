@@ -1,4 +1,4 @@
-## Domain Schema Auto React Forms
+## Domain Schema Auto React Forms with Formik
 
 [![npm version](https://badge.fury.io/js/domain-react-forms.svg)](https://badge.fury.io/js/domain-react-forms) [![Twitter Follow](https://img.shields.io/twitter/follow/sysgears.svg?style=social)](https://twitter.com/sysgears)
 
@@ -12,6 +12,7 @@ or
 yarn add @domain-schema/formik
 ```
 ## Usage 
+##### NOTE: The current version works properly for the web platform only. React Native forms support will be added soon. 
 ### Example
 ```js
 import DomainSchema, { Schema } from '@domain-schema/core';
@@ -68,7 +69,7 @@ const userFormSchema = new DomainSchema(
         type: 'password',
         label: 'Password Confirmation'
       },
-      match: 'password'
+      matches: 'password'
     };
   }
 );
@@ -118,7 +119,131 @@ const UserForm = userForm.generateForm(
 
 ### Supported field types
   
-  TODO
+  * ```input``` with types:
+    * text [default]  
+    * email
+    * password
+    * url
+    * number
+    * datetime
+    * date
+    * time
+    * color
+    * search
+    * file
+    * textarea
+  
+  All attributes like **name, label, className, etc.** can be specified in ```attrs``` prop.
+  ```js
+    email = {
+      ...
+      fieldType: FieldTypes.input,
+      attrs: {
+        type: 'email',
+        name: 'userEmail',
+        ...
+      }
+    }
+    post = {
+      ...
+      fieldType: FieldTypes.input,
+      attrs: {
+        type: 'textarea',
+        label: 'Post',
+        ...
+      }
+    }
+  ```
+  * ```checkbox```
+  ```js
+    active = {
+      ...
+      fieldType: FieldTypes.checkbox,
+      attrs: {
+        name: 'active',
+        label: 'Active',
+        ...
+      },
+      defaultValue: true
+    }
+  ```
+  * ```select``` Accepts options as ```values```
+  ```js
+    role = {
+      ...
+      fieldType: FieldTypes.select,
+      attrs: {
+        name: 'role',
+        label: 'User role',
+        values: ['user', 'admin'],
+        ...
+      }
+    }
+  ```
+  * ```radio``` Radios also can be define as ```values```
+  ```js
+    friend = {
+      ...
+      fieldType: FieldTypes.select,
+      attrs: {
+        name: 'friend',
+        label: 'Very best friend',
+        values: ['Gerald', 'Ashley'],
+        ...
+      }
+    }
+  ```
+  * ```button``` Label for buttons can be specified directly in ```label``` prop
+  ```js
+  btnSave = {
+    ...
+    fieldType: FieldTypes.button,
+    label: 'Save',
+    attrs: {
+      color: 'primary',
+      type: 'submit',
+      className: 'super-btn',
+      ...
+    }
+  }
+  ```  
+  Each field component except ```button```  has wrapper like that:
+  ```html
+    <FormGroup>
+      <Input />
+    </FormGroup>
+  ```
+  We can define classes for styling Input directly in attrs:
+  ```js
+    email = {
+      ...
+      fieldType: FieldTypes.input,
+      attrs: {
+        ...
+        className: 'user-email',
+        ...
+      }
+    }
+  ```
+  Also we can define classes for FormGroup element in ```fieldAttrs``` prop. It might be very useful for styling element position, etc.
+  ```js
+      email = {
+        ...
+        fieldType: FieldTypes.input,
+        fieldAttrs: {
+          className: 'user-email-wrapper',
+          ...
+        }
+      }
+  ```
+  All field types which has the value can accept ```defaultValue```.
+  ```js
+      name = {
+        ...
+        fieldType: FieldTypes.input,
+        defaultValue: 'User',
+      }
+  ```
 
 ## Validation
 
@@ -139,7 +264,7 @@ const UserForm = userForm.generateForm(
     };
     passwordConfirmation = {
       ...
-      match: 'password',
+      matches: 'password',
       ...
     }
   ```

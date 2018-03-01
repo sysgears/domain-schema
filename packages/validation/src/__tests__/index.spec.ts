@@ -18,12 +18,12 @@ describe('DomainValidator', () => {
         public pass = {
           type: String,
           required: true,
-          minLength: 5
+          min: 5
         };
         public confPass = {
           type: String,
           required: true,
-          match: 'pass'
+          matches: 'pass'
         };
       }
     );
@@ -57,7 +57,7 @@ describe('DomainValidator', () => {
         public id = DomainSchema.Int;
         public login = {
           type: String,
-          minLength: 3
+          min: 3
         };
         public profile = {
           type: Profile
