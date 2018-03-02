@@ -1,0 +1,102 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DomainFormik should generate simple form 1`] = `
+<form
+  className=""
+  name="User"
+>
+  <div
+    className="form-group"
+  >
+    <label
+      className=""
+      htmlFor={undefined}
+    >
+      Username
+    </label>
+    <input
+      checked={false}
+      className="form-control"
+      defaultChecked={undefined}
+      defaultValue={undefined}
+      disabled={undefined}
+      name="username"
+      onBlur={[Function]}
+      onChange={[Function]}
+      placeholder="Username"
+      type="text"
+      value="John"
+    />
+  </div>
+  <div
+    className="form-group"
+  >
+    <label
+      className=""
+      htmlFor={undefined}
+    >
+      Email
+    </label>
+    <input
+      checked={false}
+      className="form-control"
+      defaultChecked={undefined}
+      defaultValue={undefined}
+      disabled={undefined}
+      name="email"
+      onBlur={[Function]}
+      onChange={[Function]}
+      placeholder="Email"
+      type="email"
+      value=""
+    />
+  </div>
+  <div
+    className="form-group"
+  >
+    <label
+      className=""
+      htmlFor={undefined}
+    >
+      Email
+    </label>
+    <input
+      checked={false}
+      className="form-control"
+      defaultChecked={undefined}
+      defaultValue={undefined}
+      disabled={undefined}
+      name="pass"
+      onBlur={[Function]}
+      onChange={[Function]}
+      placeholder="Email"
+      type="password"
+      value=""
+    />
+  </div>
+  <div
+    className="form-check"
+  >
+    <label
+      className="form-check-label "
+      htmlFor={undefined}
+    >
+      <input
+        checked={true}
+        className="form-check-input"
+        defaultChecked={undefined}
+        defaultValue={undefined}
+        disabled={undefined}
+        name="isActive"
+        onBlur={[Function]}
+        onChange={[Function]}
+        placeholder="Is Active"
+        type="checkbox"
+        value=""
+      />
+       
+      Is Active
+    </label>
+  </div>
+</form>
+`;

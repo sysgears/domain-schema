@@ -113,7 +113,7 @@ const UserForm = userForm.generateForm(
   () => {
     // handle submit
   },
-  { name: 'user', className: 'my-form' }
+  { className: 'my-form' }
 );
 ```
 
@@ -133,7 +133,8 @@ const UserForm = userForm.generateForm(
     * file
     * textarea
   
-  All attributes like **name, label, className, etc.** can be specified in ```attrs``` prop.
+  Attributes like **placeholder, label, className, etc.** can be specified in ```attrs``` prop.
+  There also we can override attribute ```name``` that on default equals field name.
   ```js
     email = {
       ...
@@ -148,6 +149,7 @@ const UserForm = userForm.generateForm(
       ...
       fieldType: FieldTypes.input,
       attrs: {
+        placeholder: 'Your post',
         type: 'textarea',
         label: 'Post',
         ...
@@ -160,7 +162,7 @@ const UserForm = userForm.generateForm(
       ...
       fieldType: FieldTypes.checkbox,
       attrs: {
-        name: 'active',
+        ...
         label: 'Active',
         ...
       },
@@ -173,7 +175,6 @@ const UserForm = userForm.generateForm(
       ...
       fieldType: FieldTypes.select,
       attrs: {
-        name: 'role',
         label: 'User role',
         values: ['user', 'admin'],
         ...
@@ -186,7 +187,6 @@ const UserForm = userForm.generateForm(
       ...
       fieldType: FieldTypes.select,
       attrs: {
-        name: 'friend',
         label: 'Very best friend',
         values: ['Gerald', 'Ashley'],
         ...
@@ -244,6 +244,20 @@ const UserForm = userForm.generateForm(
         defaultValue: 'User',
       }
   ```
+  
+### Custom field generation
+
+We can use custom field, defining ```fieldType``` as ```FieldTypes.custom``` 
+and specified field component in ```component``` prop. All necessary props can be provided via ```attrs```.
+```js
+  myField = {
+    fieldType: FieldTypes.custom,
+    component: MyFieldComponent,
+    attrs: {
+      // all props that your component need
+    }
+  }
+```
 
 ## Validation
 
@@ -288,22 +302,22 @@ const UserForm = userForm.generateForm(
   ```
   * ```min``` - Checks if the value or value length not less then a specified number
   (works with both numbers and strings)
-    ```js
-      // Checks length if type is String...
-      name = {
-        ...
-        type: String,
-        min: 6,
-        ...
-      }
-      // ...and value when type is Number
-      age = {
-        ...
-        type: Number,
-        min: 16,
-        ...
-      }
-    ```
+  ```js
+    // Checks length if type is String...
+    name = {
+      ...
+      type: String,
+      min: 6,
+      ...
+    }
+    // ...and value when type is Number
+    age = {
+      ...
+      type: Number,
+      min: 16,
+      ...
+    }
+  ```
   * ```email``` - Checks if the value corresponds to an email
   ```js
     name = {

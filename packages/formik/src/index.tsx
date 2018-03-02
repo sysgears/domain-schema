@@ -69,7 +69,11 @@ export default class DomainReactForms {
         return collector;
       };
       const fields = generate(this.schema.values, null, result);
-      return <Form {...formAttrs}>{fields}</Form>;
+      return (
+        <Form name={this.schema.name} {...formAttrs}>
+          {fields}
+        </Form>
+      );
     });
   }
 
@@ -105,6 +109,7 @@ export default class DomainReactForms {
         key={field}
         value={value}
         parent={parent}
+        name={field}
         {...ctx.attrs}
         component={RenderField}
         options={ctx.fieldAttrs}
@@ -114,7 +119,15 @@ export default class DomainReactForms {
 
   private genSelect(ctx, value, field) {
     return (
-      <Field key={field} value={value} {...ctx.attrs} component={RenderSelect} type="select" options={ctx.fieldAttrs} />
+      <Field
+        key={field}
+        value={value}
+        name={field}
+        {...ctx.attrs}
+        component={RenderSelect}
+        type="select"
+        options={ctx.fieldAttrs}
+      />
     );
   }
 
@@ -123,6 +136,7 @@ export default class DomainReactForms {
       <Field
         key={field}
         checked={value}
+        name={field}
         {...ctx.attrs}
         component={RenderCheckBox}
         type="checkbox"
