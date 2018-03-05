@@ -2,6 +2,7 @@ import DomainSchema from '@domain-schema/core';
 import DomainValidator from '@domain-schema/validation';
 import { withFormik } from 'formik';
 import * as React from 'react';
+import AvailableAttrs from './availableAttrs';
 import { Button, Field, Form, RenderCheckBox, RenderField, RenderRadio, RenderSelect } from './components';
 import FieldTypes from './fieldTypes';
 
@@ -103,14 +104,25 @@ export default class DomainReactForms {
     return getValues(this.schema.values, initModel);
   }
 
-  private genInput(ctx, value, field, parent) {
+  private getAttrsFromSchema(fieldType: string, ctx: any) {
+    const attrs = {};
+    AvailableAttrs[fieldType].forEach(attr => {
+      if (ctx[attr]) {
+        attrs[attr] = ctx[attr];
+      }
+    });
+    return attrs;
+  }
+
+  private genInput(ctx: any, value: string | boolean, field: string, parent: any) {
+    const attrs = this.getAttrsFromSchema('input', ctx);
     return (
       <Field
         key={field}
         value={value}
         parent={parent}
         name={field}
-        {...ctx.attrs}
+        {...attrs}
         component={RenderField}
         options={ctx.fieldAttrs}
       />

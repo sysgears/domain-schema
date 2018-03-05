@@ -134,7 +134,8 @@ const UserForm = userForm.generateForm(
     * textarea
   
   Attributes like **placeholder, label, className, etc.** can be specified in ```attrs``` prop.
-  There also we can override attribute ```name``` that on default equals field name.
+  There also we can override attribute ```name``` that on default equals field name:
+       
   ```js
     email = {
       ...
@@ -181,7 +182,8 @@ const UserForm = userForm.generateForm(
       }
     }
   ```
-  * ```radio``` Radios also can be define as ```values```
+  * ```radio``` To specify radios, use the ```values``` attribute and provide
+  an array of strings or an array of objects, where each object has label and value properties.
   ```js
     friend = {
       ...

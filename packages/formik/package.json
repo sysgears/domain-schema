@@ -13,6 +13,7 @@
     "lint": "tslint -p tsconfig.json --fix -c ../../tslint.json",
     "tests": "jest",
     "test": "yarn tests && yarn lint",
+    "snap": "jest -u",
     "prepublishOnly": "yarn clean && yarn build"
   },
   "files": [

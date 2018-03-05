@@ -17,8 +17,6 @@ exports[`DomainFormik should generate simple form 1`] = `
     <input
       checked={false}
       className="form-control"
-      defaultChecked={undefined}
-      defaultValue={undefined}
       disabled={undefined}
       name="username"
       onBlur={[Function]}
@@ -40,8 +38,6 @@ exports[`DomainFormik should generate simple form 1`] = `
     <input
       checked={false}
       className="form-control"
-      defaultChecked={undefined}
-      defaultValue={undefined}
       disabled={undefined}
       name="email"
       onBlur={[Function]}
@@ -63,8 +59,6 @@ exports[`DomainFormik should generate simple form 1`] = `
     <input
       checked={false}
       className="form-control"
-      defaultChecked={undefined}
-      defaultValue={undefined}
       disabled={undefined}
       name="pass"
       onBlur={[Function]}
@@ -84,8 +78,6 @@ exports[`DomainFormik should generate simple form 1`] = `
       <input
         checked={true}
         className="form-check-input"
-        defaultChecked={undefined}
-        defaultValue={undefined}
         disabled={undefined}
         name="isActive"
         onBlur={[Function]}

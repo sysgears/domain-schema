@@ -7,12 +7,11 @@ export interface Props {
   component?: any;
   onChange?: any;
   onBlur?: any;
-  value?: string;
-  defaultValue?: string;
+  value?: string | boolean;
   checked?: boolean;
-  defaultChecked?: boolean;
   disabled?: boolean;
   parent?: any;
+  options?: any;
   className?: string;
 }
 
@@ -30,7 +29,7 @@ export default class Field extends Component {
 
   public render() {
     const { formik } = this.context;
-    const { component, name, defaultValue, defaultChecked, onChange, parent, onBlur, disabled, className } = this.props;
+    const { component, name, onChange, parent, onBlur, disabled, className } = this.props;
     let { value, checked } = this.props;
     value = value || '';
     checked = checked || false;
@@ -51,8 +50,6 @@ export default class Field extends Component {
       name,
       value,
       checked,
-      defaultValue,
-      defaultChecked,
       disabled,
       className
     };
