@@ -21,7 +21,7 @@ exports[`DomainFormik should generate simple form 1`] = `
       name="username"
       onBlur={[Function]}
       onChange={[Function]}
-      placeholder="Username"
+      placeholder="name"
       type="text"
       value="John"
     />

@@ -25,11 +25,9 @@ const userFormSchema = new DomainSchema(
     username = {
       type: String,
       fieldType: FieldTypes.input,
-      attrs: {
-        type: 'text',
-        name: 'username',
-        label: 'Username'
-      },
+      inputType: 'text',
+      name: 'name',
+      label: 'Username',
       defaultValue: 'User',
       required: true,
       validators: [(value) => {
@@ -39,11 +37,9 @@ const userFormSchema = new DomainSchema(
     email = {
       type: String,
       fieldType: FieldTypes.input,
-      attrs: {
-        name: 'email',
-        type: 'email',
-        label: 'Email'
-      },
+      inputType: 'email',
+      label: 'Email',
+      placeholder: 'User email'
       required: true,
       email: true
     };
@@ -53,22 +49,16 @@ const userFormSchema = new DomainSchema(
     password = {
       type: String,
       fieldType: FieldTypes.input,
-      attrs: {
-        name: 'password',
-        type: 'password',
-        label: 'Password'
-      },
+      inputType: 'password',
+      label: 'Password',
       required: true,
       min: 5
     };
     passwordConfirmation = {
       type: String,
       fieldType: FieldTypes.input,
-      attrs: {
-        name: 'passwordConfirmation',
-        type: 'password',
-        label: 'Password Confirmation'
-      },
+      inputType: 'password',
+      label: 'Password Confirmation',
       matches: 'password'
     };
   }
@@ -78,11 +68,7 @@ class Profile extends Schema {
   firstName = {
     type: String,
     fieldType: FieldTypes.input,
-    attrs: {
-      name: 'firstName',
-      type: 'text',
-      label: 'First Name'
-    },
+    label: 'First Name',
     required: {
       value: true,
       msg: 'Required First Name'
@@ -91,11 +77,7 @@ class Profile extends Schema {
   lastName = {
       type: String,
       fieldType: FieldTypes.input,
-      attrs: {
-        name: 'lastName',
-        type: 'text',
-        label: 'Last Name'
-      },
+      label: 'Last Name',
       required: true
   };
 };

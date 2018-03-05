@@ -12,33 +12,26 @@ describe('DomainFormik', () => {
         public username = {
           type: String,
           fieldType: FieldTypes.input,
-          attrs: {
-            label: 'Username'
-          },
+          label: 'Username',
+          placeholder: 'name',
           defaultValue: 'John'
         };
         public email = {
           type: String,
           fieldType: FieldTypes.input,
-          attrs: {
-            type: 'email',
-            label: 'Email'
-          }
+          inputType: 'email',
+          label: 'Email'
         };
         public pass = {
           type: String,
           fieldType: FieldTypes.input,
-          attrs: {
-            type: 'password',
-            label: 'Email'
-          }
+          inputType: 'password',
+          label: 'Email'
         };
         public isActive = {
           type: String,
           fieldType: FieldTypes.checkbox,
-          attrs: {
-            label: 'Is Active'
-          },
+          label: 'Is Active',
           defaultValue: true
         };
       }

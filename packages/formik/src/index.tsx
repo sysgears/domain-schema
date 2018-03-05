@@ -104,8 +104,8 @@ export default class DomainReactForms {
     return getValues(this.schema.values, initModel);
   }
 
-  private getAttrsFromSchema(fieldType: string, ctx: any) {
-    const attrs = {};
+  private getAttrsFromSchema(fieldType: string, ctx: any): any {
+    const attrs: any = {};
     AvailableAttrs[fieldType].forEach(attr => {
       if (ctx[attr]) {
         attrs[attr] = ctx[attr];
@@ -116,6 +116,7 @@ export default class DomainReactForms {
 
   private genInput(ctx: any, value: string | boolean, field: string, parent: any) {
     const attrs = this.getAttrsFromSchema('input', ctx);
+    attrs.type = ctx.inputType || 'text';
     return (
       <Field
         key={field}
@@ -130,12 +131,13 @@ export default class DomainReactForms {
   }
 
   private genSelect(ctx, value, field) {
+    const attrs = this.getAttrsFromSchema('select', ctx);
     return (
       <Field
         key={field}
         value={value}
         name={field}
-        {...ctx.attrs}
+        {...attrs}
         component={RenderSelect}
         type="select"
         options={ctx.fieldAttrs}
@@ -144,12 +146,13 @@ export default class DomainReactForms {
   }
 
   private genCheck(ctx, value, field) {
+    const attrs = this.getAttrsFromSchema('checkbox', ctx);
     return (
       <Field
         key={field}
         checked={value}
         name={field}
-        {...ctx.attrs}
+        {...attrs}
         component={RenderCheckBox}
         type="checkbox"
         options={ctx.fieldAttrs}
@@ -166,9 +169,8 @@ export default class DomainReactForms {
   }
 
   private genRadio(ctx, value, field) {
-    return (
-      <Field key={field} value={value} {...ctx.attrs} component={RenderRadio} type="radio" options={ctx.fieldAttrs} />
-    );
+    const attrs = this.getAttrsFromSchema('radio', ctx);
+    return <Field key={field} value={value} {...attrs} component={RenderRadio} type="radio" options={ctx.fieldAttrs} />;
   }
 
   private genCustomField(ctx, value, field) {
