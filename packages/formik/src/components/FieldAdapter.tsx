@@ -13,6 +13,7 @@ export interface Props {
   parent?: any;
   options?: any;
   className?: string;
+  custom?: any;
 }
 
 export default class Field extends Component {
@@ -29,7 +30,7 @@ export default class Field extends Component {
 
   public render() {
     const { formik } = this.context;
-    const { component, name, onChange, parent, onBlur, disabled, className } = this.props;
+    const { component, name, onChange, parent, onBlur, disabled, className, custom } = this.props;
     let { value, checked } = this.props;
     value = value || '';
     checked = checked || false;
@@ -51,7 +52,8 @@ export default class Field extends Component {
       value,
       checked,
       disabled,
-      className
+      className,
+      ...custom
     };
 
     return React.createElement(component, {

@@ -5,11 +5,11 @@
 ## Installation
 
 ```bash
-npm install @domain-schema/formik
+yarn add @domain-schema/formik @domain-schema/core @domain-schema/validation
 ```
 or
 ```bash
-yarn add @domain-schema/formik
+npm install @domain-schema/formik @domain-schema/core @domain-schema/validation
 ```
 ## Usage 
 ##### NOTE: The current version works properly for the web platform only. React Native forms support will be added soon. 
@@ -30,16 +30,18 @@ const userFormSchema = new DomainSchema(
       label: 'Username',
       defaultValue: 'User',
       required: true,
-      validators: [(value) => {
-        return value.length > 3 ? undefined : 'Must Be more than 3 characters';
-      }]
+      validators: [
+        value => {
+          return value.length > 3 ? undefined : 'Must Be more than 3 characters';
+        }
+      ]
     };
     email = {
       type: String,
       fieldType: FieldTypes.input,
       inputType: 'email',
       label: 'Email',
-      placeholder: 'User email'
+      placeholder: 'User email',
       required: true,
       email: true
     };
@@ -75,10 +77,10 @@ class Profile extends Schema {
     }
   };
   lastName = {
-      type: String,
-      fieldType: FieldTypes.input,
-      label: 'Last Name',
-      required: true
+    type: String,
+    fieldType: FieldTypes.input,
+    label: 'Last Name',
+    required: true
   };
 };
 

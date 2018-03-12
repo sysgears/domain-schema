@@ -116,9 +116,10 @@ export default class DomainReactForms {
     });
     // check custom attributes
     if (ctx.attributes && ctx.attributes.length > 0) {
+      attrs.custom = {};
       ctx.attributes.forEach(attr => {
         if (ctx[attr]) {
-          attrs[attr] = ctx[attr];
+          attrs.custom[attr] = ctx[attr];
         }
       });
     }

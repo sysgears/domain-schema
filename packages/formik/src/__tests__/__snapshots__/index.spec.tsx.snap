@@ -1,5 +1,227 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`DomainFormik should generate complex form 1`] = `
+<form
+  className=""
+  name="User"
+>
+  <div
+    className="form-group"
+  >
+    <label
+      className=""
+      htmlFor={undefined}
+    >
+      Username
+    </label>
+    <input
+      checked={false}
+      className="form-control"
+      disabled={undefined}
+      name="name"
+      onBlur={[Function]}
+      onChange={[Function]}
+      placeholder="Username"
+      type="text"
+      value="User"
+    />
+  </div>
+  <div
+    className="form-group"
+  >
+    <label
+      className=""
+      htmlFor={undefined}
+    >
+      Email
+    </label>
+    <input
+      checked={false}
+      className="form-control"
+      disabled={undefined}
+      name="email"
+      onBlur={[Function]}
+      onChange={[Function]}
+      placeholder="User email"
+      type="email"
+      value=""
+    />
+  </div>
+  <div
+    className="form-group"
+  >
+    <label
+      className=""
+      htmlFor={undefined}
+    >
+      First Name
+    </label>
+    <input
+      checked={false}
+      className="form-control"
+      disabled={undefined}
+      name="firstName"
+      onBlur={[Function]}
+      onChange={[Function]}
+      placeholder="First Name"
+      type="text"
+      value=""
+    />
+  </div>
+  <div
+    className="form-group"
+  >
+    <label
+      className=""
+      htmlFor={undefined}
+    >
+      Last Name
+    </label>
+    <input
+      checked={false}
+      className="form-control"
+      disabled={undefined}
+      name="lastName"
+      onBlur={[Function]}
+      onChange={[Function]}
+      placeholder="Last Name"
+      type="text"
+      value=""
+    />
+  </div>
+  <div
+    className="form-group"
+  >
+    <label
+      className=""
+      htmlFor={undefined}
+    >
+      Password
+    </label>
+    <input
+      checked={false}
+      className="form-control"
+      disabled={undefined}
+      name="password"
+      onBlur={[Function]}
+      onChange={[Function]}
+      placeholder="Password"
+      type="password"
+      value=""
+    />
+  </div>
+  <div
+    className="form-group"
+  >
+    <label
+      className=""
+      htmlFor={undefined}
+    >
+      Password Confirmation
+    </label>
+    <input
+      checked={false}
+      className="form-control"
+      disabled={undefined}
+      name="passwordConfirmation"
+      onBlur={[Function]}
+      onChange={[Function]}
+      placeholder="Password Confirmation"
+      type="password"
+      value=""
+    />
+  </div>
+</form>
+`;
+
+exports[`DomainFormik should generate form with custom attributes 1`] = `
+<form
+  className=""
+  name="User"
+>
+  <div
+    className="form-group"
+  >
+    <label
+      className=""
+      htmlFor={undefined}
+    >
+      Username
+    </label>
+    <input
+      checked={false}
+      className="form-control"
+      disabled={undefined}
+      name="name"
+      onBlur={[Function]}
+      onChange={[Function]}
+      placeholder="Username"
+      type="email"
+      value="User"
+    />
+  </div>
+  <div
+    className="form-group"
+  >
+    <label
+      className=""
+      htmlFor={undefined}
+    >
+      Secret field
+    </label>
+    <input
+      checked={false}
+      className="form-control"
+      disabled={undefined}
+      hidden={true}
+      name="secret"
+      onBlur={[Function]}
+      onChange={[Function]}
+      placeholder="Secret field"
+      type="text"
+      value=""
+    />
+  </div>
+</form>
+`;
+
+exports[`DomainFormik should generate form with custom field 1`] = `
+<form
+  className=""
+  name="User"
+>
+  <div
+    className="form-group"
+  >
+    <label
+      className=""
+      htmlFor={undefined}
+    >
+      Username
+    </label>
+    <input
+      checked={false}
+      className="form-control"
+      disabled={undefined}
+      name="name"
+      onBlur={[Function]}
+      onChange={[Function]}
+      placeholder="Username"
+      type="text"
+      value="User"
+    />
+  </div>
+  <div>
+    <input
+      className="my-awesome-field"
+      name="myfield"
+      placeholder="User Field"
+      value="my field"
+    />
+  </div>
+</form>
+`;
+
 exports[`DomainFormik should generate simple form 1`] = `
 <form
   className=""
