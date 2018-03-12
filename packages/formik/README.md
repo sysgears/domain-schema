@@ -101,112 +101,140 @@ const UserForm = userForm.generateForm(
 
 ### Supported field types
   
-  * ```input``` with types:
-    * text [default]  
-    * email
-    * password
-    * url
-    * number
-    * datetime
-    * date
-    * time
-    * color
-    * search
-    * file
-    * textarea
-  
-  Attributes like **placeholder, label, className, etc.** can be specified in ```attrs``` prop.
-  There also we can override attribute ```name``` that on default equals field name:
+  * ```input``` with the next supported attributes:
+    * name - on default equals field name
+    * label
+    * placeholder
+    * inputType - can be one of the following:
+      * text [default]  
+      * email
+      * password
+      * url
+      * number
+      * datetime
+      * date
+      * time
+      * color
+      * search
+      * file
+      * textarea
+    * className
+    * disabled
+    * onChange
+    * onBlur
+    * defaultValue
        
   ```js
     email = {
       ...
       fieldType: FieldTypes.input,
-      attrs: {
-        type: 'email',
-        name: 'userEmail',
-        ...
-      }
+      inputType: 'email',
+      name: 'userEmail',
+      ...
     }
     post = {
       ...
       fieldType: FieldTypes.input,
-      attrs: {
-        placeholder: 'Your post',
-        type: 'textarea',
-        label: 'Post',
-        ...
-      }
+      placeholder: 'Your post',
+      inputType: 'textarea',
+      label: 'Post',
+      ...
     }
   ```
-  * ```checkbox```
+  * ```checkbox``` with attributes:
+    * name
+    * label
+    * className
+    * disabled
+    * onChange
+    * onBlur
+    * defaultValue - false, if not specified
+
   ```js
     active = {
       ...
       fieldType: FieldTypes.checkbox,
-      attrs: {
-        ...
-        label: 'Active',
-        ...
-      },
+      label: 'Active',
       defaultValue: true
     }
   ```
-  * ```select``` Accepts options as ```values```
+
+  * ```select``` with attributes:
+    * name
+    * label
+    * values - options for select, can be specified as an array of strings or an array of objects, where each object has label and value properties
+    * className
+    * disabled
+    * onChange
+    * onBlur
+    * defaultValue
+
   ```js
     role = {
       ...
       fieldType: FieldTypes.select,
-      attrs: {
-        label: 'User role',
-        values: ['user', 'admin'],
-        ...
-      }
+      label: 'User role',
+      values: ['user', 'admin'],
+      ...
     }
   ```
-  * ```radio``` To specify radios, use the ```values``` attribute and provide
-  an array of strings or an array of objects, where each object has label and value properties.
+
+  * ```radio``` with attributes:
+    * name
+    * label
+    * values - values for radios, can be specified as an array of strings or an array of objects, where each object has label and value properties
+    * className
+    * disabled
+    * onChange
+    * onBlur
+    * defaultValue
+
   ```js
     friend = {
       ...
       fieldType: FieldTypes.select,
-      attrs: {
-        label: 'Very best friend',
-        values: ['Gerald', 'Ashley'],
-        ...
-      }
+      label: 'Very best friend',
+      values: ['Gerald', 'Ashley'],
+      ...
     }
   ```
-  * ```button``` Label for buttons can be specified directly in ```label``` prop
+
+  * ```button``` with attributes:
+    * label
+    * className
+    * btnType - 'submit' on default
+    * disabled - on default depends on form's validity
+
   ```js
   btnSave = {
     ...
     fieldType: FieldTypes.button,
     label: 'Save',
-    attrs: {
-      color: 'primary',
-      type: 'submit',
-      className: 'super-btn',
-      ...
-    }
+    type: 'submit',
+    className: 'super-btn',
+    ...
   }
+  ```
+  If we don't need to stylize the button, we can simple specify a ```submitLabel``` in schema ```__``` prop. In this case we do not need to specify the button as a field in schema.
+  ```js
+    class User extends Schema {
+      __ = { name: 'User', submitLabel: 'Save' };
+      ...
   ```  
+
   Each field component except ```button```  has wrapper like that:
   ```html
     <FormGroup>
       <Input />
     </FormGroup>
   ```
-  We can define classes for styling Input directly in attrs:
+  We can define classes for styling Input directly in field object:
   ```js
     email = {
       ...
       fieldType: FieldTypes.input,
-      attrs: {
-        ...
-        className: 'user-email',
-        ...
-      }
+      className: 'user-email',
+      ...
     }
   ```
   Also we can define classes for FormGroup element in ```fieldAttrs``` prop. It might be very useful for styling element position, etc.
@@ -220,14 +248,21 @@ const UserForm = userForm.generateForm(
         }
       }
   ```
-  All field types which has the value can accept ```defaultValue```.
-  ```js
-      name = {
-        ...
-        fieldType: FieldTypes.input,
-        defaultValue: 'User',
-      }
-  ```
+
+### Custom attributes
+
+We can define our own attributes, but we need to pass their names in ```attributes``` property, like that:
+
+```js
+  btnSave = {
+    type: String,
+    fieldType: FieldTypes.button,
+    label: 'Save',
+    className: 'super-btn',
+    color: 'primary',
+    attributes: ['color']
+  };
+```
   
 ### Custom field generation
 
@@ -367,6 +402,7 @@ We can also define a custom validation error message for a **specific field** ri
     ...
     name = {
         type: String,
+        ...
         required: {
           value: true,
           msg: 'Required Name'
@@ -382,6 +418,7 @@ property of a schema field:
 ```js
     password = {
         type: String,
+        ...
         required: true,
         validators: [(value, values) => {
           return value.length > 3 ? undefined : 'Must Be more than 3 characters';

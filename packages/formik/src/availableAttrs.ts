@@ -3,5 +3,5 @@ export default {
   select: ['name', 'label', 'values', 'className', 'disabled', 'onChange', 'onBlur', 'defaultValue'],
   checkbox: ['name', 'label', 'className', 'disabled', 'onChange', 'onBlur', 'defaultValue'],
   radio: ['name', 'label', 'values', 'className', 'disabled', 'onChange', 'onBlur', 'defaultValue'],
-  button: ['label', 'className', 'disabled']
+  button: ['label', 'type', 'className', 'disabled']
 };

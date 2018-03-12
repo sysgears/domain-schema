@@ -70,6 +70,9 @@ export default class DomainReactForms {
         return collector;
       };
       const fields = generate(this.schema.values, null, result);
+      if (this.schema.__.submitLabel) {
+        fields.push(this.genButton({ label: this.schema.__.submitLabel }, 'submit', isValid));
+      }
       return (
         <Form name={this.schema.name} {...formAttrs}>
           {fields}
@@ -111,6 +114,14 @@ export default class DomainReactForms {
         attrs[attr] = ctx[attr];
       }
     });
+    // check custom attributes
+    if (ctx.attributes && ctx.attributes.length > 0) {
+      ctx.attributes.forEach(attr => {
+        if (ctx[attr]) {
+          attrs[attr] = ctx[attr];
+        }
+      });
+    }
     return attrs;
   }
 
@@ -161,8 +172,10 @@ export default class DomainReactForms {
   }
 
   private genButton(ctx, field, valid) {
+    const attrs = this.getAttrsFromSchema('button', ctx);
+    attrs.type = ctx.btnType || 'submit';
     return (
-      <Button key={field} disabled={!valid} {...ctx.attrs}>
+      <Button key={field} disabled={!valid} {...attrs}>
         {ctx.label}
       </Button>
     );
