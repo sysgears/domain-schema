@@ -34,7 +34,6 @@
     "prop-types": "^15.6.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
-    "react-test-renderer": "^16.2.0",
     "reactstrap": "^5.0.0-beta",
     "ts-jest": "^21.2.1",
     "tslint": "^5.2.0",
@@ -71,5 +70,8 @@
   "dependencies": {
     "debug": "^3.1.0",
     "formik": "^0.11.11"
+  },
+  "optionalDependencies": {
+    "react-test-renderer": "^16.2.0"
   }
 }

@@ -4,15 +4,12 @@ import Option from './Option';
 
 export interface Props {
   input?: any;
-  label?: string;
-  multiple?: boolean;
-  type?: string;
   meta?: any;
-  values?: any[];
   options?: any;
 }
 
-const RenderSelect = ({ input, label, options, multiple, values, type, meta: { touched, error } }: Props) => {
+const RenderSelect = ({ input, options, meta: { touched, error } }: Props) => {
+  const { label, values } = input;
   let className = '';
   if (touched && error) {
     className = 'invalid-select';
@@ -21,7 +18,7 @@ const RenderSelect = ({ input, label, options, multiple, values, type, meta: { t
   return (
     <FormGroup {...options}>
       {label && <Label>{label}</Label>}
-      <Input className={className} {...input} type={type} multiple={multiple}>
+      <Input className={className} {...input}>
         {values.map(option => {
           return option.value ? (
             <Option key={option.value} value={option.value}>

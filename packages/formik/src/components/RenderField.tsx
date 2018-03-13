@@ -11,7 +11,8 @@ export interface Props {
   placeholder?: string;
 }
 
-const RenderField = ({ input, label, options, type, placeholder, meta: { touched, error }, children }: Props) => {
+const RenderField = ({ input, options, meta: { touched, error }, children }: Props) => {
+  const { label, placeholder } = input;
   let valid = null;
   if (touched && error) {
     valid = false;
@@ -20,7 +21,7 @@ const RenderField = ({ input, label, options, type, placeholder, meta: { touched
   return (
     <FormGroup {...options}>
       {label && <Label>{label}</Label>}
-      <Input {...input} placeholder={placeholder || label || ''} type={type} valid={valid}>
+      <Input {...input} placeholder={placeholder || label || ''} valid={valid}>
         {children}
       </Input>
       {touched && (error && <FormFeedback>{error}</FormFeedback>)}

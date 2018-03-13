@@ -9,11 +9,10 @@ export interface Props {
   onBlur?: any;
   value?: string | boolean;
   checked?: boolean;
-  disabled?: boolean;
+  fieldType?: string;
   parent?: any;
   options?: any;
-  className?: string;
-  custom?: any;
+  attrs?: any;
 }
 
 export default class Field extends Component {
@@ -30,7 +29,8 @@ export default class Field extends Component {
 
   public render() {
     const { formik } = this.context;
-    const { component, name, onChange, parent, onBlur, disabled, className, custom } = this.props;
+    const { component, parent, attrs, fieldType } = this.props;
+    const { name, onChange, onBlur, type } = attrs;
     let { value, checked } = this.props;
     value = value || '';
     checked = checked || false;
@@ -50,10 +50,9 @@ export default class Field extends Component {
       onBlur: onBlur ? onBlur : formik.handleBlur,
       name,
       value,
+      type: type || fieldType,
       checked,
-      disabled,
-      className,
-      ...custom
+      ...attrs
     };
 
     return React.createElement(component, {
