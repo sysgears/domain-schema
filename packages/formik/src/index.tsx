@@ -11,7 +11,7 @@ export default class DomainReactForms {
   private configFormik = {
     mapPropsToValues: () => this.getValuesFromSchema(),
     handleSubmit: this.handleSubmit,
-    validate: values => this.validate(values)
+    validate: (values: any) => this.validate(values)
   };
 
   constructor(private schema: DomainSchema) {}
@@ -20,14 +20,13 @@ export default class DomainReactForms {
     return DomainValidator.validate(formValues, this.schema);
   }
 
-  public generateForm(handleSubmit, formAttrs?: any) {
+  public generateForm(handleSubmit: any, formAttrs?: any) {
     return withFormik(this.configFormik)(({ values, isValid }) => {
       this.handleSubmit = handleSubmit;
-      const result = [];
-      const generate = (schema, parent, collector) => {
+      const generate = (schema: DomainSchema, parent: any, collector: any[]) => {
         Object.keys(schema)
           .filter(schemaProp => schema.hasOwnProperty(schemaProp))
-          .forEach(fieldName => {
+          .forEach((fieldName: string) => {
             if (fieldName === 'id' || fieldName === 'buttons') {
               return;
             }
@@ -67,7 +66,7 @@ export default class DomainReactForms {
           });
         return collector;
       };
-      const formElements = generate(this.schema.values, null, result);
+      const formElements = generate(this.schema.values, null, []);
       formElements.push(this.genButtons(this.schema.__.buttons, isValid));
       return (
         <Form name={this.schema.name} {...formAttrs}>
@@ -77,16 +76,15 @@ export default class DomainReactForms {
     });
   }
 
-  public static setValidationMessages(messages) {
+  public static setValidationMessages(messages: any) {
     DomainValidator.setValidationMessages(messages);
   }
 
   private getValuesFromSchema() {
-    const initModel = {};
-    const getValues = (schema, model) => {
+    const getValues = (schema: any, model: any) => {
       Object.keys(schema)
         .filter(schemaProp => schema.hasOwnProperty(schemaProp))
-        .forEach(fieldName => {
+        .forEach((fieldName: string) => {
           if (fieldName === 'id') {
             return;
           }
@@ -100,10 +98,10 @@ export default class DomainReactForms {
         });
       return model;
     };
-    return getValues(this.schema.values, initModel);
+    return getValues(this.schema.values, {});
   }
 
-  private genInput(ctx: any, value: string | boolean, field: string, parent: any) {
+  private genInput(ctx: any, value: string, field: string, parent: any) {
     return (
       <Field
         key={field}
@@ -117,7 +115,7 @@ export default class DomainReactForms {
     );
   }
 
-  private genSelect(ctx, value, field) {
+  private genSelect(ctx: any, value: string, field: string) {
     return (
       <Field
         key={field}
@@ -131,7 +129,7 @@ export default class DomainReactForms {
     );
   }
 
-  private genCheck(ctx, value, field) {
+  private genCheck(ctx: any, value: boolean, field: string) {
     return (
       <Field
         key={field}
@@ -159,7 +157,7 @@ export default class DomainReactForms {
     );
   }
 
-  private genRadio(ctx, value, field) {
+  private genRadio(ctx: any, value: string, field: string) {
     return (
       <Field
         key={field}
@@ -173,7 +171,7 @@ export default class DomainReactForms {
     );
   }
 
-  private genCustomField(ctx, value, field) {
+  private genCustomField(ctx: any, value: any, field: string) {
     return (
       <Field
         key={field}

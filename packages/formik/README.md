@@ -25,9 +25,11 @@ const userFormSchema = new DomainSchema(
     username = {
       type: String,
       fieldType: FieldTypes.input,
-      inputType: 'text',
-      name: 'name',
-      label: 'Username',
+      input: {
+        type: 'text',
+        name: 'name',
+        label: 'Username'
+      },
       defaultValue: 'User',
       required: true,
       validators: [
@@ -39,9 +41,11 @@ const userFormSchema = new DomainSchema(
     email = {
       type: String,
       fieldType: FieldTypes.input,
-      inputType: 'email',
-      label: 'Email',
-      placeholder: 'User email',
+      input: {
+        inputType: 'email',
+        label: 'Email',
+        placeholder: 'User email'
+      },
       required: true,
       email: true
     };
@@ -51,16 +55,20 @@ const userFormSchema = new DomainSchema(
     password = {
       type: String,
       fieldType: FieldTypes.input,
-      inputType: 'password',
-      label: 'Password',
+      input: {
+        inputType: 'password',
+        label: 'Password',
+      },
       required: true,
       min: 5
     };
     passwordConfirmation = {
       type: String,
       fieldType: FieldTypes.input,
-      inputType: 'password',
-      label: 'Password Confirmation',
+      input: {
+        type: 'password',
+        label: 'Password Confirmation',
+      },
       matches: 'password'
     };
   }
@@ -70,7 +78,9 @@ class Profile extends Schema {
   firstName = {
     type: String,
     fieldType: FieldTypes.input,
-    label: 'First Name',
+    input: {
+      label: 'First Name'
+    }
     required: {
       value: true,
       msg: 'Required First Name'
@@ -79,7 +89,9 @@ class Profile extends Schema {
   lastName = {
     type: String,
     fieldType: FieldTypes.input,
-    label: 'Last Name',
+    input: {
+      label: 'Last Name'
+    },
     required: true
   };
 };
@@ -103,139 +115,99 @@ const UserForm = userForm.generateForm(
 
 ### Supported field types
   
-  * ```input``` with the next supported attributes:
-    * name - on default equals field name
-    * label
-    * placeholder
-    * inputType - can be one of the following:
-      * text [default]  
-      * email
-      * password
-      * url
-      * number
-      * datetime
-      * date
-      * time
-      * color
-      * search
-      * file
-      * textarea
-    * className
-    * disabled
-    * onChange
-    * onBlur
-    * defaultValue
+  * ```input``` with the next supported types:
+    * text [default]  
+    * email
+    * password
+    * url
+    * number
+    * datetime
+    * date
+    * time
+    * color
+    * search
+    * file
+    * textarea
        
   ```js
     email = {
       ...
       fieldType: FieldTypes.input,
-      inputType: 'email',
-      name: 'userEmail',
+      input: {
+        type: 'email',
+        name: 'userEmail'
+      }
       ...
     }
     post = {
       ...
       fieldType: FieldTypes.input,
-      placeholder: 'Your post',
-      inputType: 'textarea',
-      label: 'Post',
+      input: {
+        placeholder: 'Your post',
+        type: 'textarea',
+        label: 'Post'
+      }
       ...
     }
   ```
-  * ```checkbox``` with attributes:
-    * name
-    * label
-    * className
-    * disabled
-    * onChange
-    * onBlur
+  * ```checkbox```
     * defaultValue - false, if not specified
 
   ```js
     active = {
       ...
       fieldType: FieldTypes.checkbox,
-      label: 'Active',
+      input: {
+        label: 'Active'
+      },
       defaultValue: true
     }
   ```
 
-  * ```select``` with attributes:
-    * name
-    * label
+  * ```select```
     * values - options for select, can be specified as an array of strings or an array of objects, where each object has label and value properties
-    * className
-    * disabled
-    * onChange
-    * onBlur
-    * defaultValue
 
   ```js
     role = {
       ...
       fieldType: FieldTypes.select,
-      label: 'User role',
-      values: ['user', 'admin'],
+      input: {
+        label: 'User role',
+        values: ['user', 'admin']
+      }
       ...
     }
   ```
 
-  * ```radio``` with attributes:
-    * name
-    * label
+  * ```radio``` 
     * values - values for radios, can be specified as an array of strings or an array of objects, where each object has label and value properties
-    * className
-    * disabled
-    * onChange
-    * onBlur
-    * defaultValue
 
   ```js
     friend = {
       ...
       fieldType: FieldTypes.select,
-      label: 'Very best friend',
-      values: ['Gerald', 'Ashley'],
+      input: {
+        label: 'Very best friend',
+        values: ['Gerald', 'Ashley']
+      },
       ...
     }
-  ```
+  ``` 
 
-  * ```button``` with attributes:
-    * label
-    * className
-    * btnType - 'submit' on default
-    * disabled - on default depends on form's validity
-
-  ```js
-  btnSave = {
-    ...
-    fieldType: FieldTypes.button,
-    label: 'Save',
-    type: 'submit',
-    className: 'super-btn',
-    ...
-  }
-  ```
-  If we don't need to stylize the button, we can simple specify a ```submitLabel``` in schema ```__``` prop. In this case we do not need to specify the button as a field in schema.
-  ```js
-    class User extends Schema {
-      __ = { name: 'User', submitLabel: 'Save' };
-      ...
-  ```  
-
-  Each field component except ```button```  has wrapper like that:
+  Each field component has wrapper like that:
   ```html
     <FormGroup>
       <Input />
     </FormGroup>
   ```
-  We can define classes for styling Input directly in field object:
+  We can define classes for styling Input directly in className prop:
   ```js
     email = {
       ...
       fieldType: FieldTypes.input,
-      className: 'user-email',
+      input: {
+        className: 'user-email'
+      },
       ...
     }
   ```
@@ -250,21 +222,6 @@ const UserForm = userForm.generateForm(
         }
       }
   ```
-
-### Custom attributes
-
-We can define our own attributes, but we need to pass their names in ```attributes``` property, like that:
-
-```js
-  btnSave = {
-    type: String,
-    fieldType: FieldTypes.button,
-    label: 'Save',
-    className: 'super-btn',
-    color: 'primary',
-    attributes: ['color']
-  };
-```
   
 ### Custom field generation
 
@@ -274,8 +231,8 @@ and specified field component in ```component``` prop. All necessary props can b
   myField = {
     fieldType: FieldTypes.custom,
     component: MyFieldComponent,
-    attrs: {
-      // all props that your component need
+    input: {
+      // all props that your component may need
     }
   }
 ```

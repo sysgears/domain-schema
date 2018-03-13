@@ -40,7 +40,7 @@ export default class Field extends Component<Props, {}> {
                 ...parent.value,
                 [name]: e.target.value
               })
-          : (onChange ? onChange : handleChange),
+          : onChange ? onChange : handleChange,
       onBlur: onBlur ? onBlur : handleBlur,
       value: value || '',
       type: type || fieldType,
