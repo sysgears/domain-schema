@@ -15,7 +15,7 @@ export interface Props {
   attrs?: any;
 }
 
-export default class Field extends Component {
+export default class Field extends Component<Props, {}> {
   public static contextTypes = {
     formik: PropTypes.object
   };
@@ -28,31 +28,29 @@ export default class Field extends Component {
   }
 
   public render() {
-    const { formik } = this.context;
-    const { component, parent, attrs, fieldType } = this.props;
+    const { formik: { setFieldValue, handleChange, handleBlur, touched, errors } } = this.context;
+    const { component, parent, attrs, fieldType, value, checked } = this.props;
     const { name, onChange, onBlur, type } = attrs;
-    let { value, checked } = this.props;
-    value = value || '';
-    checked = checked || false;
-    const meta = {
-      touched: formik.touched[name],
-      error: formik.errors[name]
-    };
+
     const input = {
       onChange:
         parent && parent.name
           ? e =>
-              formik.setFieldValue(parent.name, {
+              setFieldValue(parent.name, {
                 ...parent.value,
                 [name]: e.target.value
               })
-          : onChange ? onChange : formik.handleChange,
-      onBlur: onBlur ? onBlur : formik.handleBlur,
-      name,
-      value,
+          : (onChange ? onChange : handleChange),
+      onBlur: onBlur ? onBlur : handleBlur,
+      value: value || '',
       type: type || fieldType,
-      checked,
+      checked: !!checked,
       ...attrs
+    };
+
+    const meta = {
+      touched: touched[name],
+      error: errors[name]
     };
 
     return React.createElement(component, {
