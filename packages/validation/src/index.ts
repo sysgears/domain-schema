@@ -1,31 +1,46 @@
 import DomainSchema from '@domain-schema/core';
 import validators, { supportedValidators } from './validators';
 
+type FieldInput = string | number | boolean;
+
+interface RichCondition {
+  msg: string;
+  value: FieldInput;
+}
+
+type Condition = string | RichCondition;
+
+interface SchemaContext {
+  values: any;
+  field: string;
+  schema: any;
+}
+
+const checkWithValidator = (validatorName: string, value: FieldInput, context: SchemaContext, condition: Condition) =>
+  typeof condition === 'string'
+    ? validators[validatorName](value)(context, condition)
+    : validators[validatorName](value, condition.msg)(context, condition.value);
+
 export default class DomainValidator {
   public static validate(initialValues: any, initialSchema: DomainSchema) {
-    const errors = {};
-    const validateSchema = (values, schema, collector) => {
+    const validateSchema = (values: any, schema: any, collector: any) => {
       Object.keys(schema)
         .filter(field => schema.hasOwnProperty(field))
         .forEach(field => {
           if (field === 'id') {
             return;
           }
-          const s = schema[field];
-          if (!s.type.isSchema) {
-            Object.keys(s).forEach((validator: any) => {
-              let result;
-              if (supportedValidators[validator]) {
-                result = s[validator].msg
-                  ? validators[validator](values[field], s[validator].msg)(
-                      { values, field, schema },
-                      s[validator].value
-                    )
-                  : validators[validator](values[field])({ values, field, schema }, s[validator]);
-              } else if (validator === 'validators') {
+
+          const schemaField = schema[field];
+          if (!schemaField.type.isSchema) {
+            Object.keys(schemaField).forEach((key: string) => {
+              let result: any;
+              if (supportedValidators[key]) {
+                result = checkWithValidator(key, values[field], { values, field, schema }, schemaField[key]);
+              } else if (key === 'validators') {
                 // handling custom validators
-                s[validator].forEach(val => {
-                  result = val(values[field], values) || result;
+                schemaField[key].forEach(validator => {
+                  result = validator(values[field], values) || result;
                 });
               }
               if (result) {
@@ -38,7 +53,7 @@ export default class DomainValidator {
         });
       return collector;
     };
-    return validateSchema(initialValues, initialSchema.values, errors);
+    return validateSchema(initialValues, initialSchema.values, {});
   }
 
   public static setValidationMessages(messages) {
