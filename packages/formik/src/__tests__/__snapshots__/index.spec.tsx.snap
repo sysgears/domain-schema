@@ -17,7 +17,7 @@ exports[`DomainFormik should generate complex form 1`] = `
     <input
       checked={false}
       className="form-control"
-      disabled={undefined}
+      label="Username"
       name="name"
       onBlur={[Function]}
       onChange={[Function]}
@@ -38,8 +38,8 @@ exports[`DomainFormik should generate complex form 1`] = `
     <input
       checked={false}
       className="form-control"
-      disabled={undefined}
-      name="email"
+      label="Email"
+      name={undefined}
       onBlur={[Function]}
       onChange={[Function]}
       placeholder="User email"
@@ -59,8 +59,8 @@ exports[`DomainFormik should generate complex form 1`] = `
     <input
       checked={false}
       className="form-control"
-      disabled={undefined}
-      name="firstName"
+      label="First Name"
+      name={undefined}
       onBlur={[Function]}
       onChange={[Function]}
       placeholder="First Name"
@@ -80,8 +80,8 @@ exports[`DomainFormik should generate complex form 1`] = `
     <input
       checked={false}
       className="form-control"
-      disabled={undefined}
-      name="lastName"
+      label="Last Name"
+      name={undefined}
       onBlur={[Function]}
       onChange={[Function]}
       placeholder="Last Name"
@@ -101,8 +101,8 @@ exports[`DomainFormik should generate complex form 1`] = `
     <input
       checked={false}
       className="form-control"
-      disabled={undefined}
-      name="password"
+      label="Password"
+      name={undefined}
       onBlur={[Function]}
       onChange={[Function]}
       placeholder="Password"
@@ -122,63 +122,12 @@ exports[`DomainFormik should generate complex form 1`] = `
     <input
       checked={false}
       className="form-control"
-      disabled={undefined}
-      name="passwordConfirmation"
+      label="Password Confirmation"
+      name={undefined}
       onBlur={[Function]}
       onChange={[Function]}
       placeholder="Password Confirmation"
       type="password"
-      value=""
-    />
-  </div>
-</form>
-`;
-
-exports[`DomainFormik should generate form with custom attributes 1`] = `
-<form
-  className=""
-  name="User"
->
-  <div
-    className="form-group"
-  >
-    <label
-      className=""
-      htmlFor={undefined}
-    >
-      Username
-    </label>
-    <input
-      checked={false}
-      className="form-control"
-      disabled={undefined}
-      name="name"
-      onBlur={[Function]}
-      onChange={[Function]}
-      placeholder="Username"
-      type="email"
-      value="User"
-    />
-  </div>
-  <div
-    className="form-group"
-  >
-    <label
-      className=""
-      htmlFor={undefined}
-    >
-      Secret field
-    </label>
-    <input
-      checked={false}
-      className="form-control"
-      disabled={undefined}
-      hidden={true}
-      name="secret"
-      onBlur={[Function]}
-      onChange={[Function]}
-      placeholder="Secret field"
-      type="text"
       value=""
     />
   </div>
@@ -202,7 +151,8 @@ exports[`DomainFormik should generate form with custom field 1`] = `
     <input
       checked={false}
       className="form-control"
-      disabled={undefined}
+      inputType="text"
+      label="Username"
       name="name"
       onBlur={[Function]}
       onChange={[Function]}
@@ -213,9 +163,9 @@ exports[`DomainFormik should generate form with custom field 1`] = `
   </div>
   <div>
     <input
-      className="my-awesome-field"
-      name="myfield"
-      placeholder="User Field"
+      className={undefined}
+      name="userfield"
+      placeholder={undefined}
       value="my field"
     />
   </div>
@@ -239,8 +189,8 @@ exports[`DomainFormik should generate simple form 1`] = `
     <input
       checked={false}
       className="form-control"
-      disabled={undefined}
-      name="username"
+      label="Username"
+      name={undefined}
       onBlur={[Function]}
       onChange={[Function]}
       placeholder="name"
@@ -260,8 +210,8 @@ exports[`DomainFormik should generate simple form 1`] = `
     <input
       checked={false}
       className="form-control"
-      disabled={undefined}
-      name="email"
+      label="Email"
+      name={undefined}
       onBlur={[Function]}
       onChange={[Function]}
       placeholder="Email"
@@ -281,8 +231,8 @@ exports[`DomainFormik should generate simple form 1`] = `
     <input
       checked={false}
       className="form-control"
-      disabled={undefined}
-      name="pass"
+      label="Email"
+      name={undefined}
       onBlur={[Function]}
       onChange={[Function]}
       placeholder="Email"
@@ -300,11 +250,10 @@ exports[`DomainFormik should generate simple form 1`] = `
       <input
         checked={true}
         className="form-check-input"
-        disabled={undefined}
-        name="isActive"
+        label="Is Active"
+        name={undefined}
         onBlur={[Function]}
         onChange={[Function]}
-        placeholder="Is Active"
         type="checkbox"
         value=""
       />
