@@ -278,6 +278,7 @@ The buttons have a div container attributes that can be passed through the ```op
   };
 ```
 
+We use the awesome [Reactstrap library](https://reactstrap.github.io/) at the core for our UI components.
   
 ### Custom field generation
 
