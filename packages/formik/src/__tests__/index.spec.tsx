@@ -9,6 +9,12 @@ describe('DomainFormik', () => {
       class extends Schema {
         public __ = { name: 'User' };
         public id = DomainSchema.Int;
+        public buttons = {
+          type: DomainReactForms.FormButtons,
+          submit: {
+            label: 'Submit'
+          }
+        };
         public username = {
           type: String,
           fieldType: FieldTypes.input,
@@ -54,6 +60,12 @@ describe('DomainFormik', () => {
   it('should generate complex form', () => {
     class Profile extends Schema {
       public __ = { name: 'Profile' };
+      public buttons = {
+        type: DomainReactForms.FormButtons,
+        submit: {
+          label: 'Submit'
+        }
+      };
       public firstName = {
         type: String,
         fieldType: FieldTypes.input,
@@ -78,6 +90,12 @@ describe('DomainFormik', () => {
       class User extends Schema {
         public __ = { name: 'User' };
         public id = DomainSchema.Int;
+        public buttons = {
+          type: DomainReactForms.FormButtons,
+          submit: {
+            label: 'Submit'
+          }
+        };
         public username = {
           type: String,
           fieldType: FieldTypes.input,
@@ -148,6 +166,12 @@ describe('DomainFormik', () => {
       class User extends Schema {
         public __ = { name: 'User' };
         public id = DomainSchema.Int;
+        public buttons = {
+          type: DomainReactForms.FormButtons,
+          submit: {
+            label: 'Submit'
+          }
+        };
         public username = {
           type: String,
           fieldType: FieldTypes.input,

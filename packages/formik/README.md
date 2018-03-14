@@ -22,6 +22,13 @@ const userFormSchema = new DomainSchema(
   class User extends Schema {
     __ = { name: 'User' };
     id = DomainSchema.Int;
+    buttons = {
+      type: DomainReactForms.FormButtons,
+      submit: {
+        label: 'Submit',
+        className: 'submit-btn'
+      }
+    };
     username = {
       type: String,
       fieldType: FieldTypes.input,
@@ -80,7 +87,7 @@ class Profile extends Schema {
     fieldType: FieldTypes.input,
     input: {
       label: 'First Name'
-    }
+    },
     required: {
       value: true,
       msg: 'Required First Name'
@@ -100,8 +107,8 @@ const userForm =  new DomainReactForms(userFormSchema);
 
 // change error messages
 DomainReactForms.setValidationMessages({
-  required: ({field}) => {
-    return `Field '${field}' is required`
+  required: ({fieldName}) => {
+    return `Field '${fieldName}' is required`
   }
 });
 

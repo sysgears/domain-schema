@@ -7,6 +7,7 @@ import { Button, Field, Form, RenderCheckBox, RenderField, RenderRadio, RenderSe
 import FieldTypes from './fieldTypes';
 
 export default class DomainReactForms {
+  public static FormButtons = class FormButtons {};
   private handleSubmit;
   private configFormik = {
     mapPropsToValues: () => this.getValuesFromSchema(),
@@ -67,9 +68,9 @@ export default class DomainReactForms {
         return collector;
       };
       const formElements = generate(this.schema.values, null, []);
-      formElements.push(this.genButtons(this.schema.__.buttons, isValid));
+      formElements.push(this.genButtons(this.schema.values.buttons, isValid));
       return (
-        <Form name={this.schema.name} input={formAttrs}>
+        <Form handleSubmit={this.handleSubmit} name={this.schema.name} input={formAttrs}>
           {formElements}
         </Form>
       );
@@ -144,14 +145,28 @@ export default class DomainReactForms {
   }
 
   private genButtons(schemaButtons: any, valid: boolean) {
-    const buttons = schemaButtons && schemaButtons.type;
+    if (!schemaButtons) {
+      throw new Error(`'buttons' key is required for schema`);
+    }
+    const { submit, reset, reverse, options } = schemaButtons;
     return (
-      buttons && (
-        <div key="actionButtons">
-          <Button disabled={!valid} {...buttons[0]}>
-            {buttons[0].label}
+      submit && (
+        <div key="actionButtons" {...options}>
+          {reverse &&
+            reset && (
+              <Button type="reset" {...reset}>
+                {reset.label}
+              </Button>
+            )}
+          <Button disabled={!valid} type="submit" {...submit}>
+            {submit.label}
           </Button>
-          {buttons[1] && <Button {...buttons[1]}>{buttons[1].label}</Button>}
+          {!reverse &&
+            reset && (
+              <Button type="reset" {...reset}>
+                {reset.label}
+              </Button>
+            )}
         </div>
       )
     );
