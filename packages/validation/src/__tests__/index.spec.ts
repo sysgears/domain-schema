@@ -93,8 +93,8 @@ describe('DomainValidator', () => {
       }
     );
     DomainValidation.setValidationMessages({
-      required: ({ field }) => {
-        return `Field ${field} is required!`;
+      required: ({ fieldName }) => {
+        return `Field ${fieldName} is required!`;
       }
     });
     const errors = DomainValidation.validate(

@@ -5,11 +5,11 @@
 ## Installation
 
 ```bash
-npm install @domain-schema/validation
+yarn add @domain-schema/validation
 ```
 or
 ```bash
-yarn add @domain-schema/validation
+npm install @domain-schema/validation
 ```
 
 ## License

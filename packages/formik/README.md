@@ -226,7 +226,7 @@ const UserForm = userForm.generateForm(
 ### Custom field generation
 
 We can use custom field, defining ```fieldType``` as ```FieldTypes.custom``` 
-and specified field component in ```component``` prop. All necessary props can be provided via ```attrs```.
+and specified field component in ```component``` prop. All necessary props can be provided via ```input```.
 ```js
   myField = {
     fieldType: FieldTypes.custom,
@@ -249,7 +249,7 @@ and specified field component in ```component``` prop. All necessary props can b
       ...
     }
   ```
-  * ```match``` - Checks if the value matches some specific field
+  * ```matches``` - Checks if the value matches some specific field
   ```js
     password = {
       ...
@@ -343,17 +343,17 @@ In that object the ``keys`` are validator names and values can be either strings
 - Values are callback functions:
 ```js
     DomainReactForms.setValidationMessages({
-      required: ({field}) => {
-        return `Field '${field}' is required`
+      required: ({fieldName}) => {
+        return `Field '${fieldName}' is required`
       },
-      phoneNumber: ({values, field}) => {
-        return `Error! '${values[field]}' is not a phone number`
+      phoneNumber: ({values, fieldName}) => {
+        return `Error! '${values[fieldName]}' is not a phone number`
       }
     });
 ```
 Callback functions, in turn, get object with the following properties:
   * ``values``  - the validation object
-  * ``field``   - the current field name
+  * ``fieldName``   - the current field name
   * ``schema``  - the domain schema definition object
 
 We can also define a custom validation error message for a **specific field** right in the schema:
