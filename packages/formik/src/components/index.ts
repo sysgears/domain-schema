@@ -1,4 +1,3 @@
-import Alert from './Alert';
 import Button from './Button';
 import Field from './FieldAdapter';
 import Form from './Form';
@@ -8,4 +7,4 @@ import RenderField from './RenderField';
 import RenderRadio from './RenderRadio';
 import RenderSelect from './RenderSelect';
 
-export { Alert, Button, Field, Form, Option, RenderRadio, RenderCheckBox, RenderField, RenderSelect };
+export { Button, Field, Form, Option, RenderRadio, RenderCheckBox, RenderField, RenderSelect };

@@ -2,7 +2,6 @@ import DomainSchema from '@domain-schema/core';
 import DomainValidator from '@domain-schema/validation';
 import { FormikProps, withFormik } from 'formik';
 import * as React from 'react';
-import AvailableButtons from './availableButtons';
 import { Button, Field, Form, RenderCheckBox, RenderField, RenderRadio, RenderSelect } from './components';
 import FieldTypes from './fieldTypes';
 

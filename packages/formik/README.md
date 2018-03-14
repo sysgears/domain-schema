@@ -229,6 +229,55 @@ const UserForm = userForm.generateForm(
         }
       }
   ```
+
+### Buttons
+
+To create a ```submit``` button in the form we need to use special key ```buttons``` in schema with ```type``` equals ```DomainReactForms.FormButtons```.
+In most cases, we'll specify a label and classes for styling, but we can also pass any other attributes for button.
+```js
+  buttons = {
+    type: DomainReactForms.FormButtons,
+    submit: {
+      label: 'Submit',
+      className: 'submit-btn',
+      color: 'primary'
+    }
+  };
+```
+In some cases, the submit button is not enough for us. We can also define ```reset``` button and use the ```reverse``` property to specify the order of the buttons. On default ```reverse = false``` and submit button comes first.
+```js
+  buttons = {
+    type: DomainReactForms.FormButtons,
+    submit: {
+      label: 'Submit',
+      className: 'submit-btn',
+      color: 'primary'
+    },
+    reset: {
+      label: 'Reset',
+      className: 'reset-btn'
+    },
+    reverse: true
+  };
+```
+The buttons have a div container attributes that can be passed through the ```option``` property.
+```js
+  buttons = {
+    type: DomainReactForms.FormButtons,
+    submit: {
+      label: 'Submit',
+      ...
+    },
+    reset: {
+      label: 'Reset',
+      ...
+    },
+    options: {
+      className: 'buttons-wrapper'
+    }
+  };
+```
+
   
 ### Custom field generation
 
@@ -239,7 +288,7 @@ and specified field component in ```component``` prop. All necessary props can b
     fieldType: FieldTypes.custom,
     component: MyFieldComponent,
     input: {
-      // all props that your component may need
+      // all props that our component may need
     }
   }
 ```
