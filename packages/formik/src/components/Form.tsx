@@ -3,17 +3,13 @@ import { Form as RSForm } from 'reactstrap';
 
 export interface Props {
   children?: any;
-  layout?: string;
-  type?: string;
+  input?: any;
+  name: string;
 }
 
-const Form = ({ children, layout, ...props }: Props) => {
-  let inline = false;
-  if (layout === 'inline') {
-    inline = true;
-  }
+const Form = ({ children, input, name }: Props) => {
   return (
-    <RSForm {...props} inline={inline}>
+    <RSForm name={name} {...input}>
       {children}
     </RSForm>
   );

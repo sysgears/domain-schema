@@ -3,16 +3,16 @@ import * as React from 'react';
 import { Component } from 'react';
 
 export interface Props {
-  name: string;
-  component?: any;
-  onChange?: any;
-  onBlur?: any;
-  value?: string | boolean;
+  attrs: any;
   checked?: boolean;
+  component: any;
   fieldType?: string;
-  parent?: any;
+  name: string;
+  onBlur?: any;
+  onChange?: any;
   options?: any;
-  attrs?: any;
+  parent?: any;
+  value?: string | number;
 }
 
 export default class Field extends Component<Props, {}> {
@@ -22,9 +22,6 @@ export default class Field extends Component<Props, {}> {
 
   constructor(public props: Props, public context: any) {
     super(props, context);
-    if (!context.formik) {
-      throw new Error('Field must be inside a component decorated with formik()');
-    }
   }
 
   public render() {

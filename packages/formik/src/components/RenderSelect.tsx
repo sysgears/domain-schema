@@ -10,15 +10,15 @@ export interface Props {
 
 const RenderSelect = ({ input, options, meta: { touched, error } }: Props) => {
   const { label, values } = input;
-  let className = '';
+  let className = input.className || '';
   if (touched && error) {
-    className = 'invalid-select';
+    className += ' invalid-select';
   }
 
   return (
     <FormGroup {...options}>
       {label && <Label>{label}</Label>}
-      <Input className={className} {...input}>
+      <Input {...input} className={className}>
         {values.map(option => {
           return option.value ? (
             <Option key={option.value} value={option.value}>

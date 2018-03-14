@@ -1,6 +1,6 @@
 import DomainSchema from '@domain-schema/core';
 import DomainValidator from '@domain-schema/validation';
-import { withFormik } from 'formik';
+import { FormikProps, withFormik } from 'formik';
 import * as React from 'react';
 import AvailableButtons from './availableButtons';
 import { Button, Field, Form, RenderCheckBox, RenderField, RenderRadio, RenderSelect } from './components';
@@ -21,9 +21,9 @@ export default class DomainReactForms {
   }
 
   public generateForm(handleSubmit: any, formAttrs?: any) {
-    return withFormik(this.configFormik)(({ values, isValid }) => {
+    return withFormik(this.configFormik)(({ values, isValid }: FormikProps<any>) => {
       this.handleSubmit = handleSubmit;
-      const generate = (schema: DomainSchema, parent: any, collector: any[]) => {
+      const generate = (schema: DomainSchema, parent: string, collector: any[]) => {
         Object.keys(schema)
           .filter(schemaProp => schema.hasOwnProperty(schemaProp))
           .forEach((fieldName: string) => {
@@ -69,7 +69,7 @@ export default class DomainReactForms {
       const formElements = generate(this.schema.values, null, []);
       formElements.push(this.genButtons(this.schema.__.buttons, isValid));
       return (
-        <Form name={this.schema.name} {...formAttrs}>
+        <Form name={this.schema.name} input={formAttrs}>
           {formElements}
         </Form>
       );
@@ -101,13 +101,13 @@ export default class DomainReactForms {
     return getValues(this.schema.values, {});
   }
 
-  private genInput(ctx: any, value: string, field: string, parent: any) {
+  private genInput(ctx: any, value: string | number, fieldName: string, parent: any) {
     return (
       <Field
-        key={field}
+        key={fieldName}
         value={value}
         parent={parent}
-        name={field}
+        name={fieldName}
         attrs={ctx.input}
         component={RenderField}
         options={ctx.fieldAttrs}
