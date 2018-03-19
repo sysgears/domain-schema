@@ -21,5 +21,3 @@ export interface SchemaContext {
 }
 
 export type Value = string | number | boolean;
-
-export type Validator = string | undefined;
