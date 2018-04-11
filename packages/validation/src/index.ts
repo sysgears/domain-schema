@@ -33,7 +33,7 @@ export default class DomainValidator {
                 collector[fieldName] = result;
               }
             });
-          } else {
+          } else if (!schemaField.blackbox) {
             validateSchema(values[fieldName], schema[fieldName].type.values, collector);
           }
         });
