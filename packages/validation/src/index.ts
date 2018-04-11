@@ -19,6 +19,19 @@ export default class DomainValidator {
 
           const schemaField = schema[fieldName];
           if (!schemaField.type.isSchema) {
+            // if optional is not specified then call required validator (by default all fields are required)
+            if (!schemaField.optional) {
+              const result = checkWithValidator(
+                'required',
+                values[fieldName],
+                { values, fieldName, schema },
+                schemaField.required || true
+              );
+              if (result) {
+                collector[fieldName] = result;
+                return;
+              }
+            }
             Object.keys(schemaField).forEach((key: string) => {
               let result: any;
               if (supportedValidators[key]) {
