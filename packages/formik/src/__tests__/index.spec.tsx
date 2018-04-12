@@ -60,18 +60,13 @@ describe('DomainFormik', () => {
   it('should generate complex form', () => {
     class Profile extends Schema {
       public __ = { name: 'Profile' };
-      public buttons = {
-        type: DomainReactForms.FormButtons,
-        submit: {
-          label: 'Submit'
-        }
-      };
       public firstName = {
         type: String,
         fieldType: FieldTypes.input,
         input: {
           label: 'First Name'
         },
+        defaultValue: 'Ashley',
         required: {
           value: true,
           msg: 'Required First Name'

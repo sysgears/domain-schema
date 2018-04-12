@@ -66,7 +66,7 @@ exports[`DomainFormik should generate complex form 1`] = `
       onChange={[Function]}
       placeholder="First Name"
       type="text"
-      value=""
+      value="Ashley"
     />
   </div>
   <div

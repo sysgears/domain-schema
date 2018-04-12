@@ -36,24 +36,27 @@ export default class DomainReactForms {
               switch (schemaField.fieldType) {
                 case FieldTypes.input: {
                   collector.push(
-                    this.genInput(schemaField, fieldValue, fieldName, { name: parent, value: values[parent] })
+                    this.genField(RenderField, schemaField, fieldValue, fieldName, {
+                      name: parent,
+                      value: values[parent]
+                    })
                   );
                   break;
                 }
                 case FieldTypes.select: {
-                  collector.push(this.genSelect(schemaField, fieldValue, fieldName));
+                  collector.push(this.genField(RenderSelect, schemaField, fieldValue, fieldName));
                   break;
                 }
                 case FieldTypes.checkbox: {
-                  collector.push(this.genCheck(schemaField, fieldValue, fieldName));
+                  collector.push(this.genField(RenderCheckBox, schemaField, fieldValue, fieldName));
                   break;
                 }
                 case FieldTypes.radio: {
-                  collector.push(this.genRadio(schemaField, fieldValue, fieldName));
+                  collector.push(this.genField(RenderRadio, schemaField, fieldValue, fieldName));
                   break;
                 }
                 case FieldTypes.custom: {
-                  collector.push(this.genCustomField(schemaField, fieldValue, fieldName));
+                  collector.push(this.genField(schemaField.component, schemaField, fieldValue, fieldName));
                   break;
                 }
                 default: {
@@ -89,58 +92,27 @@ export default class DomainReactForms {
             return;
           }
           const schemaField = schema[fieldName];
-          if (!schemaField.type.isSchema) {
-            model[fieldName] = schemaField.defaultValue || '';
-          } else {
-            model[fieldName] = {};
-            getValues(schema[fieldName].type.values, model[fieldName]);
-          }
+          model[fieldName] = schemaField.type.isSchema
+            ? getValues(schema[fieldName].type.values, {})
+            : schemaField.defaultValue || '';
         });
       return model;
     };
     return getValues(this.schema.values, {});
   }
 
-  private genInput(ctx: any, value: string | number, fieldName: string, parent: any) {
-    return (
-      <Field
-        key={fieldName}
-        value={value}
-        parent={parent}
-        name={fieldName}
-        attrs={ctx.input}
-        component={RenderField}
-        options={ctx.fieldAttrs}
-      />
-    );
-  }
-
-  private genSelect(ctx: any, value: string, field: string) {
-    return (
-      <Field
-        key={field}
-        value={value}
-        fieldType={ctx.fieldType}
-        name={field}
-        attrs={ctx.input}
-        component={RenderSelect}
-        options={ctx.fieldAttrs}
-      />
-    );
-  }
-
-  private genCheck(ctx: any, value: boolean, field: string) {
-    return (
-      <Field
-        key={field}
-        checked={value}
-        name={field}
-        fieldType={ctx.fieldType}
-        attrs={ctx.input}
-        component={RenderCheckBox}
-        options={ctx.fieldAttrs}
-      />
-    );
+  private genField(component: any, ctx: any, value: string | number | boolean, fieldName: string, parent?: any) {
+    const props = {
+      key: fieldName,
+      name: fieldName,
+      attrs: ctx.input,
+      options: ctx.fieldAttrs,
+      fieldType: ctx.fieldType === 'input' ? 'text' : ctx.fieldType,
+      component,
+      parent
+    };
+    props[ctx.fieldType === FieldTypes.checkbox ? 'checked' : 'value'] = value;
+    return <Field {...props} />;
   }
 
   private genButtons(schemaButtons: any, valid: boolean) {
@@ -168,33 +140,6 @@ export default class DomainReactForms {
             )}
         </div>
       )
-    );
-  }
-
-  private genRadio(ctx: any, value: string, field: string) {
-    return (
-      <Field
-        key={field}
-        name={field}
-        fieldType={ctx.fieldType}
-        value={value}
-        attrs={ctx.input}
-        component={RenderRadio}
-        options={ctx.fieldAttrs}
-      />
-    );
-  }
-
-  private genCustomField(ctx: any, value: any, field: string) {
-    return (
-      <Field
-        key={field}
-        name={field}
-        value={value}
-        attrs={ctx.input}
-        component={ctx.component}
-        options={ctx.fieldAttrs}
-      />
     );
   }
 }
