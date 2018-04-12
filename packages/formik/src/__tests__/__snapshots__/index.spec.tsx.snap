@@ -134,9 +134,7 @@ exports[`DomainFormik should generate complex form 1`] = `
   </div>
   <div>
     <button
-      className="btn btn-secondary disabled"
-      disabled={true}
-      label="Submit"
+      className="btn btn-secondary"
       onClick={[Function]}
       type="submit"
     >
@@ -184,9 +182,7 @@ exports[`DomainFormik should generate form with custom field 1`] = `
   </div>
   <div>
     <button
-      className="btn btn-secondary disabled"
-      disabled={true}
-      label="Submit"
+      className="btn btn-secondary"
       onClick={[Function]}
       type="submit"
     >
@@ -290,7 +286,6 @@ exports[`DomainFormik should generate simple form 1`] = `
     <button
       className="btn btn-secondary disabled"
       disabled={true}
-      label="Submit"
       onClick={[Function]}
       type="submit"
     >

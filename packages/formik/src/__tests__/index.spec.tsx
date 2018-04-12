@@ -2,19 +2,14 @@ import DomainSchema, { Schema } from '@domain-schema/core';
 import * as React from 'react';
 import renderer from 'react-test-renderer';
 import DomainReactForms, { FieldTypes } from '../';
+import FormSchema from '../FormSchema';
 
 describe('DomainFormik', () => {
   it('should generate simple form', () => {
     const schema = new DomainSchema(
-      class extends Schema {
+      class extends FormSchema {
         public __ = { name: 'User' };
         public id = DomainSchema.Int;
-        public buttons = {
-          type: DomainReactForms.FormButtons,
-          submit: {
-            label: 'Submit'
-          }
-        };
         public username = {
           type: String,
           fieldType: FieldTypes.input,
@@ -48,6 +43,12 @@ describe('DomainFormik', () => {
           },
           defaultValue: true
         };
+        public setSubmitBtn() {
+          return {
+            label: 'Submit',
+            autovalidate: true
+          };
+        }
       }
     );
     const form = new DomainReactForms(schema);
@@ -82,15 +83,9 @@ describe('DomainFormik', () => {
       };
     }
     const schema = new DomainSchema(
-      class User extends Schema {
+      class User extends FormSchema {
         public __ = { name: 'User' };
         public id = DomainSchema.Int;
-        public buttons = {
-          type: DomainReactForms.FormButtons,
-          submit: {
-            label: 'Submit'
-          }
-        };
         public username = {
           type: String,
           fieldType: FieldTypes.input,
@@ -140,6 +135,11 @@ describe('DomainFormik', () => {
           },
           matches: 'password'
         };
+        public setSubmitBtn() {
+          return {
+            label: 'Submit'
+          };
+        }
       }
     );
     const userForm = new DomainReactForms(schema);
@@ -158,15 +158,9 @@ describe('DomainFormik', () => {
       );
     };
     const schema = new DomainSchema(
-      class User extends Schema {
+      class User extends FormSchema {
         public __ = { name: 'User' };
         public id = DomainSchema.Int;
-        public buttons = {
-          type: DomainReactForms.FormButtons,
-          submit: {
-            label: 'Submit'
-          }
-        };
         public username = {
           type: String,
           fieldType: FieldTypes.input,
@@ -188,6 +182,11 @@ describe('DomainFormik', () => {
           },
           defaultValue: 'my field'
         };
+        public setSubmitBtn() {
+          return {
+            label: 'Submit'
+          };
+        }
       }
     );
     const userForm = new DomainReactForms(schema);

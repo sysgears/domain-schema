@@ -1,7 +1,8 @@
-import DomainSchema from '@domain-schema/core';
+import DomainSchema, { Schema } from '@domain-schema/core';
 import DomainValidator from '@domain-schema/validation';
 import { FormikProps, withFormik } from 'formik';
 import * as React from 'react';
+
 import { Button, Field, Form, RenderCheckBox, RenderField, RenderRadio, RenderSelect } from './components';
 import FieldTypes from './fieldTypes';
 
@@ -70,7 +71,7 @@ export default class DomainReactForms {
         return collector;
       };
       const formElements = generate(this.schema.values, null, []);
-      formElements.push(this.genButtons(this.schema.values.buttons, isValid));
+      formElements.push(this.genButtons(this.schema.schema, isValid));
       return (
         <Form handleSubmit={this.handleSubmit} name={this.schema.name} input={formAttrs}>
           {formElements}
@@ -115,31 +116,29 @@ export default class DomainReactForms {
     return <Field {...props} />;
   }
 
-  private genButtons(schemaButtons: any, valid: boolean) {
-    if (!schemaButtons) {
-      throw new Error(`'buttons' key is required for schema`);
+  private genButtons(schema: Schema, valid: boolean) {
+    const submit = schema.setSubmitBtn();
+    if (!submit) {
+      throw new Error('You must specified submit button!');
     }
-    const { submit, reset, reverse, options } = schemaButtons;
+    const { label, autovalidate, ...submitProps } = submit;
+    if (autovalidate) {
+      submitProps.disabled = !valid;
+    }
+    const reset = schema.setResetBtn();
     return (
-      submit && (
-        <div key="actionButtons" {...options}>
-          {reverse &&
-            reset && (
-              <Button type="reset" {...reset}>
-                {reset.label}
-              </Button>
-            )}
-          <Button disabled={!valid} type="submit" {...submit}>
-            {submit.label}
+      <div key="formButtons">
+        {submit && (
+          <Button type="submit" {...submitProps}>
+            {label}
           </Button>
-          {!reverse &&
-            reset && (
-              <Button type="reset" {...reset}>
-                {reset.label}
-              </Button>
-            )}
-        </div>
-      )
+        )}
+        {reset && (
+          <Button type="reset" {...reset}>
+            {reset.label}
+          </Button>
+        )}
+      </div>
     );
   }
 }
