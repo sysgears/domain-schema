@@ -1,7 +1,8 @@
 import DomainSchema, { Schema } from '@domain-schema/core';
 import DomainValidator, { FieldValidators } from '@domain-schema/validation';
 import { FormikProps, withFormik } from 'formik';
-import React, { ComponentType, ReactElement } from 'react';
+import * as React from 'react';
+import { ComponentType, ReactElement } from 'react';
 
 import { Button, Field, Form, RenderCheckBox, RenderField, RenderRadio, RenderSelect } from './components';
 import FieldTypes from './fieldTypes';
@@ -153,3 +154,4 @@ export default class DomainReactForms {
 }
 
 export { default as FieldTypes } from './fieldTypes';
+export { default as FormSchema } from './FormSchema';
