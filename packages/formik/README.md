@@ -16,19 +16,12 @@ npm install @domain-schema/formik @domain-schema/core @domain-schema/validation
 ### Example
 ```js
 import DomainSchema, { Schema } from '@domain-schema/core';
-import DomainReactForms, { FieldTypes } from '@domain-schema/formik';
+import DomainReactForms, { FieldTypes, FormSchema } from '@domain-schema/formik';
 
 const userFormSchema = new DomainSchema(
-  class User extends Schema {
+  class User extends FormSchema {
     __ = { name: 'User' };
     id = DomainSchema.Int;
-    buttons = {
-      type: DomainReactForms.FormButtons,
-      submit: {
-        label: 'Submit',
-        className: 'submit-btn'
-      }
-    };
     username = {
       type: String,
       fieldType: FieldTypes.input,
@@ -78,6 +71,12 @@ const userFormSchema = new DomainSchema(
       },
       matches: 'password'
     };
+    setSubmitBtn() {
+      return {
+        label: 'Submit',
+        className: 'submit-btn'
+      }
+    }
   }
 );
 class Profile extends Schema {
@@ -232,49 +231,32 @@ const UserForm = userForm.generateForm(
 
 ### Buttons
 
-To create a ```submit``` button in the form we need to use special key ```buttons``` in schema with ```type``` equals ```DomainReactForms.FormButtons```.
+To create a ```submit``` button in the form we need to use special method ```setSubmitButtons``` in schema with will return object with props for button.
 In most cases, we'll specify a label and classes for styling, but we can also pass any other attributes for button.
 ```js
-  buttons = {
-    type: DomainReactForms.FormButtons,
-    submit: {
+  setSubmitBtn() {
+    return {
       label: 'Submit',
       className: 'submit-btn',
       color: 'primary'
     }
-  };
+  }
 ```
-In some cases, the submit button is not enough for us. We can also define ```reset``` button and use the ```reverse``` property to specify the order of the buttons. On default ```reverse = false``` and submit button comes first.
+In some cases, the submit button is not enough for us. We can also define ```reset``` button similarly.
 ```js
-  buttons = {
-    type: DomainReactForms.FormButtons,
-    submit: {
-      label: 'Submit',
-      className: 'submit-btn',
-      color: 'primary'
-    },
-    reset: {
+  setResetBtn() {
+    return {
       label: 'Reset',
       className: 'reset-btn'
-    },
-    reverse: true
-  };
-```
-The buttons have a div container attributes that can be passed through the ```option``` property.
-```js
-  buttons = {
-    type: DomainReactForms.FormButtons,
-    submit: {
-      label: 'Submit',
-      ...
-    },
-    reset: {
-      label: 'Reset',
-      ...
-    },
-    options: {
-      className: 'buttons-wrapper'
     }
+  }
+```
+The buttons have a div container attributes that can be passed with the ```setBtnsWrapperProps``` function.
+```js
+  setBtnsWrapperProps() {
+    return {
+      className: 'buttons-wrapper'
+    };
   };
 ```
 

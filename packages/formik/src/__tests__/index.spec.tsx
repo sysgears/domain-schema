@@ -1,8 +1,10 @@
 import DomainSchema, { Schema } from '@domain-schema/core';
+import { FieldValidators } from '@domain-schema/validation';
 import * as React from 'react';
 import renderer from 'react-test-renderer';
 import DomainReactForms, { FieldTypes } from '../';
 import FormSchema from '../FormSchema';
+import { FSF } from '../types';
 
 describe('DomainFormik', () => {
   it('should generate simple form', () => {
@@ -10,7 +12,7 @@ describe('DomainFormik', () => {
       class extends FormSchema {
         public __ = { name: 'User' };
         public id = DomainSchema.Int;
-        public username = {
+        public username: FSF = {
           type: String,
           fieldType: FieldTypes.input,
           input: {
@@ -19,7 +21,7 @@ describe('DomainFormik', () => {
           },
           defaultValue: 'John'
         };
-        public email = {
+        public email: FSF = {
           type: String,
           fieldType: FieldTypes.input,
           input: {
@@ -27,7 +29,7 @@ describe('DomainFormik', () => {
             label: 'Email'
           }
         };
-        public pass = {
+        public pass: FSF = {
           type: String,
           fieldType: FieldTypes.input,
           input: {
@@ -35,7 +37,7 @@ describe('DomainFormik', () => {
             label: 'Email'
           }
         };
-        public isActive = {
+        public isActive: FSF = {
           type: String,
           fieldType: FieldTypes.checkbox,
           input: {
@@ -43,12 +45,6 @@ describe('DomainFormik', () => {
           },
           defaultValue: true
         };
-        public setSubmitBtn() {
-          return {
-            label: 'Submit',
-            autovalidate: true
-          };
-        }
       }
     );
     const form = new DomainReactForms(schema);
@@ -61,7 +57,7 @@ describe('DomainFormik', () => {
   it('should generate complex form', () => {
     class Profile extends Schema {
       public __ = { name: 'Profile' };
-      public firstName = {
+      public firstName: FSF = {
         type: String,
         fieldType: FieldTypes.input,
         input: {
@@ -73,7 +69,7 @@ describe('DomainFormik', () => {
           msg: 'Required First Name'
         }
       };
-      public lastName = {
+      public lastName: FSF = {
         type: String,
         fieldType: FieldTypes.input,
         input: {
@@ -86,7 +82,7 @@ describe('DomainFormik', () => {
       class User extends FormSchema {
         public __ = { name: 'User' };
         public id = DomainSchema.Int;
-        public username = {
+        public username: FSF = {
           type: String,
           fieldType: FieldTypes.input,
           input: {
@@ -102,7 +98,7 @@ describe('DomainFormik', () => {
             }
           ]
         };
-        public email = {
+        public email: FSF = {
           type: String,
           fieldType: FieldTypes.input,
           input: {
@@ -116,7 +112,7 @@ describe('DomainFormik', () => {
         public profile = {
           type: Profile
         };
-        public password = {
+        public password: FSF = {
           type: String,
           fieldType: FieldTypes.input,
           input: {
@@ -126,7 +122,7 @@ describe('DomainFormik', () => {
           required: true,
           min: 5
         };
-        public passwordConfirmation = {
+        public passwordConfirmation: FSF = {
           type: String,
           fieldType: FieldTypes.input,
           input: {
@@ -135,9 +131,10 @@ describe('DomainFormik', () => {
           },
           matches: 'password'
         };
-        public setSubmitBtn() {
+        public setSubmitBtn(): any {
           return {
-            label: 'Submit'
+            label: 'Submit',
+            autovalidate: true
           };
         }
       }
@@ -161,7 +158,7 @@ describe('DomainFormik', () => {
       class User extends FormSchema {
         public __ = { name: 'User' };
         public id = DomainSchema.Int;
-        public username = {
+        public username: FSF = {
           type: String,
           fieldType: FieldTypes.input,
           input: {
@@ -171,7 +168,7 @@ describe('DomainFormik', () => {
           },
           defaultValue: 'User'
         };
-        public userfield = {
+        public userfield: FSF = {
           type: String,
           fieldType: FieldTypes.custom,
           component: MyComponent,
@@ -182,7 +179,7 @@ describe('DomainFormik', () => {
           },
           defaultValue: 'my field'
         };
-        public setSubmitBtn() {
+        public setSubmitBtn(): any {
           return {
             label: 'Submit'
           };

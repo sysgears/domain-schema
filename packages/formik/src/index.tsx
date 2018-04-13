@@ -1,13 +1,13 @@
 import DomainSchema, { Schema } from '@domain-schema/core';
-import DomainValidator from '@domain-schema/validation';
+import DomainValidator, { FieldValidators } from '@domain-schema/validation';
 import { FormikProps, withFormik } from 'formik';
-import * as React from 'react';
+import React, { ComponentType, ReactElement } from 'react';
 
 import { Button, Field, Form, RenderCheckBox, RenderField, RenderRadio, RenderSelect } from './components';
 import FieldTypes from './fieldTypes';
+import { FSF } from './types';
 
 export default class DomainReactForms {
-  public static FormButtons = class FormButtons {};
   private handleSubmit;
   private configFormik = {
     mapPropsToValues: () => this.getValuesFromSchema(),
@@ -28,10 +28,10 @@ export default class DomainReactForms {
         Object.keys(schema)
           .filter(schemaProp => schema.hasOwnProperty(schemaProp))
           .forEach((fieldName: string) => {
-            if (fieldName === 'id' || fieldName === 'buttons') {
+            if (fieldName === 'id') {
               return;
             }
-            const schemaField = schema[fieldName];
+            const schemaField: FSF = schema[fieldName];
             if (!schemaField.type.isSchema) {
               const fieldValue = parent ? values[parent][fieldName] : values[fieldName];
               switch (schemaField.fieldType) {
@@ -85,7 +85,7 @@ export default class DomainReactForms {
   }
 
   private getValuesFromSchema() {
-    const getValues = (schema: any, model: any) => {
+    const getValues = (schema: Schema, model: any) => {
       Object.keys(schema)
         .filter(schemaProp => schema.hasOwnProperty(schemaProp))
         .forEach((fieldName: string) => {
@@ -102,7 +102,13 @@ export default class DomainReactForms {
     return getValues(this.schema.values, {});
   }
 
-  private genField(component: any, ctx: any, value: string | number | boolean, fieldName: string, parent?: any) {
+  private genField(
+    component: ComponentType<any>,
+    ctx: FSF,
+    value: string | number | boolean,
+    fieldName: string,
+    parent?: any
+  ) {
     const props = {
       key: fieldName,
       name: fieldName,
@@ -116,10 +122,13 @@ export default class DomainReactForms {
     return <Field {...props} />;
   }
 
-  private genButtons(schema: Schema, valid: boolean) {
-    const submit = schema.setSubmitBtn();
+  private genButtons(schema: Schema, valid: boolean): ReactElement<any> {
+    let submit = schema.setSubmitBtn();
     if (!submit) {
-      throw new Error('You must specified submit button!');
+      submit = {
+        label: 'Save',
+        autovalidate: false
+      };
     }
     const { label, autovalidate, ...submitProps } = submit;
     if (autovalidate) {
@@ -127,7 +136,7 @@ export default class DomainReactForms {
     }
     const reset = schema.setResetBtn();
     return (
-      <div key="formButtons">
+      <div {...schema.setBtnsWrapperProps()} key="formButtons">
         {submit && (
           <Button type="submit" {...submitProps}>
             {label}

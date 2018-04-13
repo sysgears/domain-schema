@@ -21,3 +21,23 @@ export interface SchemaContext {
 }
 
 export type Value = string | number | boolean;
+
+export interface FieldValidator {
+  value: Value;
+  msg: string;
+}
+
+export type BooleanValidator = FieldValidator | boolean;
+export type NumberValidator = FieldValidator | number;
+export type StringValidator = FieldValidator | string;
+
+export interface FieldValidators {
+  required?: BooleanValidator;
+  matches?: StringValidator;
+  max?: NumberValidator;
+  min?: NumberValidator;
+  email?: BooleanValidator;
+  alphaNumeric?: BooleanValidator;
+  phoneNumber?: BooleanValidator;
+  equals?: StringValidator;
+}
