@@ -1,13 +1,9 @@
 import * as React from 'react';
 import { FormFeedback, FormGroup, Input, Label } from 'reactstrap';
 
-export interface Props {
-  input?: any;
-  meta?: any;
-  options?: any;
-}
+import { RenderComponentProps } from '../types';
 
-const RenderCheckBox = ({ input, options, meta: { touched, error } }: Props) => {
+const RenderCheckBox = ({ input, options, meta: { touched, error } }: RenderComponentProps) => {
   return (
     <FormGroup check {...options}>
       <Label check>

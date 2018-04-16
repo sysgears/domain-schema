@@ -1,14 +1,10 @@
 import * as React from 'react';
 import { FormFeedback, FormGroup, Input, Label } from 'reactstrap';
+
+import { RenderComponentProps } from '../types';
 import Option from './Option';
 
-export interface Props {
-  input?: any;
-  meta?: any;
-  options?: any;
-}
-
-const RenderSelect = ({ input, options, meta: { touched, error } }: Props) => {
+const RenderSelect = ({ input, options, meta: { touched, error } }: RenderComponentProps) => {
   const { label, values } = input;
   let className = input.className || '';
   if (touched && error) {

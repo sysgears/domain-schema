@@ -26,11 +26,11 @@ export default class Field extends Component<Props, {}> {
 
   public render() {
     const { formik: { setFieldValue, handleChange, handleBlur, touched, errors } } = this.context;
-    const { component, parent, attrs, fieldType, value, checked } = this.props;
+    const { component, parent, attrs, fieldType, name } = this.props;
     const { onChange, onBlur, type } = attrs;
-    const name = attrs.name || this.props.name;
 
     const input = {
+      ...attrs,
       onChange:
         parent && parent.name
           ? e =>
@@ -40,11 +40,8 @@ export default class Field extends Component<Props, {}> {
               })
           : onChange ? onChange : handleChange,
       onBlur: onBlur ? onBlur : handleBlur,
-      value: value || '',
-      type: type || fieldType,
-      checked: !!checked,
-      name,
-      ...attrs
+      type: type || (fieldType === 'input' ? 'text' : fieldType),
+      name
     };
 
     const meta = {

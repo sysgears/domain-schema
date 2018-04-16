@@ -1,13 +1,9 @@
 import * as React from 'react';
 import { FormFeedback, FormGroup, Input, Label } from 'reactstrap';
 
-export interface Props {
-  input?: any;
-  meta?: any;
-  options?: any;
-}
+import { RenderComponentProps } from '../types';
 
-const RenderRadio = ({ input, options, meta: { touched, error } }: Props) => {
+const RenderRadio = ({ input, options, meta: { touched, error } }: RenderComponentProps) => {
   return (
     <FormGroup tag="fieldset" {...options} value="Term 1 ...">
       {input.label && <legend>{input.label}</legend>}

@@ -2,16 +2,14 @@ import DomainSchema, { Schema } from '@domain-schema/core';
 import { FieldValidators } from '@domain-schema/validation';
 import * as React from 'react';
 import renderer from 'react-test-renderer';
-import DomainReactForms, { FieldTypes } from '../';
-import FormSchema from '../FormSchema';
-import { FSF } from '../types';
+
+import { DomainSchemaFormik, FieldTypes, FormSchema, FSF } from '../';
 
 describe('DomainFormik', () => {
   it('should generate simple form', () => {
     const schema = new DomainSchema(
       class extends FormSchema {
         public __ = { name: 'User' };
-        public id = DomainSchema.Int;
         public username: FSF = {
           type: String,
           fieldType: FieldTypes.input,
@@ -47,7 +45,7 @@ describe('DomainFormik', () => {
         };
       }
     );
-    const form = new DomainReactForms(schema);
+    const form = new DomainSchemaFormik(schema);
     const FormComponent = form.generateForm(() => null);
     const component = renderer.create(<FormComponent />);
     const tree = component.toJSON();
@@ -81,13 +79,11 @@ describe('DomainFormik', () => {
     const schema = new DomainSchema(
       class User extends FormSchema {
         public __ = { name: 'User' };
-        public id = DomainSchema.Int;
         public username: FSF = {
           type: String,
           fieldType: FieldTypes.input,
           input: {
             type: 'text',
-            name: 'name',
             label: 'Username'
           },
           defaultValue: 'User',
@@ -139,7 +135,7 @@ describe('DomainFormik', () => {
         }
       }
     );
-    const userForm = new DomainReactForms(schema);
+    const userForm = new DomainSchemaFormik(schema);
     const FormComponent = userForm.generateForm(() => null);
     const component = renderer.create(<FormComponent />);
     const tree = component.toJSON();
@@ -147,23 +143,21 @@ describe('DomainFormik', () => {
   });
 
   it('should generate form with custom field', () => {
-    const MyComponent = props => {
+    const MyComponent = ({ input: { name, label, value, className } }) => {
       return (
         <div>
-          <input name={props.name} placeholder={props.label} value={props.value} className={props.className} />
+          <input name={name} placeholder={label} value={value} className={className} />
         </div>
       );
     };
     const schema = new DomainSchema(
       class User extends FormSchema {
         public __ = { name: 'User' };
-        public id = DomainSchema.Int;
         public username: FSF = {
           type: String,
           fieldType: FieldTypes.input,
           input: {
             inputType: 'text',
-            name: 'name',
             label: 'Username'
           },
           defaultValue: 'User'
@@ -173,7 +167,6 @@ describe('DomainFormik', () => {
           fieldType: FieldTypes.custom,
           component: MyComponent,
           input: {
-            name: 'myfield',
             label: 'User Field',
             className: 'my-awesome-field'
           },
@@ -186,7 +179,7 @@ describe('DomainFormik', () => {
         }
       }
     );
-    const userForm = new DomainReactForms(schema);
+    const userForm = new DomainSchemaFormik(schema);
     const FormComponent = userForm.generateForm(() => null);
     const component = renderer.create(<FormComponent />);
     const tree = component.toJSON();
