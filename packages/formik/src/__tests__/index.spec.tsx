@@ -143,10 +143,10 @@ describe('DomainFormik', () => {
   });
 
   it('should generate form with custom field', () => {
-    const MyComponent = ({ input: { name, label, value, className } }) => {
+    const MyComponent = ({ input: { name, label, value, className, ...attrs } }) => {
       return (
         <div>
-          <input name={name} placeholder={label} value={value} className={className} />
+          <input {...attrs} type="text" name={name} placeholder={label} value={value} className={className} />
         </div>
       );
     };

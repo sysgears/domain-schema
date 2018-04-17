@@ -16,22 +16,19 @@ npm install @domain-schema/formik @domain-schema/core @domain-schema/validation
 ### Example
 ```js
 import DomainSchema, { Schema } from '@domain-schema/core';
-import DomainReactForms, { FieldTypes, FormSchema } from '@domain-schema/formik';
+import { DomainSchemaFormik, FieldTypes, FormSchema } from '@domain-schema/formik';
 
 const userFormSchema = new DomainSchema(
   class User extends FormSchema {
     __ = { name: 'User' };
-    id = DomainSchema.Int;
     username = {
       type: String,
       fieldType: FieldTypes.input,
       input: {
         type: 'text',
-        name: 'name',
         label: 'Username'
       },
       defaultValue: 'User',
-      required: true,
       validators: [
         value => {
           return value.length > 3 ? undefined : 'Must Be more than 3 characters';
@@ -42,11 +39,10 @@ const userFormSchema = new DomainSchema(
       type: String,
       fieldType: FieldTypes.input,
       input: {
-        inputType: 'email',
+        type: 'email',
         label: 'Email',
         placeholder: 'User email'
       },
-      required: true,
       email: true
     };
     profile = {
@@ -56,10 +52,9 @@ const userFormSchema = new DomainSchema(
       type: String,
       fieldType: FieldTypes.input,
       input: {
-        inputType: 'password',
+        type: 'password',
         label: 'Password',
       },
-      required: true,
       min: 5
     };
     passwordConfirmation = {
@@ -98,14 +93,14 @@ class Profile extends Schema {
     input: {
       label: 'Last Name'
     },
-    required: true
+    optional: true
   };
 };
 
-const userForm =  new DomainReactForms(userFormSchema);
+const userForm =  new DomainSchemaFormik(userFormSchema);
 
 // change error messages
-DomainReactForms.setValidationMessages({
+DomainSchemaFormik.setValidationMessages({
   required: ({fieldName}) => {
     return `Field '${fieldName}' is required`
   }
@@ -141,7 +136,7 @@ const UserForm = userForm.generateForm(
       fieldType: FieldTypes.input,
       input: {
         type: 'email',
-        name: 'userEmail'
+        placeholder: 'User Email'
       }
       ...
     }
@@ -280,11 +275,11 @@ and specified field component in ```component``` prop. All necessary props can b
 
 ### Built-in validators
 
-  * ```required``` - Checks if the value is a non empty value
+  * ```optional``` - Cancels the check for a non empty value. All field are required by default.
   ```js
     name = {
       ...
-      required: true,
+      optional: true,
       ...
     }
   ```
@@ -417,7 +412,6 @@ property of a schema field:
     password = {
         type: String,
         ...
-        required: true,
         validators: [(value, values) => {
           return value.length > 3 ? undefined : 'Must Be more than 3 characters';
         }]

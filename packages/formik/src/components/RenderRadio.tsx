@@ -4,25 +4,26 @@ import { FormFeedback, FormGroup, Input, Label } from 'reactstrap';
 import { RenderComponentProps } from '../types';
 
 const RenderRadio = ({ input, options, meta: { touched, error } }: RenderComponentProps) => {
+  const invalid = !!(touched && error);
+
   return (
-    <FormGroup tag="fieldset" {...options} value="Term 1 ...">
+    <FormGroup tag="fieldset" {...options}>
       {input.label && <legend>{input.label}</legend>}
-      {input.values.map(radio => {
+      {input.values.map((radio, index) => {
         return radio.value ? (
           <FormGroup key={radio.value} check>
-            <Label check>
-              <Input {...input} value={radio.value} checked={radio.value === input.value} /> {radio.label}
-            </Label>
+            <Input {...input} value={radio.value} checked={radio.value === input.value} />
+            <Label check>{radio.label}</Label>
+            {index === input.values.length - 1 && invalid && <FormFeedback>{error}</FormFeedback>}
           </FormGroup>
         ) : (
           <FormGroup key={radio} check>
-            <Label check>
-              <Input {...input} value={radio} checked={radio === input.value} /> {radio}
-            </Label>
+            <Input {...input} value={radio} checked={radio === input.value} invalid={invalid} />
+            <Label check>{radio}</Label>
+            {index === input.values.length - 1 && invalid && <FormFeedback>{error}</FormFeedback>}
           </FormGroup>
         );
       })}
-      {touched && (error && <div className="validation-err">{error}</div>)}
     </FormGroup>
   );
 };

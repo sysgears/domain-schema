@@ -6,15 +6,12 @@ import Option from './Option';
 
 const RenderSelect = ({ input, options, meta: { touched, error } }: RenderComponentProps) => {
   const { label, values } = input;
-  let className = input.className || '';
-  if (touched && error) {
-    className += ' invalid-select';
-  }
+  const invalid = !!(touched && error);
 
   return (
     <FormGroup {...options}>
       {label && <Label>{label}</Label>}
-      <Input {...input} className={className}>
+      <Input {...input} invalid={invalid}>
         {values.map(option => {
           return option.value ? (
             <Option key={option.value} value={option.value}>
@@ -27,7 +24,7 @@ const RenderSelect = ({ input, options, meta: { touched, error } }: RenderCompon
           );
         })}
       </Input>
-      {touched && (error && <div className="validation-err">{error}</div>)}
+      {invalid && <FormFeedback>{error}</FormFeedback>}
     </FormGroup>
   );
 };

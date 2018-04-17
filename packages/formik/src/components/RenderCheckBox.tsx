@@ -4,12 +4,16 @@ import { FormFeedback, FormGroup, Input, Label } from 'reactstrap';
 import { RenderComponentProps } from '../types';
 
 const RenderCheckBox = ({ input, options, meta: { touched, error } }: RenderComponentProps) => {
+  const invalid = !!(touched && error);
   return (
-    <FormGroup check {...options}>
-      <Label check>
-        <Input {...input} /> {input.label}
-        {touched && (error && <div className="validation-err">{error}</div>)}
-      </Label>
+    <FormGroup>
+      <FormGroup check {...options}>
+        <Input id={input.name} {...input} invalid={invalid} />
+        <Label for={input.name} check>
+          {input.label}
+        </Label>
+        {invalid && <FormFeedback>{error}</FormFeedback>}
+      </FormGroup>
     </FormGroup>
   );
 };

@@ -5,18 +5,13 @@ import { RenderComponentProps } from '../types';
 
 const RenderField = ({ input, options, meta: { touched, error }, children }: RenderComponentProps) => {
   const { label, placeholder } = input;
-  let valid: boolean = null;
-  if (touched && error) {
-    valid = false;
-  }
+  const invalid = !!(touched && error);
 
   return (
     <FormGroup {...options}>
-      {label && <Label>{label}</Label>}
-      <Input {...input} placeholder={placeholder || label || ''} valid={valid}>
-        {children}
-      </Input>
-      {touched && (error && <FormFeedback>{error}</FormFeedback>)}
+      {label && <Label for={input.name}>{label}</Label>}
+      <Input id={input.name} {...input} placeholder={placeholder || label || ''} invalid={invalid} />
+      {invalid && <FormFeedback>{error}</FormFeedback>}
     </FormGroup>
   );
 };

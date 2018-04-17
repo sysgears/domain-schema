@@ -11,12 +11,13 @@ exports[`DomainFormik should generate complex form 1`] = `
   >
     <label
       className=""
-      htmlFor={undefined}
+      htmlFor="username"
     >
       Username
     </label>
     <input
       className="form-control"
+      id="username"
       label="Username"
       name="username"
       onBlur={[Function]}
@@ -31,12 +32,13 @@ exports[`DomainFormik should generate complex form 1`] = `
   >
     <label
       className=""
-      htmlFor={undefined}
+      htmlFor="email"
     >
       Email
     </label>
     <input
       className="form-control"
+      id="email"
       label="Email"
       name="email"
       onBlur={[Function]}
@@ -51,12 +53,13 @@ exports[`DomainFormik should generate complex form 1`] = `
   >
     <label
       className=""
-      htmlFor={undefined}
+      htmlFor="firstName"
     >
       First Name
     </label>
     <input
       className="form-control"
+      id="firstName"
       label="First Name"
       name="firstName"
       onBlur={[Function]}
@@ -71,12 +74,13 @@ exports[`DomainFormik should generate complex form 1`] = `
   >
     <label
       className=""
-      htmlFor={undefined}
+      htmlFor="lastName"
     >
       Last Name
     </label>
     <input
       className="form-control"
+      id="lastName"
       label="Last Name"
       name="lastName"
       onBlur={[Function]}
@@ -91,12 +95,13 @@ exports[`DomainFormik should generate complex form 1`] = `
   >
     <label
       className=""
-      htmlFor={undefined}
+      htmlFor="password"
     >
       Password
     </label>
     <input
       className="form-control"
+      id="password"
       label="Password"
       name="password"
       onBlur={[Function]}
@@ -111,12 +116,13 @@ exports[`DomainFormik should generate complex form 1`] = `
   >
     <label
       className=""
-      htmlFor={undefined}
+      htmlFor="passwordConfirmation"
     >
       Password Confirmation
     </label>
     <input
       className="form-control"
+      id="passwordConfirmation"
       label="Password Confirmation"
       name="passwordConfirmation"
       onBlur={[Function]}
@@ -150,12 +156,13 @@ exports[`DomainFormik should generate form with custom field 1`] = `
   >
     <label
       className=""
-      htmlFor={undefined}
+      htmlFor="username"
     >
       Username
     </label>
     <input
       className="form-control"
+      id="username"
       inputType="text"
       label="Username"
       name="username"
@@ -170,7 +177,10 @@ exports[`DomainFormik should generate form with custom field 1`] = `
     <input
       className="my-awesome-field"
       name="userfield"
+      onBlur={[Function]}
+      onChange={[Function]}
       placeholder="User Field"
+      type="text"
       value="my field"
     />
   </div>
@@ -197,12 +207,13 @@ exports[`DomainFormik should generate simple form 1`] = `
   >
     <label
       className=""
-      htmlFor={undefined}
+      htmlFor="username"
     >
       Username
     </label>
     <input
       className="form-control"
+      id="username"
       label="Username"
       name="username"
       onBlur={[Function]}
@@ -217,12 +228,13 @@ exports[`DomainFormik should generate simple form 1`] = `
   >
     <label
       className=""
-      htmlFor={undefined}
+      htmlFor="email"
     >
       Email
     </label>
     <input
       className="form-control"
+      id="email"
       label="Email"
       name="email"
       onBlur={[Function]}
@@ -237,12 +249,13 @@ exports[`DomainFormik should generate simple form 1`] = `
   >
     <label
       className=""
-      htmlFor={undefined}
+      htmlFor="pass"
     >
       Email
     </label>
     <input
       className="form-control"
+      id="pass"
       label="Email"
       name="pass"
       onBlur={[Function]}
@@ -253,24 +266,28 @@ exports[`DomainFormik should generate simple form 1`] = `
     />
   </div>
   <div
-    className="form-check"
+    className="form-group"
   >
-    <label
-      className="form-check-label "
-      htmlFor={undefined}
+    <div
+      className="form-check"
     >
       <input
         checked={true}
         className="form-check-input"
+        id="isActive"
         label="Is Active"
         name="isActive"
         onBlur={[Function]}
         onChange={[Function]}
         type="checkbox"
       />
-       
-      Is Active
-    </label>
+      <label
+        className="form-check-label "
+        htmlFor="isActive"
+      >
+        Is Active
+      </label>
+    </div>
   </div>
   <div>
     <button
