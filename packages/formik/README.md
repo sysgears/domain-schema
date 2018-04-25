@@ -1,4 +1,4 @@
-## Domain Schema Auto React Forms with Formik
+# Domain Schema React Forms with Formik
 
 [![npm version](https://badge.fury.io/js/domain-react-forms.svg)](https://badge.fury.io/js/domain-react-forms) [![Twitter Follow](https://img.shields.io/twitter/follow/sysgears.svg?style=social)](https://twitter.com/sysgears)
 
@@ -7,13 +7,19 @@
 ```bash
 yarn add @domain-schema/formik @domain-schema/core @domain-schema/validation
 ```
+
 or
+
 ```bash
 npm install @domain-schema/formik @domain-schema/core @domain-schema/validation
 ```
-## Usage 
-##### NOTE: The current version works properly for the web platform only. React Native forms support will be added soon. 
+
+## Usage
+
+##### NOTE: The current version works properly for the web platform only. React Native forms support will be added soon.
+
 ### Example
+
 ```js
 import DomainSchema, { Schema } from '@domain-schema/core';
 import { DomainSchemaFormik, FieldTypes, FormSchema } from '@domain-schema/formik';
@@ -115,21 +121,21 @@ const UserForm = userForm.generateForm(
 ```
 
 ### Supported field types
-  
-  * ```input``` with the next supported types:
-    * text [default]  
-    * email
-    * password
-    * url
-    * number
-    * datetime
-    * date
-    * time
-    * color
-    * search
-    * file
-    * textarea
-       
+
+* ```input``` with the next supported types:
+  * text [default]
+  * email
+  * password
+  * url
+  * number
+  * datetime
+  * date
+  * time
+  * color
+  * search
+  * file
+  * textarea
+
   ```js
     email = {
       ...
@@ -151,6 +157,7 @@ const UserForm = userForm.generateForm(
       ...
     }
   ```
+
   * ```checkbox```
     * defaultValue - false, if not specified
 
@@ -180,7 +187,7 @@ const UserForm = userForm.generateForm(
     }
   ```
 
-  * ```radio``` 
+  * ```radio```
     * values - values for radios, can be specified as an array of strings or an array of objects, where each object has label and value properties
 
   ```js
@@ -193,15 +200,18 @@ const UserForm = userForm.generateForm(
       },
       ...
     }
-  ``` 
+  ```
 
   Each field component has wrapper like that:
+
   ```html
     <FormGroup>
       <Input />
     </FormGroup>
   ```
+
   We can define classes for styling Input directly in className prop:
+
   ```js
     email = {
       ...
@@ -212,7 +222,9 @@ const UserForm = userForm.generateForm(
       ...
     }
   ```
+
   Also we can define classes for FormGroup element in ```fieldAttrs``` prop. It might be very useful for styling element position, etc.
+
   ```js
       email = {
         ...
@@ -226,8 +238,9 @@ const UserForm = userForm.generateForm(
 
 ### Buttons
 
-To create a ```submit``` button in the form we need to use special method ```setSubmitButtons``` in schema with will return object with props for button.
-In most cases, we'll specify a label and classes for styling, but we can also pass any other attributes for button.
+To create a ```submit``` button in the form we need to use special method ```setSubmitButtons``` in schema which will return object with props for button.
+In most cases, we'll specify a ```label``` and ```className``` for styling, but we can also pass any other attributes for button, like ```color```:
+
 ```js
   setSubmitBtn() {
     return {
@@ -237,7 +250,9 @@ In most cases, we'll specify a label and classes for styling, but we can also pa
     }
   }
 ```
-In some cases, the submit button is not enough for us. We can also define ```reset``` button similarly.
+
+In some cases, the submit button is not enough for us. We can also define ```reset``` button similarly. ```Reset``` button resets the form-data to its initial values.
+
 ```js
   setResetBtn() {
     return {
@@ -246,7 +261,9 @@ In some cases, the submit button is not enough for us. We can also define ```res
     }
   }
 ```
+
 The buttons have a div container attributes that can be passed with the ```setBtnsWrapperProps``` function.
+
 ```js
   setBtnsWrapperProps() {
     return {
@@ -255,12 +272,13 @@ The buttons have a div container attributes that can be passed with the ```setBt
   };
 ```
 
-We use the awesome [Reactstrap library](https://reactstrap.github.io/) at the core for our UI components.
-  
+##### NOTE: We use the awesome [Reactstrap library] at the core for our UI components.
+
 ### Custom field generation
 
-We can use custom field, defining ```fieldType``` as ```FieldTypes.custom``` 
+We can use custom field, defining ```fieldType``` as ```FieldTypes.custom```
 and specified field component in ```component``` prop. All necessary props can be provided via ```input```.
+
 ```js
   myField = {
     fieldType: FieldTypes.custom,
@@ -275,7 +293,8 @@ and specified field component in ```component``` prop. All necessary props can b
 
 ### Built-in validators
 
-  * ```optional``` - Cancels the check for a non empty value. All field are required by default.
+* ```optional``` - By default, all keys are required. Set ```optional: true``` to change that.
+
   ```js
     name = {
       ...
@@ -283,7 +302,9 @@ and specified field component in ```component``` prop. All necessary props can b
       ...
     }
   ```
+
   * ```matches``` - Checks if the value matches some specific field
+
   ```js
     password = {
       ...
@@ -294,8 +315,10 @@ and specified field component in ```component``` prop. All necessary props can b
       ...
     }
   ```
+
   * ```max``` - Checks if the value or value length does not exceed a specified number
    (works with both numbers and strings)
+
   ```js
     // Checks length is type is String...
     name = {
@@ -312,8 +335,10 @@ and specified field component in ```component``` prop. All necessary props can b
       ...
     }
   ```
+
   * ```min``` - Checks if the value or value length not less then a specified number
   (works with both numbers and strings)
+
   ```js
     // Checks length if type is String...
     name = {
@@ -330,7 +355,9 @@ and specified field component in ```component``` prop. All necessary props can b
       ...
     }
   ```
+
   * ```email``` - Checks if the value corresponds to an email
+
   ```js
     name = {
       ...
@@ -338,7 +365,9 @@ and specified field component in ```component``` prop. All necessary props can b
       ...
     }
   ```
-  * ```alphaNumeric``` - Checks if the value consists of alphanumeric characters 
+
+  * ```alphaNumeric``` - Checks if the value consists of alphanumeric characters
+
   ```js
     text = {
       ...
@@ -346,7 +375,9 @@ and specified field component in ```component``` prop. All necessary props can b
       ...
     }
   ```
+
   * ```phoneNumber``` - Checks if the value corresponds to a phone number
+
   ```js
     phone = {
       ...
@@ -354,7 +385,9 @@ and specified field component in ```component``` prop. All necessary props can b
       ...
     }
   ```
+
   * ```equals``` - Checks if the value equals to a specific value
+
   ```js
     role = {
       ...
@@ -364,17 +397,22 @@ and specified field component in ```component``` prop. All necessary props can b
   ```
 
 ### Customizing Validation Messages
+
 Validation error messages can be overridden by defining messages in one place as a single
-object and passing it to the ``` setValidationMessages ``` function.
+object and passing it to the ```setValidationMessages``` function.
 In that object the ``keys`` are validator names and values can be either strings or functions, as follows:
-- Values are strings:
+
+* Values are strings:
+
 ```js
     DomainReactForms.setValidationMessages({
       required: 'This field is required',
       phoneNumber: 'Error! Not a phone number!'
     });
 ```
-- Values are callback functions:
+
+* Values are callback functions:
+
 ```js
     DomainReactForms.setValidationMessages({
       required: ({fieldName}) => {
@@ -385,12 +423,15 @@ In that object the ``keys`` are validator names and values can be either strings
       }
     });
 ```
+
 Callback functions, in turn, get object with the following properties:
-  * ``values``  - the validation object
-  * ``fieldName``   - the current field name
-  * ``schema``  - the domain schema definition object
+
+* ``values``    - the validation object
+* ``fieldName`` - the current field name
+* ``schema``    - the domain schema definition object
 
 We can also define a custom validation error message for a **specific field** right in the schema:
+
 ```js
     ...
     name = {
@@ -408,6 +449,7 @@ We can also define a custom validation error message for a **specific field** ri
 
 A user is able to add any number of custom validators whenever it need by passing functions to the ```validators```
 property of a schema field:
+
 ```js
     password = {
         type: String,
@@ -417,14 +459,17 @@ property of a schema field:
         }]
     };
 ```
+
   Validation callback function gets the following params:
-  * ``value`` - the value for being validated
-  * ``values`` - the form object
-  
-NOTE: validation function must return a string with an error message or ```undefined```. 
+* ``value`` - the value for being validated
+* ``values`` - the form object
+
+NOTE: validation function must return a string with an error message or ```undefined```.
 
 ## License
-Copyright © 2017 [SysGears INC]. This source code is licensed under the [MIT] license.
+
+Copyright © 2017-2018 [SysGears INC]. This source code is licensed under the [MIT] license.
 
 [MIT]: LICENSE
 [SysGears INC]: http://sysgears.com
+[Reactstrap library]: https://reactstrap.github.io
