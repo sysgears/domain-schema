@@ -46,8 +46,8 @@ describe('DomainFormik', () => {
       }
     );
     const form = new DomainSchemaFormik(schema);
-    const FormComponent = form.generateForm(() => null);
-    const component = renderer.create(<FormComponent />);
+    const FormComponent = form.generateForm();
+    const component = renderer.create(<FormComponent onSubmit={() => null} />);
     const tree = component.toJSON();
     expect(tree).toMatchSnapshot();
   });
@@ -136,8 +136,8 @@ describe('DomainFormik', () => {
       }
     );
     const userForm = new DomainSchemaFormik(schema);
-    const FormComponent = userForm.generateForm(() => null);
-    const component = renderer.create(<FormComponent />);
+    const FormComponent = userForm.generateForm();
+    const component = renderer.create(<FormComponent onSubmit={() => null} />);
     const tree = component.toJSON();
     expect(tree).toMatchSnapshot();
   });
@@ -180,8 +180,8 @@ describe('DomainFormik', () => {
       }
     );
     const userForm = new DomainSchemaFormik(schema);
-    const FormComponent = userForm.generateForm(() => null);
-    const component = renderer.create(<FormComponent />);
+    const FormComponent = userForm.generateForm();
+    const component = renderer.create(<FormComponent onSubmit={() => null} />);
     const tree = component.toJSON();
     expect(tree).toMatchSnapshot();
   });

@@ -11,8 +11,11 @@ import { FieldType, FSF } from './types';
 export default class DomainSchemaFormik {
   private handleSubmit;
   private configFormik = {
+    enableReinitialize: true,
     mapPropsToValues: () => this.getValuesFromSchema(),
-    handleSubmit: this.handleSubmit,
+    handleSubmit(values, { props: { onSubmit } }) {
+      onSubmit(values);
+    },
     validate: (values: any) => this.validate(values)
   };
 
@@ -22,9 +25,8 @@ export default class DomainSchemaFormik {
     return DomainValidator.validate(formValues, this.schema);
   }
 
-  public generateForm(handleSubmit: any, formAttrs?: any) {
-    return withFormik(this.configFormik)(({ values, isValid, handleReset }: FormikProps<any>) => {
-      this.handleSubmit = handleSubmit;
+  public generateForm(formAttrs?: any) {
+    return withFormik(this.configFormik)(({ values, isValid, handleReset, handleSubmit }: FormikProps<any>) => {
       const generate = (schema: DomainSchema, parent: string, collector: any[]) => {
         Object.keys(schema)
           .filter(schemaProp => schema.hasOwnProperty(schemaProp))
@@ -54,7 +56,7 @@ export default class DomainSchemaFormik {
       const formElements = generate(this.schema.values, null, []);
       formElements.push(this.genButtons(this.schema.schema, isValid, handleReset));
       return (
-        <Form handleSubmit={this.handleSubmit} name={this.schema.name} input={formAttrs}>
+        <Form handleSubmit={handleSubmit} name={this.schema.name} input={formAttrs}>
           {formElements}
         </Form>
       );

@@ -112,12 +112,12 @@ DomainSchemaFormik.setValidationMessages({
   }
 });
 
-const UserForm = userForm.generateForm(
-  () => {
+const UserForm = userForm.generateForm({ className: 'my-form' });
+
+// Defining onSubmit prop is required
+<UserForm onSubmit={() => {
     // handle submit
-  },
-  { className: 'my-form' }
-);
+  }}>
 ```
 
 ### Supported field types
@@ -269,7 +269,7 @@ The buttons have a div container attributes that can be passed with the ```setBt
     return {
       className: 'buttons-wrapper'
     };
-  };
+  }
 ```
 
 ##### NOTE: We use the awesome [Reactstrap library] at the core for our UI components.
