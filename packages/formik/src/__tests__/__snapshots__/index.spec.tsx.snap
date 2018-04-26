@@ -132,7 +132,15 @@ exports[`DomainFormik should generate complex form 1`] = `
       value=""
     />
   </div>
-  <div>
+  <div
+    style={
+      Object {
+        "display": "flex",
+        "flex": 1,
+        "justifyContent": "center",
+      }
+    }
+  >
     <button
       className="btn btn-secondary disabled"
       disabled={true}
@@ -184,7 +192,15 @@ exports[`DomainFormik should generate form with custom field 1`] = `
       value="my field"
     />
   </div>
-  <div>
+  <div
+    style={
+      Object {
+        "display": "flex",
+        "flex": 1,
+        "justifyContent": "center",
+      }
+    }
+  >
     <button
       className="btn btn-secondary"
       onClick={[Function]}
@@ -289,7 +305,15 @@ exports[`DomainFormik should generate simple form 1`] = `
       </label>
     </div>
   </div>
-  <div>
+  <div
+    style={
+      Object {
+        "display": "flex",
+        "flex": 1,
+        "justifyContent": "center",
+      }
+    }
+  >
     <button
       className="btn btn-secondary"
       onClick={[Function]}

@@ -12,7 +12,4 @@ export default abstract class FormSchema extends Schema {
   public setResetBtn(): any {
     return undefined;
   }
-  public setBtnsWrapperProps(): any {
-    return {};
-  }
 }

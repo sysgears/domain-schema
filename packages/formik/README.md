@@ -262,12 +262,42 @@ In some cases, the submit button is not enough for us. We can also define ```res
   }
 ```
 
-The buttons have a div container attributes that can be passed with the ```setBtnsWrapperProps``` function.
+For position styling buttons have the `align` property which can take on values ```left``` or ```right```. By default, value is ```center```.
 
 ```js
-  setBtnsWrapperProps() {
+  setSubmitBtn() {
     return {
-      className: 'buttons-wrapper'
+      ...
+      align: 'left'
+    };
+  }
+```
+
+Buttons are wrapped in a div with style ```display: flex```, so that any properties for flex items can be applied to them. For example, the order of the buttons can be changed using ```order```.
+
+```css
+  ...
+  .submit-btn {
+    order: 1
+  }
+  .reset-btn {
+    order: 0
+  }
+  ...
+```
+
+```js
+  setSubmitBtn() {
+    return {
+      ...
+      className: 'submit-btn'
+    };
+  }
+
+  setResetBtn() {
+    return {
+      ...
+      className: 'reset-btn'
     };
   }
 ```

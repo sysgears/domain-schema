@@ -2,7 +2,7 @@ import DomainSchema, { Schema } from '@domain-schema/core';
 import DomainValidator, { FieldValidators } from '@domain-schema/validation';
 import { FormikProps, withFormik } from 'formik';
 import * as React from 'react';
-import { ComponentType, ReactElement } from 'react';
+import { ComponentType, CSSProperties, ReactElement } from 'react';
 
 import { Button, Field, Form } from './components';
 import FieldTypes from './fieldTypes';
@@ -122,8 +122,23 @@ export default class DomainSchemaFormik {
       submitProps.disabled = !valid;
     }
     const reset = schema.setResetBtn();
+
+    const styles: CSSProperties = {
+      display: 'flex',
+      flex: 1,
+      justifyContent: reset
+        ? (submitProps.align === 'left' && reset.align !== 'right') || (reset.align === 'left' && !submitProps.align)
+          ? 'flex-start'
+          : (submitProps.align === 'right' && reset.align !== 'left') || (reset.align === 'right' && !submitProps.align)
+            ? 'flex-end'
+            : (submitProps.align === 'right' && reset.align === 'left') ||
+              (reset.align === 'right' && submitProps.align === 'left')
+              ? 'space-between'
+              : 'center'
+        : submitProps.align === 'left' ? 'flex-start' : submitProps.align === 'right' ? 'flex-end' : 'center'
+    };
     return (
-      <div {...schema.setBtnsWrapperProps()} key="formButtons">
+      <div key="formButtons" style={styles}>
         {submit && (
           <Button type="submit" {...submitProps}>
             {label}
