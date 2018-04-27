@@ -9,6 +9,11 @@ import FieldTypes from './fieldTypes';
 import { FieldType, FSF } from './types';
 
 export default class DomainSchemaFormik {
+  public static fields: any = {
+    custom: {
+      name: 'custom'
+    }
+  };
   private handleSubmit;
   private configFormik = {
     enableReinitialize: true,
@@ -37,12 +42,18 @@ export default class DomainSchemaFormik {
             const schemaField: FSF = schema[fieldName];
             if (!schemaField.type.isSchema) {
               const fieldValue = parent ? values[parent][fieldName] : values[fieldName];
-              if (FieldTypes.hasOwnProperty(schemaField.fieldType.name)) {
+              if (DomainSchemaFormik.fields.hasOwnProperty(schemaField.fieldType.name)) {
                 collector.push(
-                  this.genField(FieldTypes[schemaField.fieldType.name], schemaField, fieldValue, fieldName, {
-                    name: parent,
-                    value: values[parent]
-                  })
+                  this.genField(
+                    DomainSchemaFormik.fields[schemaField.fieldType.name],
+                    schemaField,
+                    fieldValue,
+                    fieldName,
+                    {
+                      name: parent,
+                      value: values[parent]
+                    }
+                  )
                 );
               } else {
                 throw new Error(`${fieldName} has wrong field type`);
@@ -101,12 +112,23 @@ export default class DomainSchemaFormik {
       component: fieldType.component || schemaField.component,
       parent
     };
-    if (fieldType.name === FieldTypes.checkbox.name) {
+    if (fieldType.name === DomainSchemaFormik.fields.checkbox.name) {
       props.attrs.checked = !!value;
     } else {
       props.attrs.value = value || '';
     }
     return <Field {...props} />;
+  }
+
+  public static setFieldComponents(components) {
+    Object.keys(components).forEach(fieldType => {
+      if (FieldTypes.includes(fieldType)) {
+        DomainSchemaFormik.fields[fieldType] = {
+          name: fieldType,
+          component: components[fieldType]
+        };
+      }
+    });
   }
 
   private genButtons(schema: Schema, valid: boolean, handleReset: () => void): ReactElement<any> {
