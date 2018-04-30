@@ -4,7 +4,7 @@ import { FormikProps, withFormik } from 'formik';
 import * as React from 'react';
 import { ComponentType, CSSProperties, ReactElement } from 'react';
 
-import { Button, Field, Form } from './components';
+import { Field } from './components';
 import FieldTypes from './fieldTypes';
 import { FieldType, FSF } from './types';
 
@@ -14,6 +14,7 @@ export default class DomainSchemaFormik {
       name: 'custom'
     }
   };
+  private static formComponents: any = {};
   private handleSubmit;
   private configFormik = {
     enableReinitialize: true,
@@ -66,6 +67,7 @@ export default class DomainSchemaFormik {
       };
       const formElements = generate(this.schema.values, null, []);
       formElements.push(this.genButtons(this.schema.schema, isValid, handleReset));
+      const Form = DomainSchemaFormik.formComponents.form.component;
       return (
         <Form handleSubmit={handleSubmit} name={this.schema.name} input={formAttrs}>
           {formElements}
@@ -120,10 +122,16 @@ export default class DomainSchemaFormik {
     return <Field {...props} />;
   }
 
-  public static setFieldComponents(components) {
+  public static setFormComponents(components) {
     Object.keys(components).forEach(fieldType => {
       if (FieldTypes.includes(fieldType)) {
         DomainSchemaFormik.fields[fieldType] = {
+          name: fieldType,
+          component: components[fieldType]
+        };
+      }
+      if (fieldType === 'form' || fieldType === 'button') {
+        DomainSchemaFormik.formComponents[fieldType] = {
           name: fieldType,
           component: components[fieldType]
         };
@@ -159,6 +167,7 @@ export default class DomainSchemaFormik {
               : 'center'
         : submitProps.align === 'left' ? 'flex-start' : submitProps.align === 'right' ? 'flex-end' : 'center'
     };
+    const Button = DomainSchemaFormik.formComponents.button.component;
     return (
       <div key="formButtons" style={styles}>
         {submit && (

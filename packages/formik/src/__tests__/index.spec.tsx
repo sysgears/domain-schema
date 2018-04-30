@@ -4,12 +4,14 @@ import * as React from 'react';
 import renderer from 'react-test-renderer';
 
 import { DomainSchemaFormik, FieldTypes, FormSchema, FSF } from '../';
-import { RenderCheckBox, RenderField, RenderSelect } from '../components';
+import { Button, Form, RenderCheckBox, RenderField, RenderSelect } from '../components';
 
-DomainSchemaFormik.setFieldComponents({
+DomainSchemaFormik.setFormComponents({
   input: RenderField,
   checkbox: RenderCheckBox,
-  select: RenderSelect
+  select: RenderSelect,
+  button: Button,
+  form: Form
 });
 
 describe('DomainFormik', () => {
