@@ -19,8 +19,8 @@ export default class DomainSchemaFormik {
   private configFormik = {
     enableReinitialize: true,
     mapPropsToValues: () => this.getValuesFromSchema(),
-    handleSubmit(values, { props: { onSubmit } }) {
-      onSubmit(values);
+    handleSubmit(values, { props: { onSubmit }, ...formikBag }) {
+      onSubmit(values, formikBag);
     },
     validate: (values: any) => this.validate(values)
   };
@@ -37,7 +37,7 @@ export default class DomainSchemaFormik {
         Object.keys(schema)
           .filter(schemaProp => schema.hasOwnProperty(schemaProp))
           .forEach((fieldName: string) => {
-            if (fieldName === 'id') {
+            if (fieldName === 'id' || schema[fieldName].ignore) {
               return;
             }
             const schemaField: FSF = schema[fieldName];
