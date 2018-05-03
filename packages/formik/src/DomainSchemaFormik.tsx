@@ -15,6 +15,8 @@ export default class DomainSchemaFormik {
     }
   };
   private static formComponents: any = {};
+  public fields: any = {};
+  private formComponents: any = {};
   private handleSubmit;
   private configFormik = {
     enableReinitialize: true,
@@ -43,10 +45,14 @@ export default class DomainSchemaFormik {
             const schemaField: FSF = schema[fieldName];
             if (!schemaField.type.isSchema) {
               const fieldValue = parent ? values[parent][fieldName] : values[fieldName];
-              if (DomainSchemaFormik.fields.hasOwnProperty(schemaField.fieldType.name)) {
+              if (
+                (this.fields && this.fields.hasOwnProperty(schemaField.fieldType)) ||
+                DomainSchemaFormik.fields.hasOwnProperty(schemaField.fieldType)
+              ) {
                 collector.push(
                   this.genField(
-                    DomainSchemaFormik.fields[schemaField.fieldType.name],
+                    (this.fields && this.fields[schemaField.fieldType]) ||
+                      DomainSchemaFormik.fields[schemaField.fieldType],
                     schemaField,
                     fieldValue,
                     fieldName,
@@ -67,7 +73,9 @@ export default class DomainSchemaFormik {
       };
       const formElements = generate(this.schema.values, null, []);
       formElements.push(this.genButtons(this.schema.schema, isValid, handleReset));
-      const Form = DomainSchemaFormik.formComponents.form.component;
+      const Form =
+        (this.formComponents.form && this.formComponents.form.component) ||
+        (DomainSchemaFormik.formComponents.form && DomainSchemaFormik.formComponents.form.component);
       return (
         <Form handleSubmit={handleSubmit} name={this.schema.name} input={formAttrs}>
           {formElements}
@@ -80,12 +88,49 @@ export default class DomainSchemaFormik {
     DomainValidator.setValidationMessages(messages);
   }
 
+  public setFormComponents(components) {
+    Object.keys(components).forEach(fieldType => {
+      if (FieldTypes.hasOwnProperty(fieldType)) {
+        this.fields[fieldType] = {
+          name: fieldType,
+          component: components[fieldType]
+        };
+      }
+      if (fieldType === 'form' || fieldType === 'button') {
+        this.formComponents[fieldType] = {
+          name: fieldType,
+          component: components[fieldType]
+        };
+      }
+    });
+    this.fields.custom = {
+      name: 'custom'
+    };
+  }
+
+  public static setFormComponents(components) {
+    Object.keys(components).forEach(fieldType => {
+      if (FieldTypes.hasOwnProperty(fieldType)) {
+        DomainSchemaFormik.fields[fieldType] = {
+          name: fieldType,
+          component: components[fieldType]
+        };
+      }
+      if (fieldType === 'form' || fieldType === 'button') {
+        DomainSchemaFormik.formComponents[fieldType] = {
+          name: fieldType,
+          component: components[fieldType]
+        };
+      }
+    });
+  }
+
   private getValuesFromSchema() {
     const getValues = (schema: Schema, model: any) => {
       Object.keys(schema)
         .filter(schemaProp => schema.hasOwnProperty(schemaProp))
         .forEach((fieldName: string) => {
-          if (fieldName === 'id') {
+          if (fieldName === 'id' || schema[fieldName].ignore) {
             return;
           }
           const schemaField = schema[fieldName];
@@ -122,23 +167,6 @@ export default class DomainSchemaFormik {
     return <Field {...props} />;
   }
 
-  public static setFormComponents(components) {
-    Object.keys(components).forEach(fieldType => {
-      if (FieldTypes.includes(fieldType)) {
-        DomainSchemaFormik.fields[fieldType] = {
-          name: fieldType,
-          component: components[fieldType]
-        };
-      }
-      if (fieldType === 'form' || fieldType === 'button') {
-        DomainSchemaFormik.formComponents[fieldType] = {
-          name: fieldType,
-          component: components[fieldType]
-        };
-      }
-    });
-  }
-
   private genButtons(schema: Schema, valid: boolean, handleReset: () => void): ReactElement<any> {
     let submit = schema.setSubmitBtn();
     if (!submit) {
@@ -167,7 +195,9 @@ export default class DomainSchemaFormik {
               : 'center'
         : submitProps.align === 'left' ? 'flex-start' : submitProps.align === 'right' ? 'flex-end' : 'center'
     };
-    const Button = DomainSchemaFormik.formComponents.button.component;
+    const Button =
+      (this.formComponents.button && this.formComponents.button.component) ||
+      (DomainSchemaFormik.formComponents.button && DomainSchemaFormik.formComponents.button.component);
     return (
       <div key="formButtons" style={styles}>
         {submit && (

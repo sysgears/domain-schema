@@ -21,7 +21,7 @@ describe('DomainFormik', () => {
         public __ = { name: 'User' };
         public username: FSF = {
           type: String,
-          fieldType: DomainSchemaFormik.fields.input,
+          fieldType: FieldTypes.input,
           input: {
             label: 'Username',
             placeholder: 'name'
@@ -30,7 +30,7 @@ describe('DomainFormik', () => {
         };
         public email: FSF = {
           type: String,
-          fieldType: DomainSchemaFormik.fields.input,
+          fieldType: FieldTypes.input,
           input: {
             type: 'email',
             label: 'Email'
@@ -38,7 +38,7 @@ describe('DomainFormik', () => {
         };
         public pass: FSF = {
           type: String,
-          fieldType: DomainSchemaFormik.fields.input,
+          fieldType: FieldTypes.input,
           input: {
             type: 'password',
             label: 'Email'
@@ -46,7 +46,7 @@ describe('DomainFormik', () => {
         };
         public isActive: FSF = {
           type: String,
-          fieldType: DomainSchemaFormik.fields.checkbox,
+          fieldType: FieldTypes.checkbox,
           input: {
             label: 'Is Active'
           },
@@ -66,7 +66,7 @@ describe('DomainFormik', () => {
       public __ = { name: 'Profile' };
       public firstName: FSF = {
         type: String,
-        fieldType: DomainSchemaFormik.fields.input,
+        fieldType: FieldTypes.input,
         input: {
           label: 'First Name'
         },
@@ -78,7 +78,7 @@ describe('DomainFormik', () => {
       };
       public lastName: FSF = {
         type: String,
-        fieldType: DomainSchemaFormik.fields.input,
+        fieldType: FieldTypes.input,
         input: {
           label: 'Last Name'
         },
@@ -90,7 +90,7 @@ describe('DomainFormik', () => {
         public __ = { name: 'User' };
         public username: FSF = {
           type: String,
-          fieldType: DomainSchemaFormik.fields.input,
+          fieldType: FieldTypes.input,
           input: {
             type: 'text',
             label: 'Username'
@@ -105,7 +105,7 @@ describe('DomainFormik', () => {
         };
         public email: FSF = {
           type: String,
-          fieldType: DomainSchemaFormik.fields.input,
+          fieldType: FieldTypes.input,
           input: {
             type: 'email',
             label: 'Email',
@@ -119,7 +119,7 @@ describe('DomainFormik', () => {
         };
         public password: FSF = {
           type: String,
-          fieldType: DomainSchemaFormik.fields.input,
+          fieldType: FieldTypes.input,
           input: {
             type: 'password',
             label: 'Password'
@@ -129,7 +129,7 @@ describe('DomainFormik', () => {
         };
         public passwordConfirmation: FSF = {
           type: String,
-          fieldType: DomainSchemaFormik.fields.input,
+          fieldType: FieldTypes.input,
           input: {
             type: 'password',
             label: 'Password Confirmation'
@@ -164,7 +164,7 @@ describe('DomainFormik', () => {
         public __ = { name: 'User' };
         public username: FSF = {
           type: String,
-          fieldType: DomainSchemaFormik.fields.input,
+          fieldType: FieldTypes.input,
           input: {
             inputType: 'text',
             label: 'Username'
@@ -173,7 +173,7 @@ describe('DomainFormik', () => {
         };
         public userfield: FSF = {
           type: String,
-          fieldType: DomainSchemaFormik.fields.custom,
+          fieldType: FieldTypes.custom,
           component: MyComponent,
           input: {
             label: 'User Field',
