@@ -159,7 +159,7 @@ export default class DomainSchemaFormik {
       component: fieldType.component || schemaField.component,
       parent
     };
-    if (fieldType.name === DomainSchemaFormik.fields.checkbox.name) {
+    if (fieldType.name === FieldTypes.checkbox) {
       props.attrs.checked = !!value;
     } else {
       props.attrs.value = value || '';
