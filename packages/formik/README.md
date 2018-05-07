@@ -24,6 +24,8 @@ npm install @domain-schema/formik @domain-schema/core @domain-schema/validation
 import DomainSchema, { Schema } from '@domain-schema/core';
 import { DomainSchemaFormik, FieldTypes, FormSchema } from '@domain-schema/formik';
 
+import { Button, Form, RenderField, RenderCheckBox, RenderSelect } from '../my-components';
+
 const userFormSchema = new DomainSchema(
   class User extends FormSchema {
     __ = { name: 'User' };
@@ -105,6 +107,23 @@ class Profile extends Schema {
 
 const userForm =  new DomainSchemaFormik(userFormSchema);
 
+// set components globally for all forms
+DomainSchemaFormik.setFormComponents({
+  input: RenderField,
+  select: RenderSelect,
+  checkbox: RenderCheckBox,
+  form: Form,
+  button: Button
+});
+// or for particular DomainSchemaFormik instance
+userForm.setFormComponents({
+  input: RenderField,
+  select: RenderSelect,
+  checkbox: RenderCheckBox,
+  form: Form,
+  button: Button
+});
+
 // change error messages
 DomainSchemaFormik.setValidationMessages({
   required: ({fieldName}) => {
@@ -122,19 +141,10 @@ const UserForm = userForm.generateForm({ className: 'my-form' });
 
 ### Supported field types
 
-* ```input``` with the next supported types:
-  * text [default]
-  * email
-  * password
-  * url
-  * number
-  * datetime
-  * date
-  * time
-  * color
-  * search
-  * file
-  * textarea
+All field types can take 3 special attributes: ```onChange```, ```onBlur``` and ```type```. All other defined attributes will be directly passed to the field component. Attribute ```name``` will be define automatically and equals field name from schema.
+
+* ```input```
+  * defaultValue - empty string, if not specified
 
   ```js
     email = {
@@ -158,8 +168,8 @@ const UserForm = userForm.generateForm({ className: 'my-form' });
     }
   ```
 
-  * ```checkbox```
-    * defaultValue - false, if not specified
+* ```checkbox```
+  * defaultValue - false, if not specified
 
   ```js
     active = {
@@ -172,8 +182,7 @@ const UserForm = userForm.generateForm({ className: 'my-form' });
     }
   ```
 
-  * ```select```
-    * values - options for select, can be specified as an array of strings or an array of objects, where each object has label and value properties
+* ```select```
 
   ```js
     role = {
@@ -187,8 +196,7 @@ const UserForm = userForm.generateForm({ className: 'my-form' });
     }
   ```
 
-  * ```radio```
-    * values - values for radios, can be specified as an array of strings or an array of objects, where each object has label and value properties
+* ```radio```
 
   ```js
     friend = {
@@ -202,44 +210,10 @@ const UserForm = userForm.generateForm({ className: 'my-form' });
     }
   ```
 
-  Each field component has wrapper like that:
-
-  ```html
-    <FormGroup>
-      <Input />
-    </FormGroup>
-  ```
-
-  We can define classes for styling Input directly in className prop:
-
-  ```js
-    email = {
-      ...
-      fieldType: FieldTypes.input,
-      input: {
-        className: 'user-email'
-      },
-      ...
-    }
-  ```
-
-  Also we can define classes for FormGroup element in ```fieldAttrs``` prop. It might be very useful for styling element position, etc.
-
-  ```js
-      email = {
-        ...
-        fieldType: FieldTypes.input,
-        fieldAttrs: {
-          className: 'user-email-wrapper',
-          ...
-        }
-      }
-  ```
-
 ### Buttons
 
 To create a ```submit``` button in the form we need to use special method ```setSubmitButtons``` in schema which will return object with props for button.
-In most cases, we'll specify a ```label``` and ```className``` for styling, but we can also pass any other attributes for button, like ```color```:
+All attributes, that we define in return object will be passed to the button:
 
 ```js
   setSubmitBtn() {
@@ -301,8 +275,6 @@ Buttons are wrapped in a div with style ```display: flex```, so that any propert
     };
   }
 ```
-
-##### NOTE: We use the awesome [Reactstrap library] at the core for our UI components.
 
 ### Custom field generation
 
@@ -502,4 +474,3 @@ Copyright © 2017-2018 [SysGears INC]. This source code is licensed under the [M
 
 [MIT]: LICENSE
 [SysGears INC]: http://sysgears.com
-[Reactstrap library]: https://reactstrap.github.io
