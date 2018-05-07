@@ -194,4 +194,59 @@ describe('DomainFormik', () => {
     const tree = component.toJSON();
     expect(tree).toMatchSnapshot();
   });
+
+  it('should allow to set UI toolkit for particular instance', () => {
+    const MyInputComponent = ({ input: { name, label, value, className, ...attrs } }) => {
+      return (
+        <div>
+          <input
+            {...attrs}
+            type="text"
+            name={'custom_' + name}
+            placeholder={label}
+            value={value}
+            className={className}
+          />
+        </div>
+      );
+    };
+    const schema = new DomainSchema(
+      class extends FormSchema {
+        public __ = { name: 'User' };
+        public username: FSF = {
+          type: String,
+          fieldType: FieldTypes.input,
+          input: {
+            label: 'Username',
+            placeholder: 'name'
+          },
+          defaultValue: 'John'
+        };
+        public email: FSF = {
+          type: String,
+          fieldType: FieldTypes.input,
+          input: {
+            type: 'email',
+            label: 'Email'
+          }
+        };
+        public pass: FSF = {
+          type: String,
+          fieldType: FieldTypes.input,
+          input: {
+            type: 'password',
+            label: 'Email'
+          }
+        };
+      }
+    );
+    const form = new DomainSchemaFormik(schema);
+    form.setFormComponents({
+      input: MyInputComponent
+    });
+    const FormComponent = form.generateForm();
+    const component = renderer.create(<FormComponent onSubmit={() => null} />);
+    const tree = component.toJSON();
+    expect(tree).toMatchSnapshot();
+  });
 });

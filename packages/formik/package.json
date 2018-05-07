@@ -16,11 +16,7 @@
     "snap": "jest -u",
     "prepublishOnly": "yarn clean && yarn build"
   },
-  "files": [
-    "lib/*.js",
-    "lib/*.d.ts",
-    "lib/*.map"
-  ],
+  "files": ["lib/*.js", "lib/*.d.ts", "lib/*.map"],
   "devDependencies": {
     "@domain-schema/core": ">= 0.0.30",
     "@domain-schema/validation": ">= 0.0.30",
@@ -28,13 +24,13 @@
     "@types/node": "^7.0.18",
     "@types/react": "^16.0.39",
     "@types/react-dom": "^16.0.4",
-    "bootstrap": "4.0.0",
+    "bootstrap": "^4.1.1",
     "jest": "^21.2.1",
     "prettier": "^1.6.1",
     "prop-types": "^15.6.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
-    "reactstrap": "^5.0.0",
+    "reactstrap": "^6.0.1",
     "ts-jest": "^21.2.1",
     "tslint": "^5.2.0",
     "tslint-config-prettier": "^1.5.0",
@@ -44,11 +40,9 @@
   "peerDependencies": {
     "@domain-schema/core": ">= 0.0.30",
     "@domain-schema/validation": ">= 0.0.30",
-    "bootstrap": "4.0.0",
     "prop-types": "^15.6.0",
     "react": "^16.2.0",
-    "react-dom": "^16.2.0",
-    "reactstrap": "^5.0.0"
+    "react-dom": "^16.2.0"
   },
   "prettier": {
     "printWidth": 120,
@@ -60,12 +54,7 @@
       ".(ts|tsx)": "<rootDir>/../../node_modules/ts-jest/preprocessor.js"
     },
     "testRegex": "(/__tests__/.*\\.(test|spec))\\.(ts|tsx|js)$",
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js",
-      "json"
-    ]
+    "moduleFileExtensions": ["ts", "tsx", "js", "json"]
   },
   "dependencies": {
     "debug": "^3.1.0",

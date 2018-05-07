@@ -1,5 +1,67 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`DomainFormik should allow to set UI toolkit for particular instance 1`] = `
+<form
+  className=""
+  name="User"
+  onSubmit={[Function]}
+>
+  <div>
+    <input
+      className={undefined}
+      name="custom_username"
+      onBlur={[Function]}
+      onChange={[Function]}
+      options={undefined}
+      placeholder="Username"
+      type="text"
+      value="John"
+    />
+  </div>
+  <div>
+    <input
+      className={undefined}
+      name="custom_email"
+      onBlur={[Function]}
+      onChange={[Function]}
+      options={undefined}
+      placeholder="Email"
+      type="text"
+      value=""
+    />
+  </div>
+  <div>
+    <input
+      className={undefined}
+      name="custom_pass"
+      onBlur={[Function]}
+      onChange={[Function]}
+      options={undefined}
+      placeholder="Email"
+      type="text"
+      value=""
+    />
+  </div>
+  <div
+    style={
+      Object {
+        "display": "flex",
+        "flex": 1,
+        "justifyContent": "center",
+      }
+    }
+  >
+    <button
+      className="btn btn-secondary"
+      onClick={[Function]}
+      type="submit"
+    >
+      Save
+    </button>
+  </div>
+</form>
+`;
+
 exports[`DomainFormik should generate complex form 1`] = `
 <form
   className=""
