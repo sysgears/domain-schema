@@ -3,11 +3,11 @@ import { FormFeedback, FormGroup, Input, Label } from 'reactstrap';
 
 import { RenderComponentProps } from '../types';
 
-const RenderCheckBox = ({ input, options, meta: { touched, error } }: RenderComponentProps) => {
+const RenderCheckBox = ({ input, meta: { touched, error } }: RenderComponentProps) => {
   const invalid = !!(touched && error);
   return (
     <FormGroup>
-      <FormGroup check {...options}>
+      <FormGroup check>
         <Input id={input.name} {...input} invalid={invalid} />
         <Label for={input.name} check>
           {input.label}

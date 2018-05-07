@@ -3,11 +3,11 @@ import { FormFeedback, FormGroup, Input, Label } from 'reactstrap';
 
 import { RenderComponentProps } from '../types';
 
-const RenderRadio = ({ input, options, meta: { touched, error } }: RenderComponentProps) => {
+const RenderRadio = ({ input, meta: { touched, error } }: RenderComponentProps) => {
   const invalid = !!(touched && error);
 
   return (
-    <FormGroup tag="fieldset" {...options}>
+    <FormGroup tag="fieldset">
       {input.label && <legend>{input.label}</legend>}
       {input.values.map((radio, index) => {
         return radio.value ? (

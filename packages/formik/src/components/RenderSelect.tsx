@@ -4,12 +4,12 @@ import { FormFeedback, FormGroup, Input, Label } from 'reactstrap';
 import { RenderComponentProps } from '../types';
 import Option from './Option';
 
-const RenderSelect = ({ input, options, meta: { touched, error } }: RenderComponentProps) => {
+const RenderSelect = ({ input, meta: { touched, error } }: RenderComponentProps) => {
   const { label, values } = input;
   const invalid = !!(touched && error);
 
   return (
-    <FormGroup {...options}>
+    <FormGroup>
       {label && <Label>{label}</Label>}
       <Input {...input} invalid={invalid}>
         {values.map(option => {

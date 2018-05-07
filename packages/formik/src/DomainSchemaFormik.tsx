@@ -154,7 +154,6 @@ export default class DomainSchemaFormik {
       key: fieldName,
       name: fieldName,
       attrs: schemaField.input,
-      options: schemaField.fieldAttrs,
       fieldType: fieldType.name,
       component: fieldType.component || schemaField.component,
       parent

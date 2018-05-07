@@ -6,7 +6,6 @@ export interface SchemaField {
   fieldType: FieldType;
   input?: any;
   defaultValue?: string | boolean | number;
-  fieldAttrs?: any;
   component?: ComponentType<any>;
 }
 
