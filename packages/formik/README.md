@@ -20,6 +20,8 @@ npm install @domain-schema/formik @domain-schema/core @domain-schema/validation
 
 ### Example
 
+#### Simple form
+
 ```js
 import DomainSchema, { Schema } from '@domain-schema/core';
 import { DomainSchemaFormik, FieldTypes, FormSchema } from '@domain-schema/formik';
@@ -33,7 +35,77 @@ const userFormSchema = new DomainSchema(
       type: String,
       fieldType: FieldTypes.input,
       input: {
-        type: 'text',
+        label: 'Username'
+      }
+    };
+    email = {
+      type: String,
+      fieldType: FieldTypes.input,
+      input: {
+        type: 'email',
+        label: 'Email'
+      },
+      email: true
+    };
+    password = {
+      type: String,
+      fieldType: FieldTypes.input,
+      input: {
+        type: 'password',
+        label: 'Password',
+      },
+      min: 5
+    };
+    passwordConfirmation = {
+      type: String,
+      fieldType: FieldTypes.input,
+      input: {
+        type: 'password',
+        label: 'Password Confirmation',
+      },
+      matches: 'password'
+    };
+    setSubmitBtn() {
+      return {
+        label: 'Submit'
+      }
+    }
+  }
+);
+
+// set components globally for all forms
+DomainSchemaFormik.setFormComponents({
+  input: RenderField,
+  select: RenderSelect,
+  checkbox: RenderCheckBox,
+  form: Form,
+  button: Button
+});
+
+const userForm =  new DomainSchemaFormik(userFormSchema);
+
+const UserForm = userForm.generateForm();
+
+<UserForm onSubmit={values => {
+    // handle submit
+  }}>
+```
+
+#### Complex form
+
+```js
+import DomainSchema, { Schema } from '@domain-schema/core';
+import { DomainSchemaFormik, FieldTypes, FormSchema } from '@domain-schema/formik';
+
+import { Button, Form, RenderField, RenderCheckBox, RenderSelect } from '../my-components';
+
+const userFormSchema = new DomainSchema(
+  class User extends FormSchema {
+    __ = { name: 'User' };
+    username = {
+      type: String,
+      fieldType: FieldTypes.input,
+      input: {
         label: 'Username'
       },
       defaultValue: 'User',
@@ -107,15 +179,7 @@ class Profile extends Schema {
 
 const userForm =  new DomainSchemaFormik(userFormSchema);
 
-// set components globally for all forms
-DomainSchemaFormik.setFormComponents({
-  input: RenderField,
-  select: RenderSelect,
-  checkbox: RenderCheckBox,
-  form: Form,
-  button: Button
-});
-// or for particular DomainSchemaFormik instance
+// set components for particular DomainSchemaFormik instance
 userForm.setFormComponents({
   input: RenderField,
   select: RenderSelect,
@@ -134,7 +198,7 @@ DomainSchemaFormik.setValidationMessages({
 const UserForm = userForm.generateForm({ className: 'my-form' });
 
 // Defining onSubmit prop is required
-<UserForm onSubmit={() => {
+<UserForm onSubmit={(values, formikBag) => {
     // handle submit
   }}>
 ```
@@ -274,6 +338,48 @@ Buttons are wrapped in a div with style ```display: flex```, so that any propert
       className: 'reset-btn'
     };
   }
+```
+
+### Set form components
+
+Form component can be set in two ways. Globally, for all forms:
+
+```js
+...
+DomainSchemaFormik.setFormComponents({
+  input: RenderField,
+  select: RenderSelect,
+  checkbox: RenderCheckBox,
+  form: Form,
+  button: Button
+});
+...
+```
+
+And locally, for particular DomainSchemaFormik instance:
+
+```js
+...
+const userForm =  new DomainSchemaFormik(userFormSchema);
+
+userForm.setFormComponents({
+  input: RenderField,
+  select: RenderSelect,
+  checkbox: RenderCheckBox,
+  form: Form,
+  button: Button
+});
+...
+```
+
+### Form submitting
+
+We should define ```onSubmit``` callback which is received values from form fields as ```values``` and helper methods as ```formikBag```. More about these methods in official docs [FormikBag].
+
+```js
+<UserForm onSubmit={(values, formikBag) => {
+    // handle submit
+  }}>
 ```
 
 ### Custom field generation
@@ -474,3 +580,4 @@ Copyright © 2017-2018 [SysGears INC]. This source code is licensed under the [M
 
 [MIT]: LICENSE
 [SysGears INC]: http://sysgears.com
+[FormikBag]: https://github.com/jaredpalmer/formik#the-formikbag
