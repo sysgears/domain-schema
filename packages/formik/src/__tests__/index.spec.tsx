@@ -3,7 +3,7 @@ import { FieldValidators } from '@domain-schema/validation';
 import * as React from 'react';
 import renderer from 'react-test-renderer';
 
-import { DomainSchemaFormik, FieldTypes, FormSchema, FSF } from '../';
+import { DomainSchemaFormik, FieldTypes, FSF } from '../';
 import { Button, Form, RenderCheckBox, RenderField, RenderSelect } from '../components';
 
 DomainSchemaFormik.setFormComponents({
@@ -17,7 +17,7 @@ DomainSchemaFormik.setFormComponents({
 describe('DomainFormik', () => {
   it('should generate simple form', () => {
     const schema = new DomainSchema(
-      class extends FormSchema {
+      class extends Schema {
         public __ = { name: 'User' };
         public username: FSF = {
           type: String,
@@ -86,7 +86,7 @@ describe('DomainFormik', () => {
       };
     }
     const schema = new DomainSchema(
-      class User extends FormSchema {
+      class User extends Schema {
         public __ = { name: 'User' };
         public username: FSF = {
           type: String,
@@ -136,16 +136,13 @@ describe('DomainFormik', () => {
           },
           matches: 'password'
         };
-        public setSubmitBtn(): any {
-          return {
-            label: 'Submit',
-            autovalidate: true
-          };
-        }
       }
     );
     const userForm = new DomainSchemaFormik(schema);
-    const FormComponent = userForm.generateForm();
+    const FormComponent = userForm.generateForm({
+      label: 'Submit',
+      autovalidate: true
+    });
     const component = renderer.create(<FormComponent onSubmit={() => null} />);
     const tree = component.toJSON();
     expect(tree).toMatchSnapshot();
@@ -160,7 +157,7 @@ describe('DomainFormik', () => {
       );
     };
     const schema = new DomainSchema(
-      class User extends FormSchema {
+      class User extends Schema {
         public __ = { name: 'User' };
         public username: FSF = {
           type: String,
@@ -181,15 +178,12 @@ describe('DomainFormik', () => {
           },
           defaultValue: 'my field'
         };
-        public setSubmitBtn(): any {
-          return {
-            label: 'Submit'
-          };
-        }
       }
     );
     const userForm = new DomainSchemaFormik(schema);
-    const FormComponent = userForm.generateForm();
+    const FormComponent = userForm.generateForm({
+      label: 'Submit'
+    });
     const component = renderer.create(<FormComponent onSubmit={() => null} />);
     const tree = component.toJSON();
     expect(tree).toMatchSnapshot();
@@ -211,7 +205,7 @@ describe('DomainFormik', () => {
       );
     };
     const schema = new DomainSchema(
-      class extends FormSchema {
+      class extends Schema {
         public __ = { name: 'User' };
         public username: FSF = {
           type: String,

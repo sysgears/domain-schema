@@ -22,3 +22,8 @@ export interface FieldType {
   name: string;
   component?: ComponentType<any>;
 }
+
+export interface ButtonsConfig {
+  submit: any;
+  reset?: any;
+}

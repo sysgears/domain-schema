@@ -6,7 +6,7 @@ import { ComponentType, CSSProperties, ReactElement } from 'react';
 
 import { Field } from './components';
 import FieldTypes from './fieldTypes';
-import { FieldType, FSF } from './types';
+import { ButtonsConfig, FieldType, FSF } from './types';
 
 export default class DomainSchemaFormik {
   public static fields: any = {
@@ -33,7 +33,7 @@ export default class DomainSchemaFormik {
     return DomainValidator.validate(formValues, this.schema);
   }
 
-  public generateForm(formAttrs?: any) {
+  public generateForm(buttonsConfig?: ButtonsConfig | any, formAttrs?: any) {
     return withFormik(this.configFormik)(({ values, isValid, handleReset, handleSubmit }: FormikProps<any>) => {
       const generate = (schema: DomainSchema, parent: string, collector: any[]) => {
         Object.keys(schema)
@@ -72,7 +72,7 @@ export default class DomainSchemaFormik {
         return collector;
       };
       const formElements = generate(this.schema.values, null, []);
-      formElements.push(this.genButtons(this.schema.schema, isValid, handleReset));
+      formElements.push(this.genButtons(buttonsConfig || {}, isValid, handleReset));
       const Form =
         (this.formComponents.form && this.formComponents.form.component) ||
         (DomainSchemaFormik.formComponents.form && DomainSchemaFormik.formComponents.form.component);
@@ -166,19 +166,23 @@ export default class DomainSchemaFormik {
     return <Field {...props} />;
   }
 
-  private genButtons(schema: Schema, valid: boolean, handleReset: () => void): ReactElement<any> {
-    let submit = schema.setSubmitBtn();
+  private genButtons(buttonsConfig: ButtonsConfig | any, valid: boolean, handleReset: () => void): ReactElement<any> {
+    let { submit } = buttonsConfig;
+    const { reset } = buttonsConfig;
     if (!submit) {
-      submit = {
-        label: 'Save',
-        autovalidate: false
-      };
+      if (Object.keys(buttonsConfig).length) {
+        submit = buttonsConfig;
+      } else {
+        submit = {
+          label: 'Save',
+          autovalidate: false
+        };
+      }
     }
     const { label, autovalidate, ...submitProps } = submit;
     if (autovalidate) {
       submitProps.disabled = !valid;
     }
-    const reset = schema.setResetBtn();
 
     const styles: CSSProperties = {
       display: 'flex',
