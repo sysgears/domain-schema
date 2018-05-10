@@ -26,7 +26,9 @@ export default class DomainSchemaFormik {
     validate: (values: any) => this.validate(values)
   };
 
-  constructor(private schema: DomainSchema) {}
+  constructor(private schema: Schema) {
+    this.schema = new DomainSchema(schema);
+  }
 
   public validate(formValues: any) {
     return DomainValidator.validate(formValues, this.schema);
