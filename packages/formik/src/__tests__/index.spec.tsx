@@ -3,7 +3,7 @@ import { FieldValidators } from '@domain-schema/validation';
 import * as React from 'react';
 import renderer from 'react-test-renderer';
 
-import { DomainSchemaFormik, FieldTypes, FSF } from '../';
+import { DomainSchemaFormik, FSF } from '../';
 import { Button, Form, RenderCheckBox, RenderField, RenderSelect } from '../components';
 
 DomainSchemaFormik.setFormComponents({
@@ -21,7 +21,6 @@ describe('DomainFormik', () => {
         public __ = { name: 'User' };
         public username: FSF = {
           type: String,
-          fieldType: FieldTypes.input,
           input: {
             label: 'Username',
             placeholder: 'name'
@@ -30,7 +29,6 @@ describe('DomainFormik', () => {
         };
         public email: FSF = {
           type: String,
-          fieldType: FieldTypes.input,
           input: {
             type: 'email',
             label: 'Email'
@@ -38,7 +36,6 @@ describe('DomainFormik', () => {
         };
         public pass: FSF = {
           type: String,
-          fieldType: FieldTypes.input,
           input: {
             type: 'password',
             label: 'Email'
@@ -46,7 +43,7 @@ describe('DomainFormik', () => {
         };
         public isActive: FSF = {
           type: String,
-          fieldType: FieldTypes.checkbox,
+          fieldType: 'checkbox',
           input: {
             label: 'Is Active'
           },
@@ -66,7 +63,6 @@ describe('DomainFormik', () => {
       public __ = { name: 'Profile' };
       public firstName: FSF = {
         type: String,
-        fieldType: FieldTypes.input,
         input: {
           label: 'First Name'
         },
@@ -78,7 +74,6 @@ describe('DomainFormik', () => {
       };
       public lastName: FSF = {
         type: String,
-        fieldType: FieldTypes.input,
         input: {
           label: 'Last Name'
         },
@@ -90,7 +85,6 @@ describe('DomainFormik', () => {
         public __ = { name: 'User' };
         public username: FSF = {
           type: String,
-          fieldType: FieldTypes.input,
           input: {
             type: 'text',
             label: 'Username'
@@ -105,7 +99,6 @@ describe('DomainFormik', () => {
         };
         public email: FSF = {
           type: String,
-          fieldType: FieldTypes.input,
           input: {
             type: 'email',
             label: 'Email',
@@ -119,7 +112,6 @@ describe('DomainFormik', () => {
         };
         public password: FSF = {
           type: String,
-          fieldType: FieldTypes.input,
           input: {
             type: 'password',
             label: 'Password'
@@ -129,7 +121,6 @@ describe('DomainFormik', () => {
         };
         public passwordConfirmation: FSF = {
           type: String,
-          fieldType: FieldTypes.input,
           input: {
             type: 'password',
             label: 'Password Confirmation'
@@ -161,16 +152,14 @@ describe('DomainFormik', () => {
         public __ = { name: 'User' };
         public username: FSF = {
           type: String,
-          fieldType: FieldTypes.input,
           input: {
-            inputType: 'text',
             label: 'Username'
           },
           defaultValue: 'User'
         };
         public userfield: FSF = {
           type: String,
-          fieldType: FieldTypes.custom,
+          fieldType: 'custom',
           component: MyComponent,
           input: {
             label: 'User Field',
@@ -209,7 +198,6 @@ describe('DomainFormik', () => {
         public __ = { name: 'User' };
         public username: FSF = {
           type: String,
-          fieldType: FieldTypes.input,
           input: {
             label: 'Username',
             placeholder: 'name'
@@ -218,7 +206,6 @@ describe('DomainFormik', () => {
         };
         public email: FSF = {
           type: String,
-          fieldType: FieldTypes.input,
           input: {
             type: 'email',
             label: 'Email'
@@ -226,7 +213,6 @@ describe('DomainFormik', () => {
         };
         public pass: FSF = {
           type: String,
-          fieldType: FieldTypes.input,
           input: {
             type: 'password',
             label: 'Email'

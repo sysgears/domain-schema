@@ -11,7 +11,7 @@ export interface Props {
   onBlur?: any;
   onChange?: any;
   parent?: any;
-  value?: string | number;
+  value?: string | number | boolean;
 }
 
 export default class Field extends Component<Props, {}> {
@@ -25,7 +25,7 @@ export default class Field extends Component<Props, {}> {
 
   public render() {
     const { formik: { setFieldValue, handleChange, handleBlur, touched, errors } } = this.context;
-    const { component, parent, attrs, fieldType, name } = this.props;
+    const { component, parent, attrs, fieldType, name, value } = this.props;
     const { onChange, onBlur, type } = attrs;
 
     const input = {
@@ -40,7 +40,8 @@ export default class Field extends Component<Props, {}> {
           : onChange ? onChange : handleChange,
       onBlur: onBlur ? onBlur : handleBlur,
       type: type || (fieldType === 'input' ? 'text' : fieldType),
-      name
+      name,
+      value: value || ''
     };
 
     const meta = {

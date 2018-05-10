@@ -5,7 +5,6 @@ import * as React from 'react';
 import { ComponentType, CSSProperties, ReactElement } from 'react';
 
 import { Field } from './components';
-import FieldTypes from './fieldTypes';
 import { ButtonsConfig, FieldType, FSF } from './types';
 
 export default class DomainSchemaFormik {
@@ -43,6 +42,7 @@ export default class DomainSchemaFormik {
               return;
             }
             const schemaField: FSF = schema[fieldName];
+            schemaField.fieldType = schemaField.fieldType || 'input';
             if (!schemaField.type.isSchema) {
               const fieldValue = parent ? values[parent][fieldName] : values[fieldName];
               if (
@@ -90,14 +90,13 @@ export default class DomainSchemaFormik {
 
   public setFormComponents(components) {
     Object.keys(components).forEach(fieldType => {
-      if (FieldTypes.hasOwnProperty(fieldType)) {
-        this.fields[fieldType] = {
+      if (fieldType === 'form' || fieldType === 'button') {
+        this.formComponents[fieldType] = {
           name: fieldType,
           component: components[fieldType]
         };
-      }
-      if (fieldType === 'form' || fieldType === 'button') {
-        this.formComponents[fieldType] = {
+      } else {
+        this.fields[fieldType] = {
           name: fieldType,
           component: components[fieldType]
         };
@@ -110,14 +109,13 @@ export default class DomainSchemaFormik {
 
   public static setFormComponents(components) {
     Object.keys(components).forEach(fieldType => {
-      if (FieldTypes.hasOwnProperty(fieldType)) {
-        DomainSchemaFormik.fields[fieldType] = {
+      if (fieldType === 'form' || fieldType === 'button') {
+        DomainSchemaFormik.formComponents[fieldType] = {
           name: fieldType,
           component: components[fieldType]
         };
-      }
-      if (fieldType === 'form' || fieldType === 'button') {
-        DomainSchemaFormik.formComponents[fieldType] = {
+      } else {
+        DomainSchemaFormik.fields[fieldType] = {
           name: fieldType,
           component: components[fieldType]
         };
@@ -156,13 +154,9 @@ export default class DomainSchemaFormik {
       attrs: schemaField.input,
       fieldType: fieldType.name,
       component: fieldType.component || schemaField.component,
-      parent
+      parent,
+      value
     };
-    if (fieldType.name === FieldTypes.checkbox) {
-      props.attrs.checked = !!value;
-    } else {
-      props.attrs.value = value || '';
-    }
     return <Field {...props} />;
   }
 

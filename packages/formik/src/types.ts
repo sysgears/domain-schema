@@ -3,7 +3,7 @@ import { ComponentType } from 'react';
 
 export interface SchemaField {
   type: any;
-  fieldType: FieldType;
+  fieldType: string;
   input?: any;
   defaultValue?: string | boolean | number;
   component?: ComponentType<any>;

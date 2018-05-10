@@ -230,7 +230,6 @@ exports[`DomainFormik should generate form with custom field 1`] = `
     <input
       className="form-control"
       id="username"
-      inputType="text"
       label="Username"
       name="username"
       onBlur={[Function]}
