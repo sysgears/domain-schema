@@ -34,46 +34,14 @@ export default class DomainSchemaFormik {
     return DomainValidator.validate(formValues, this.schema);
   }
 
+  public generateFields({ values }: FormikProps<any>) {
+    const formElements = this.generate(values, this.schema.values, null, []);
+    return <React.Fragment>{formElements}</React.Fragment>;
+  }
+
   public generateForm(buttonsConfig?: ButtonsConfig | any, formAttrs?: any) {
     return withFormik(this.configFormik)(({ values, isValid, handleReset, handleSubmit }: FormikProps<any>) => {
-      const generate = (schema: DomainSchema, parent: string, collector: any[]) => {
-        Object.keys(schema)
-          .filter(schemaProp => schema.hasOwnProperty(schemaProp))
-          .forEach((fieldName: string) => {
-            if (fieldName === 'id' || schema[fieldName].ignore) {
-              return;
-            }
-            const schemaField: FSF = schema[fieldName];
-            schemaField.fieldType = schemaField.fieldType || 'input';
-            if (!schemaField.type.isSchema) {
-              const fieldValue = parent ? values[parent][fieldName] : values[fieldName];
-              if (
-                (this.fields && this.fields.hasOwnProperty(schemaField.fieldType)) ||
-                DomainSchemaFormik.fields.hasOwnProperty(schemaField.fieldType)
-              ) {
-                collector.push(
-                  this.genField(
-                    (this.fields && this.fields[schemaField.fieldType]) ||
-                      DomainSchemaFormik.fields[schemaField.fieldType],
-                    schemaField,
-                    fieldValue,
-                    fieldName,
-                    {
-                      name: parent,
-                      value: values[parent]
-                    }
-                  )
-                );
-              } else {
-                throw new Error(`${fieldName} has wrong field type`);
-              }
-            } else {
-              generate(schema[fieldName].type.values, fieldName, collector);
-            }
-          });
-        return collector;
-      };
-      const formElements = generate(this.schema.values, null, []);
+      const formElements = this.generate(values, this.schema.values, null, []);
       formElements.push(this.genButtons(buttonsConfig || {}, isValid, handleReset));
       const Form =
         (this.formComponents.form && this.formComponents.form.component) ||
@@ -125,7 +93,7 @@ export default class DomainSchemaFormik {
     });
   }
 
-  private getValuesFromSchema() {
+  public getValuesFromSchema() {
     const getValues = (schema: Schema, model: any) => {
       Object.keys(schema)
         .filter(schemaProp => schema.hasOwnProperty(schemaProp))
@@ -141,6 +109,43 @@ export default class DomainSchemaFormik {
       return model;
     };
     return getValues(this.schema.values, {});
+  }
+
+  private generate(values: any, schema: DomainSchema, parent: string, collector: any[]) {
+    Object.keys(schema)
+      .filter(schemaProp => schema.hasOwnProperty(schemaProp))
+      .forEach((fieldName: string) => {
+        if (fieldName === 'id' || schema[fieldName].ignore) {
+          return;
+        }
+        const schemaField: FSF = schema[fieldName];
+        schemaField.fieldType = schemaField.fieldType || 'input';
+        if (!schemaField.type.isSchema) {
+          const fieldValue = parent ? values[parent][fieldName] : values[fieldName];
+          if (
+            (this.fields && this.fields.hasOwnProperty(schemaField.fieldType)) ||
+            DomainSchemaFormik.fields.hasOwnProperty(schemaField.fieldType)
+          ) {
+            collector.push(
+              this.genField(
+                (this.fields && this.fields[schemaField.fieldType]) || DomainSchemaFormik.fields[schemaField.fieldType],
+                schemaField,
+                fieldValue,
+                fieldName,
+                {
+                  name: parent,
+                  value: values[parent]
+                }
+              )
+            );
+          } else {
+            throw new Error(`${fieldName} has wrong field type`);
+          }
+        } else {
+          this.generate(values, schema[fieldName].type.values, fieldName, collector);
+        }
+      });
+    return collector;
   }
 
   private genField(
