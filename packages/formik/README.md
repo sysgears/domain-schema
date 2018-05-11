@@ -203,12 +203,11 @@ const UserForm = userForm.generateForm({ className: 'my-form' });
   }}>
 ```
 
-### Supported field types
+### Using different field types
 
-All field types can take 3 special attributes: ```onChange```, ```onBlur``` and ```type```. All other defined attributes will be directly passed to the field component. Attribute ```name``` will be define automatically and equals field name from schema.
+All fields can take 3 special attributes: ```onChange```, ```onBlur``` and ```type```. All other defined attributes will be directly passed to the field component. Attribute ```name``` will be define automatically and equals field name from schema.
 
 * ```input```
-  * defaultValue - empty string, if not specified
 
   ```js
     email = {
@@ -233,7 +232,6 @@ All field types can take 3 special attributes: ```onChange```, ```onBlur``` and 
   ```
 
 * ```checkbox```
-  * defaultValue - false, if not specified
 
   ```js
     active = {
@@ -276,39 +274,40 @@ All field types can take 3 special attributes: ```onChange```, ```onBlur``` and 
 
 ### Buttons
 
-To create a ```submit``` button in the form we need to use special method ```setSubmitButtons``` in schema which will return object with props for button.
-All attributes, that we define in return object will be passed to the button:
+To create a ```submit``` button in the form we need to pass object with attributes to the  ```generateForm``` method.
+All attributes, that we define in the object will be passed to the button:
 
 ```js
-  setSubmitBtn() {
-    return {
-      label: 'Submit',
-      className: 'submit-btn',
-      color: 'primary'
-    }
-  }
+  ...
+  userForm.generateForm({
+    label: 'Submit',
+    className: 'submit-btn',
+    color: 'primary'
+  })
 ```
 
-In some cases, the submit button is not enough for us. We can also define ```reset``` button similarly. ```Reset``` button resets the form-data to its initial values.
+In some cases, the submit button is not enough for us. We should pass object that has ```submit``` and ```reset``` propperties. ```Reset``` button resets the form-data to its initial values.
 
 ```js
-  setResetBtn() {
-    return {
+  userForm.generateForm({
+    submit: {
+      label: 'Submit',
+      className: 'submit-btn'
+    },
+    reset: {
       label: 'Reset',
       className: 'reset-btn'
     }
-  }
+  })
 ```
 
 For position styling buttons have the `align` property which can take on values ```left``` or ```right```. By default, value is ```center```.
 
 ```js
-  setSubmitBtn() {
-    return {
-      ...
-      align: 'left'
-    };
-  }
+  userForm.generateForm({
+    ...
+    align: 'left'
+  })
 ```
 
 Buttons are wrapped in a div with style ```display: flex```, so that any properties for flex items can be applied to them. For example, the order of the buttons can be changed using ```order```.
@@ -325,19 +324,16 @@ Buttons are wrapped in a div with style ```display: flex```, so that any propert
 ```
 
 ```js
-  setSubmitBtn() {
-    return {
+  userForm.generateForm({
+    submit: {
       ...
       className: 'submit-btn'
-    };
-  }
-
-  setResetBtn() {
-    return {
+    },
+    reset: {
       ...
       className: 'reset-btn'
-    };
-  }
+    }
+  })
 ```
 
 ### Set form components
@@ -380,6 +376,16 @@ We should define ```onSubmit``` callback which is received values from form fiel
 <UserForm onSubmit={(values, formikBag) => {
     // handle submit
   }}>
+```
+
+### Generate form fields without form
+
+If we need maximum flexibility, we can generate only fields without the form itself. For that we should use ```generateField``` method instead of ```generateForm```. But note, that you should use Formik manually when you generating fields without form.
+
+```js
+const fieldSet = userForm.generateFields();
+...
+return <form>{fieldSet}</form>;
 ```
 
 ### Custom field generation
