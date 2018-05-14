@@ -8,8 +8,7 @@ describe('DomainValidator', () => {
         public __ = { name: 'User' };
         public id = DomainSchema.Int;
         public username = {
-          type: String,
-          required: true
+          type: String
         };
         public email = {
           type: String,
@@ -17,13 +16,11 @@ describe('DomainValidator', () => {
         };
         public pass = {
           type: String,
-          required: true,
-          minLength: 5
+          min: 5
         };
         public confPass = {
           type: String,
-          required: true,
-          match: 'pass'
+          matches: 'pass'
         };
       }
     );
@@ -44,11 +41,11 @@ describe('DomainValidator', () => {
     class Profile extends Schema {
       public __ = { name: 'Profile' };
       public firstName = {
-        type: String,
-        required: true
+        type: String
       };
       public lastName = {
-        type: String
+        type: String,
+        optional: true
       };
     }
     const schema = new DomainSchema(
@@ -57,7 +54,7 @@ describe('DomainValidator', () => {
         public id = DomainSchema.Int;
         public login = {
           type: String,
-          minLength: 3
+          min: 3
         };
         public profile = {
           type: Profile
@@ -83,18 +80,16 @@ describe('DomainValidator', () => {
         public __ = { name: 'User' };
         public id = DomainSchema.Int;
         public login = {
-          type: String,
-          required: true
+          type: String
         };
         public pass = {
-          type: String,
-          required: true
+          type: String
         };
       }
     );
     DomainValidation.setValidationMessages({
-      required: ({ field }) => {
-        return `Field ${field} is required!`;
+      required: ({ fieldName }) => {
+        return `Field ${fieldName} is required!`;
       }
     });
     const errors = DomainValidation.validate(
@@ -113,8 +108,7 @@ describe('DomainValidator', () => {
         public __ = { name: 'User' };
         public id = DomainSchema.Int;
         public login = {
-          type: String,
-          required: true
+          type: String
         };
         public pass = {
           type: String,
@@ -141,12 +135,10 @@ describe('DomainValidator', () => {
         public __ = { name: 'User' };
         public id = DomainSchema.Int;
         public login = {
-          type: String,
-          required: true
+          type: String
         };
         public pass = {
           type: String,
-          required: true,
           validators: [
             value => {
               return value.length > 5 ? undefined : 'Must Be more than 5 characters';

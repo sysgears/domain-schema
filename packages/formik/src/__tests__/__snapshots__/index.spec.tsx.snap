@@ -1,0 +1,386 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DomainFormik should allow to set UI toolkit for particular instance 1`] = `
+<form
+  className=""
+  name="User"
+  onSubmit={[Function]}
+>
+  <div>
+    <input
+      className={undefined}
+      name="custom_username"
+      onBlur={[Function]}
+      onChange={[Function]}
+      placeholder="Username"
+      type="text"
+      value="John"
+    />
+  </div>
+  <div>
+    <input
+      className={undefined}
+      name="custom_email"
+      onBlur={[Function]}
+      onChange={[Function]}
+      placeholder="Email"
+      type="text"
+      value=""
+    />
+  </div>
+  <div>
+    <input
+      className={undefined}
+      name="custom_pass"
+      onBlur={[Function]}
+      onChange={[Function]}
+      placeholder="Email"
+      type="text"
+      value=""
+    />
+  </div>
+  <div
+    style={
+      Object {
+        "display": "flex",
+        "flex": 1,
+        "justifyContent": "center",
+      }
+    }
+  >
+    <button
+      className="btn btn-secondary disabled"
+      disabled={true}
+      onClick={[Function]}
+      type="submit"
+    >
+      Save
+    </button>
+  </div>
+</form>
+`;
+
+exports[`DomainFormik should generate complex form 1`] = `
+<form
+  className=""
+  name="User"
+  onSubmit={[Function]}
+>
+  <div
+    className="form-group"
+  >
+    <label
+      className=""
+      htmlFor="username"
+    >
+      Username
+    </label>
+    <input
+      className="form-control"
+      id="username"
+      label="Username"
+      name="username"
+      onBlur={[Function]}
+      onChange={[Function]}
+      placeholder="Username"
+      type="text"
+      value="User"
+    />
+  </div>
+  <div
+    className="form-group"
+  >
+    <label
+      className=""
+      htmlFor="email"
+    >
+      Email
+    </label>
+    <input
+      className="form-control"
+      id="email"
+      label="Email"
+      name="email"
+      onBlur={[Function]}
+      onChange={[Function]}
+      placeholder="User email"
+      type="email"
+      value=""
+    />
+  </div>
+  <div
+    className="form-group"
+  >
+    <label
+      className=""
+      htmlFor="firstName"
+    >
+      First Name
+    </label>
+    <input
+      className="form-control"
+      id="firstName"
+      label="First Name"
+      name="firstName"
+      onBlur={[Function]}
+      onChange={[Function]}
+      placeholder="First Name"
+      type="text"
+      value="Ashley"
+    />
+  </div>
+  <div
+    className="form-group"
+  >
+    <label
+      className=""
+      htmlFor="lastName"
+    >
+      Last Name
+    </label>
+    <input
+      className="form-control"
+      id="lastName"
+      label="Last Name"
+      name="lastName"
+      onBlur={[Function]}
+      onChange={[Function]}
+      placeholder="Last Name"
+      type="text"
+      value=""
+    />
+  </div>
+  <div
+    className="form-group"
+  >
+    <label
+      className=""
+      htmlFor="password"
+    >
+      Password
+    </label>
+    <input
+      className="form-control"
+      id="password"
+      label="Password"
+      name="password"
+      onBlur={[Function]}
+      onChange={[Function]}
+      placeholder="Password"
+      type="password"
+      value=""
+    />
+  </div>
+  <div
+    className="form-group"
+  >
+    <label
+      className=""
+      htmlFor="passwordConfirmation"
+    >
+      Password Confirmation
+    </label>
+    <input
+      className="form-control"
+      id="passwordConfirmation"
+      label="Password Confirmation"
+      name="passwordConfirmation"
+      onBlur={[Function]}
+      onChange={[Function]}
+      placeholder="Password Confirmation"
+      type="password"
+      value=""
+    />
+  </div>
+  <div
+    style={
+      Object {
+        "display": "flex",
+        "flex": 1,
+        "justifyContent": "center",
+      }
+    }
+  >
+    <button
+      className="btn btn-secondary"
+      onClick={[Function]}
+      type="submit"
+    >
+      Submit
+    </button>
+  </div>
+</form>
+`;
+
+exports[`DomainFormik should generate form with custom field 1`] = `
+<form
+  className=""
+  name="User"
+  onSubmit={[Function]}
+>
+  <div
+    className="form-group"
+  >
+    <label
+      className=""
+      htmlFor="username"
+    >
+      Username
+    </label>
+    <input
+      className="form-control"
+      id="username"
+      label="Username"
+      name="username"
+      onBlur={[Function]}
+      onChange={[Function]}
+      placeholder="Username"
+      type="text"
+      value="User"
+    />
+  </div>
+  <div>
+    <input
+      className="my-awesome-field"
+      name="userfield"
+      onBlur={[Function]}
+      onChange={[Function]}
+      placeholder="User Field"
+      type="text"
+      value="my field"
+    />
+  </div>
+  <div
+    style={
+      Object {
+        "display": "flex",
+        "flex": 1,
+        "justifyContent": "center",
+      }
+    }
+  >
+    <button
+      className="btn btn-secondary disabled"
+      disabled={true}
+      onClick={[Function]}
+      type="submit"
+    >
+      Submit
+    </button>
+  </div>
+</form>
+`;
+
+exports[`DomainFormik should generate simple form 1`] = `
+<form
+  className=""
+  name="User"
+  onSubmit={[Function]}
+>
+  <div
+    className="form-group"
+  >
+    <label
+      className=""
+      htmlFor="username"
+    >
+      Username
+    </label>
+    <input
+      className="form-control"
+      id="username"
+      label="Username"
+      name="username"
+      onBlur={[Function]}
+      onChange={[Function]}
+      placeholder="name"
+      type="text"
+      value="John"
+    />
+  </div>
+  <div
+    className="form-group"
+  >
+    <label
+      className=""
+      htmlFor="email"
+    >
+      Email
+    </label>
+    <input
+      className="form-control"
+      id="email"
+      label="Email"
+      name="email"
+      onBlur={[Function]}
+      onChange={[Function]}
+      placeholder="Email"
+      type="email"
+      value=""
+    />
+  </div>
+  <div
+    className="form-group"
+  >
+    <label
+      className=""
+      htmlFor="pass"
+    >
+      Email
+    </label>
+    <input
+      className="form-control"
+      id="pass"
+      label="Email"
+      name="pass"
+      onBlur={[Function]}
+      onChange={[Function]}
+      placeholder="Email"
+      type="password"
+      value=""
+    />
+  </div>
+  <div
+    className="form-group"
+  >
+    <div
+      className="form-check"
+    >
+      <input
+        checked={true}
+        className="form-check-input"
+        id="isActive"
+        label="Is Active"
+        name="isActive"
+        onBlur={[Function]}
+        onChange={[Function]}
+        type="checkbox"
+      />
+      <label
+        className="form-check-label "
+        htmlFor="isActive"
+      >
+        Is Active
+      </label>
+    </div>
+  </div>
+  <div
+    style={
+      Object {
+        "display": "flex",
+        "flex": 1,
+        "justifyContent": "center",
+      }
+    }
+  >
+    <button
+      className="btn btn-secondary disabled"
+      disabled={true}
+      onClick={[Function]}
+      type="submit"
+    >
+      Save
+    </button>
+  </div>
+</form>
+`;
