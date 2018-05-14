@@ -168,9 +168,12 @@ export default class DomainSchemaFormik {
       } else {
         submit = {
           label: 'Save',
-          disableOnInvalid: false
+          disableOnInvalid: true
         };
       }
+    }
+    if (!submit.hasOwnProperty('disableOnInvalid')) {
+      submit.disableOnInvalid = true;
     }
     const { label, disableOnInvalid, ...submitProps } = submit;
     if (disableOnInvalid) {

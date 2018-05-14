@@ -130,7 +130,7 @@ describe('DomainFormik', () => {
     const userForm = new DomainSchemaFormik(schema);
     const FormComponent = userForm.generateForm({
       label: 'Submit',
-      disableOnInvalid: true
+      disableOnInvalid: false
     });
     const component = renderer.create(<FormComponent onSubmit={() => null} />);
     const tree = component.toJSON();
