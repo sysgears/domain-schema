@@ -4,7 +4,7 @@ import * as React from 'react';
 import renderer from 'react-test-renderer';
 
 import { DomainSchemaFormik, FSF } from '../';
-import { Button, Form, RenderCheckBox, RenderField, RenderSelect } from '../components';
+import { Button, Form, RenderCheckBox, RenderField, RenderSelect } from './components';
 
 DomainSchemaFormik.setFormComponents({
   input: RenderField,

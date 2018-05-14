@@ -4,7 +4,7 @@ import { FormikProps, withFormik } from 'formik';
 import * as React from 'react';
 import { ComponentType, CSSProperties, ReactElement } from 'react';
 
-import { Field } from './components';
+import Field from './FieldAdapter';
 import { ButtonsConfig, FieldType, FSF } from './types';
 
 export default class DomainSchemaFormik {
