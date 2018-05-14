@@ -188,9 +188,9 @@ const UserForm = userForm.generateForm(
 
 ### Using different field types
 
-All fields can take 3 special attributes: ```onChange```, ```onBlur``` and ```type```. All other defined attributes will be directly passed to the field component. Attribute ```name``` will be define automatically and equals field name from schema. ```input``` is default field type and it can be omitted.
+To pass attributes/properties to the field component use ```input``` property in a schema. All fields can take 3 special attributes: ```onChange```, ```onBlur``` and ```type```. All other defined attributes will be directly passed to the field component. Attribute ```name``` will be define automatically and equals field name from the schema.
 
-* ```input```
+* ```input``` - is default field type and it can be omitted
 
   ```js
     email = {
@@ -266,6 +266,21 @@ To prevent the generation of a specific field we can use ```ignore``` property
       },
       ignore: true
     };
+```
+
+Field components will get next props:
+
+```js
+{
+      // all props which were specified in the input property in the schema
+      ...,
+      onChange, // if the callback was not specified in the input property, the Formik's handleChange will be used
+      onBlur, // the same as OnChange
+      type, // if the type was not specified in the input property, the fieldType will be used, if the fieldType is missing too, 'text' will be used
+      name, //  will be define automatically and equals field name from the schema
+      value, // if the defaultValue was not specified, the empty will be used as value
+      meta // object with touched and error properties from Formik
+}
 ```
 
 ### Buttons
