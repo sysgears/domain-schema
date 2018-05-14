@@ -8,13 +8,13 @@ import { Field } from './components';
 import { ButtonsConfig, FieldType, FSF } from './types';
 
 export default class DomainSchemaFormik {
-  public static fields: any = {
+  private static fields: any = {
     custom: {
       name: 'custom'
     }
   };
   private static formComponents: any = {};
-  public fields: any = {};
+  private fields: any = {};
   private formComponents: any = {};
   private configFormik = {
     enableReinitialize: true,
