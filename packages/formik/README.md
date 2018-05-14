@@ -26,7 +26,7 @@ npm install @domain-schema/formik @domain-schema/core @domain-schema/validation
 import DomainSchema, { Schema } from '@domain-schema/core';
 import { DomainSchemaFormik } from '@domain-schema/formik';
 
-import { Button, Form, RenderField, RenderCheckBox, RenderSelect } from '../my-components';
+import { Button, Form, RenderField } from '../my-components';
 
 const userFormSchema =
   class User extends Schema {
@@ -66,8 +66,6 @@ const userFormSchema =
 // set components globally for all forms
 DomainSchemaFormik.setFormComponents({
   input: RenderField,
-  select: RenderSelect,
-  checkbox: RenderCheckBox,
   form: Form,
   button: Button
 });
@@ -89,7 +87,7 @@ const UserForm = userForm.generateForm({
 import DomainSchema, { Schema } from '@domain-schema/core';
 import { DomainSchemaFormik } from '@domain-schema/formik';
 
-import { Button, Form, RenderField, RenderCheckBox, RenderSelect } from '../my-components';
+import { Button, Form, RenderField } from '../my-components';
 
 const userFormSchema =
   class User extends Schema {
@@ -162,8 +160,6 @@ const userForm =  new DomainSchemaFormik(userFormSchema);
 // set components for particular DomainSchemaFormik instance
 userForm.setFormComponents({
   input: RenderField,
-  select: RenderSelect,
-  checkbox: RenderCheckBox,
   form: Form,
   button: Button
 });

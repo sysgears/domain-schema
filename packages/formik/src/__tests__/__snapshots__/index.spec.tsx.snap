@@ -49,7 +49,8 @@ exports[`DomainFormik should allow to set UI toolkit for particular instance 1`]
     }
   >
     <button
-      className="btn btn-secondary"
+      className="btn btn-secondary disabled"
+      disabled={true}
       onClick={[Function]}
       type="submit"
     >
@@ -201,8 +202,7 @@ exports[`DomainFormik should generate complex form 1`] = `
     }
   >
     <button
-      className="btn btn-secondary disabled"
-      disabled={true}
+      className="btn btn-secondary"
       onClick={[Function]}
       type="submit"
     >
@@ -260,7 +260,8 @@ exports[`DomainFormik should generate form with custom field 1`] = `
     }
   >
     <button
-      className="btn btn-secondary"
+      className="btn btn-secondary disabled"
+      disabled={true}
       onClick={[Function]}
       type="submit"
     >
@@ -373,7 +374,8 @@ exports[`DomainFormik should generate simple form 1`] = `
     }
   >
     <button
-      className="btn btn-secondary"
+      className="btn btn-secondary disabled"
+      disabled={true}
       onClick={[Function]}
       type="submit"
     >
