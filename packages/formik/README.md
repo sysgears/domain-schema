@@ -194,14 +194,14 @@ const UserForm = userForm.generateForm({ className: 'my-form' });
 
 ### Using different field types
 
-All fields can take 3 special attributes: ```onChange```, ```onBlur``` and ```type```. All other defined attributes will be directly passed to the field component. Attribute ```name``` will be define automatically and equals field name from schema.
+All fields can take 3 special attributes: ```onChange```, ```onBlur``` and ```type```. All other defined attributes will be directly passed to the field component. Attribute ```name``` will be define automatically and equals field name from schema. ```input``` is default field type and it can be omitted.
 
 * ```input```
 
   ```js
     email = {
       ...
-      fieldType: FieldTypes.input,
+      fieldType: 'input',
       input: {
         type: 'email',
         placeholder: 'User Email'
@@ -210,7 +210,7 @@ All fields can take 3 special attributes: ```onChange```, ```onBlur``` and ```ty
     }
     post = {
       ...
-      fieldType: FieldTypes.input,
+      // fieldType: 'input'
       input: {
         placeholder: 'Your post',
         type: 'textarea',
@@ -225,7 +225,7 @@ All fields can take 3 special attributes: ```onChange```, ```onBlur``` and ```ty
   ```js
     active = {
       ...
-      fieldType: FieldTypes.checkbox,
+      fieldType: 'checkbox',
       input: {
         label: 'Active'
       },
@@ -238,7 +238,7 @@ All fields can take 3 special attributes: ```onChange```, ```onBlur``` and ```ty
   ```js
     role = {
       ...
-      fieldType: FieldTypes.select,
+      fieldType: 'select',
       input: {
         label: 'User role',
         values: ['user', 'admin']
@@ -252,7 +252,7 @@ All fields can take 3 special attributes: ```onChange```, ```onBlur``` and ```ty
   ```js
     friend = {
       ...
-      fieldType: FieldTypes.select,
+      fieldType: 'radio',
       input: {
         label: 'Very best friend',
         values: ['Gerald', 'Ashley']
@@ -327,7 +327,7 @@ Buttons are wrapped in a div with style ```display: flex```, so that any propert
 
 ### Set form components
 
-Form component can be set in two ways. Globally, for all forms:
+Form components can be set in two ways. Globally, for all forms:
 
 ```js
 ...
@@ -369,7 +369,7 @@ We should define ```onSubmit``` callback which is received values from form fiel
 
 ### Generate form fields without form
 
-If we need maximum flexibility, we can generate only fields without the form itself. For that we should use ```generateField``` method instead of ```generateForm```. But note, that you should use Formik manually when you generating fields without form.
+If we need maximum flexibility, we can generate only fields without the form itself. For that we should use ```generateFields``` method instead of ```generateForm```. But note, that you should use Formik manually when you generating fields without form.
 
 ```js
 const fieldSet = userForm.generateFields();
@@ -379,7 +379,7 @@ return <form>{fieldSet}</form>;
 
 ### Custom field generation
 
-We can use custom field, defining ```fieldType``` as ```FieldTypes.custom```
+We can use custom field, defining ```fieldType``` as ```custom```
 and specified field component in ```component``` prop. All necessary props can be provided via ```input```.
 
 ```js
@@ -423,7 +423,7 @@ and specified field component in ```component``` prop. All necessary props can b
    (works with both numbers and strings)
 
   ```js
-    // Checks length is type is String...
+    // Checks length if type is String...
     name = {
       ...
       type: String,
