@@ -24,23 +24,21 @@ npm install @domain-schema/formik @domain-schema/core @domain-schema/validation
 
 ```js
 import DomainSchema, { Schema } from '@domain-schema/core';
-import { DomainSchemaFormik, FieldTypes, FormSchema } from '@domain-schema/formik';
+import { DomainSchemaFormik } from '@domain-schema/formik';
 
 import { Button, Form, RenderField, RenderCheckBox, RenderSelect } from '../my-components';
 
-const userFormSchema = new DomainSchema(
-  class User extends FormSchema {
+const userFormSchema =
+  class User extends Schema {
     __ = { name: 'User' };
     username = {
       type: String,
-      fieldType: FieldTypes.input,
       input: {
         label: 'Username'
       }
     };
     email = {
       type: String,
-      fieldType: FieldTypes.input,
       input: {
         type: 'email',
         label: 'Email'
@@ -49,7 +47,6 @@ const userFormSchema = new DomainSchema(
     };
     password = {
       type: String,
-      fieldType: FieldTypes.input,
       input: {
         type: 'password',
         label: 'Password',
@@ -58,7 +55,6 @@ const userFormSchema = new DomainSchema(
     };
     passwordConfirmation = {
       type: String,
-      fieldType: FieldTypes.input,
       input: {
         type: 'password',
         label: 'Password Confirmation',
@@ -71,7 +67,6 @@ const userFormSchema = new DomainSchema(
       }
     }
   }
-);
 
 // set components globally for all forms
 DomainSchemaFormik.setFormComponents({
@@ -99,12 +94,11 @@ import { DomainSchemaFormik, FieldTypes, FormSchema } from '@domain-schema/formi
 
 import { Button, Form, RenderField, RenderCheckBox, RenderSelect } from '../my-components';
 
-const userFormSchema = new DomainSchema(
-  class User extends FormSchema {
+const userFormSchema =
+  class User extends Schema {
     __ = { name: 'User' };
     username = {
       type: String,
-      fieldType: FieldTypes.input,
       input: {
         label: 'Username'
       },
@@ -117,7 +111,6 @@ const userFormSchema = new DomainSchema(
     };
     email = {
       type: String,
-      fieldType: FieldTypes.input,
       input: {
         type: 'email',
         label: 'Email',
@@ -130,7 +123,6 @@ const userFormSchema = new DomainSchema(
     };
     password = {
       type: String,
-      fieldType: FieldTypes.input,
       input: {
         type: 'password',
         label: 'Password',
@@ -139,7 +131,6 @@ const userFormSchema = new DomainSchema(
     };
     passwordConfirmation = {
       type: String,
-      fieldType: FieldTypes.input,
       input: {
         type: 'password',
         label: 'Password Confirmation',
@@ -153,12 +144,11 @@ const userFormSchema = new DomainSchema(
       }
     }
   }
-);
+
 class Profile extends Schema {
   __ = { name: 'Profile' };
   firstName = {
     type: String,
-    fieldType: FieldTypes.input,
     input: {
       label: 'First Name'
     },
@@ -169,7 +159,6 @@ class Profile extends Schema {
   };
   lastName = {
     type: String,
-    fieldType: FieldTypes.input,
     input: {
       label: 'Last Name'
     },
@@ -395,7 +384,7 @@ and specified field component in ```component``` prop. All necessary props can b
 
 ```js
   myField = {
-    fieldType: FieldTypes.custom,
+    fieldType: 'custom',
     component: MyFieldComponent,
     input: {
       // all props that our component may need
@@ -519,7 +508,7 @@ In that object the ``keys`` are validator names and values can be either strings
 * Values are strings:
 
 ```js
-    DomainReactForms.setValidationMessages({
+    DomainSchemaFormik.setValidationMessages({
       required: 'This field is required',
       phoneNumber: 'Error! Not a phone number!'
     });
@@ -528,7 +517,7 @@ In that object the ``keys`` are validator names and values can be either strings
 * Values are callback functions:
 
 ```js
-    DomainReactForms.setValidationMessages({
+    DomainSchemaFormik.setValidationMessages({
       required: ({fieldName}) => {
         return `Field '${fieldName}' is required`
       },
