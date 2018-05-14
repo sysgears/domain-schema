@@ -61,11 +61,6 @@ const userFormSchema =
       },
       matches: 'password'
     };
-    setSubmitBtn() {
-      return {
-        label: 'Submit'
-      }
-    }
   }
 
 // set components globally for all forms
@@ -79,7 +74,10 @@ DomainSchemaFormik.setFormComponents({
 
 const userForm =  new DomainSchemaFormik(userFormSchema);
 
-const UserForm = userForm.generateForm();
+const UserForm = userForm.generateForm({
+  label: 'Save',
+  disableOnInvalid: true
+});
 
 <UserForm onSubmit={values => {
     // handle submit
@@ -137,12 +135,6 @@ const userFormSchema =
       },
       matches: 'password'
     };
-    setSubmitBtn() {
-      return {
-        label: 'Submit',
-        className: 'submit-btn'
-      }
-    }
   }
 
 class Profile extends Schema {
@@ -184,7 +176,13 @@ DomainSchemaFormik.setValidationMessages({
   }
 });
 
-const UserForm = userForm.generateForm({ className: 'my-form' });
+const UserForm = userForm.generateForm(
+  {
+    label: 'Submit',
+    className: 'submit-btn'
+  },
+  { className: 'my-form' }
+);
 
 // Defining onSubmit prop is required
 <UserForm onSubmit={(values, formikBag) => {

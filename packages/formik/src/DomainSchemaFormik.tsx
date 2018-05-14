@@ -16,7 +16,6 @@ export default class DomainSchemaFormik {
   private static formComponents: any = {};
   public fields: any = {};
   private formComponents: any = {};
-  private handleSubmit;
   private configFormik = {
     enableReinitialize: true,
     mapPropsToValues: () => this.getValuesFromSchema(),
@@ -35,13 +34,13 @@ export default class DomainSchemaFormik {
   }
 
   public generateFields({ values }: FormikProps<any>) {
-    const formElements = this.generate(values, this.schema.values, null, []);
+    const formElements = this.generateFieldComponents(values, this.schema.values, null, []);
     return <React.Fragment>{formElements}</React.Fragment>;
   }
 
   public generateForm(buttonsConfig?: ButtonsConfig | any, formAttrs?: any) {
     return withFormik(this.configFormik)(({ values, isValid, handleReset, handleSubmit }: FormikProps<any>) => {
-      const formElements = this.generate(values, this.schema.values, null, []);
+      const formElements = this.generateFieldComponents(values, this.schema.values, null, []);
       formElements.push(this.genButtons(buttonsConfig || {}, isValid, handleReset));
       const Form =
         (this.formComponents.form && this.formComponents.form.component) ||
@@ -58,18 +57,12 @@ export default class DomainSchemaFormik {
     DomainValidator.setValidationMessages(messages);
   }
 
-  public setFormComponents(components) {
+  public setFormComponents(components: any) {
     Object.keys(components).forEach(fieldType => {
       if (fieldType === 'form' || fieldType === 'button') {
-        this.formComponents[fieldType] = {
-          name: fieldType,
-          component: components[fieldType]
-        };
+        this.formComponents[fieldType] = DomainSchemaFormik.getFieldType(fieldType, components);
       } else {
-        this.fields[fieldType] = {
-          name: fieldType,
-          component: components[fieldType]
-        };
+        this.fields[fieldType] = DomainSchemaFormik.getFieldType(fieldType, components);
       }
     });
     this.fields.custom = {
@@ -77,18 +70,12 @@ export default class DomainSchemaFormik {
     };
   }
 
-  public static setFormComponents(components) {
+  public static setFormComponents(components: any) {
     Object.keys(components).forEach(fieldType => {
       if (fieldType === 'form' || fieldType === 'button') {
-        DomainSchemaFormik.formComponents[fieldType] = {
-          name: fieldType,
-          component: components[fieldType]
-        };
+        DomainSchemaFormik.formComponents[fieldType] = DomainSchemaFormik.getFieldType(fieldType, components);
       } else {
-        DomainSchemaFormik.fields[fieldType] = {
-          name: fieldType,
-          component: components[fieldType]
-        };
+        DomainSchemaFormik.fields[fieldType] = DomainSchemaFormik.getFieldType(fieldType, components);
       }
     });
   }
@@ -111,7 +98,12 @@ export default class DomainSchemaFormik {
     return getValues(this.schema.values, {});
   }
 
-  private generate(values: any, schema: DomainSchema, parent: string, collector: any[]) {
+  private static getFieldType = (fieldType: string, components: any) => ({
+    name: fieldType,
+    component: components[fieldType]
+  });
+
+  private generateFieldComponents(values: any, schema: DomainSchema, parent: string, collector: any[]) {
     Object.keys(schema)
       .filter(schemaProp => schema.hasOwnProperty(schemaProp))
       .forEach((fieldName: string) => {
@@ -142,7 +134,7 @@ export default class DomainSchemaFormik {
             throw new Error(`${fieldName} has wrong field type`);
           }
         } else {
-          this.generate(values, schema[fieldName].type.values, fieldName, collector);
+          this.generateFieldComponents(values, schema[fieldName].type.values, fieldName, collector);
         }
       });
     return collector;
@@ -176,12 +168,12 @@ export default class DomainSchemaFormik {
       } else {
         submit = {
           label: 'Save',
-          autovalidate: false
+          disableOnInvalid: false
         };
       }
     }
-    const { label, autovalidate, ...submitProps } = submit;
-    if (autovalidate) {
+    const { label, disableOnInvalid, ...submitProps } = submit;
+    if (disableOnInvalid) {
       submitProps.disabled = !valid;
     }
 
