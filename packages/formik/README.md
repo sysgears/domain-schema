@@ -75,8 +75,7 @@ DomainSchemaFormik.setFormComponents({
 const userForm =  new DomainSchemaFormik(userFormSchema);
 
 const UserForm = userForm.generateForm({
-  label: 'Save',
-  disableOnInvalid: true
+  label: 'Save'
 });
 
 <UserForm onSubmit={values => {
@@ -88,7 +87,7 @@ const UserForm = userForm.generateForm({
 
 ```js
 import DomainSchema, { Schema } from '@domain-schema/core';
-import { DomainSchemaFormik, FieldTypes, FormSchema } from '@domain-schema/formik';
+import { DomainSchemaFormik } from '@domain-schema/formik';
 
 import { Button, Form, RenderField, RenderCheckBox, RenderSelect } from '../my-components';
 
@@ -179,7 +178,8 @@ DomainSchemaFormik.setValidationMessages({
 const UserForm = userForm.generateForm(
   {
     label: 'Submit',
-    className: 'submit-btn'
+    className: 'submit-btn',
+    disableOnInvalid: false
   },
   { className: 'my-form' }
 );
@@ -259,6 +259,19 @@ All fields can take 3 special attributes: ```onChange```, ```onBlur``` and ```ty
     }
   ```
 
+To prevent the generation of a specific field we can use ```ignore``` property
+
+```js
+  password = {
+      type: String,
+      input: {
+        type: 'password',
+        label: 'Password',
+      },
+      ignore: true
+    };
+```
+
 ### Buttons
 
 To create a ```submit``` button in the form we need to pass object with attributes to the  ```generateForm``` method.
@@ -270,6 +283,15 @@ All attributes, that we define in the object will be passed to the button:
     label: 'Submit',
     className: 'submit-btn',
     color: 'primary'
+  })
+```
+
+By default, ```submit``` button is disabled when form is invalid. To deactivate that behaviour we can define ```disableOnInvalid``` as ```false```
+
+```js
+  userForm.generateForm({
+    label: 'Save',
+    disableOnInvalid: false
   })
 ```
 
