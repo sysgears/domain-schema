@@ -6,7 +6,8 @@
     "paths": {
       "@domain-schema/core": ["../core/lib"],
       "@domain-schema/validation": ["../validation/lib"]
-    }
+    },
+    "jsx": "react"
   },
-  "include": ["src/**/*.ts"]
+  "include": ["src/**/*"]
 }

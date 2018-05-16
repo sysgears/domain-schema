@@ -3,4 +3,4 @@
 .history
 lib
 node_modules
-lerna-debug.log
+*.log
