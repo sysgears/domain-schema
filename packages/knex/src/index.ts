@@ -110,10 +110,12 @@ class DomainKnex {
         const value = domainSchema.values[key];
         const type = value.type.constructor === Array ? value.type[0] : value.type;
         if (type.isSchema) {
-          const hostTableName = domainSchema.__.transient ? parentTableName : tableName;
-          const newPromise = this._createTables(hostTableName, type, seen);
-          promises.push(newPromise);
-          debug(`Schema key: ${tableName}.${column} -> ${type.__.name}`);
+          if (!value.external) {
+            const hostTableName = domainSchema.__.transient ? parentTableName : tableName;
+            const newPromise = this._createTables(hostTableName, type, seen);
+            promises.push(newPromise);
+            debug(`Schema key: ${tableName}.${column} -> ${type.__.name}`);
+          }
         } else if (!value.transient && key !== 'id') {
           DomainKnex._addColumn(tableName, table, key, value);
           debug(`Scalar key: ${tableName}.${column} -> ${domainSchema.__.name}`);
