@@ -110,11 +110,18 @@ class DomainKnex {
         const value = domainSchema.values[key];
         const type = value.type.constructor === Array ? value.type[0] : value.type;
         if (type.isSchema) {
-          if (!value.external) {
-            const hostTableName = domainSchema.__.transient ? parentTableName : tableName;
-            const newPromise = this._createTables(hostTableName, type, seen);
-            promises.push(newPromise);
-            debug(`Schema key: ${tableName}.${column} -> ${type.__.name}`);
+          const hostTableName = domainSchema.__.transient ? parentTableName : tableName;
+          const newPromise = this._createTables(hostTableName, type, seen);
+          promises.push(newPromise);
+          debug(`Schema key: ${tableName}.${column} -> ${type.__.name}`);
+          if (value.type.constructor !== Array) {
+            table
+              .integer(`${column}_id`)
+              .unsigned()
+              .references('id')
+              .inTable(column)
+              .onDelete('CASCADE');
+            debug(`Foreign key ${tableName} -> ${column}.${column}_id`);
           }
         } else if (!value.transient && key !== 'id') {
           DomainKnex._addColumn(tableName, table, key, value);
