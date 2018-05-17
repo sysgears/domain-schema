@@ -1,6 +1,6 @@
 {
   "name": "@domain-schema/validation",
-  "version": "0.0.32",
+  "version": "0.0.33",
   "description": "Validation for Domain Schema",
   "repository": "https://github.com/sysgears/domain-schema.git",
   "author": "Victor Vlasenko <victor.vlasenko@sysgears.com>",
