@@ -114,6 +114,15 @@ class DomainKnex {
           const newPromise = this._createTables(hostTableName, type, seen);
           promises.push(newPromise);
           debug(`Schema key: ${tableName}.${column} -> ${type.__.name}`);
+          if (value.type.constructor !== Array) {
+            table
+              .integer(`${column}_id`)
+              .unsigned()
+              .references('id')
+              .inTable(column)
+              .onDelete('CASCADE');
+            debug(`Foreign key ${tableName} -> ${column}.${column}_id`);
+          }
         } else if (!value.transient && key !== 'id') {
           DomainKnex._addColumn(tableName, table, key, value);
           debug(`Scalar key: ${tableName}.${column} -> ${domainSchema.__.name}`);
