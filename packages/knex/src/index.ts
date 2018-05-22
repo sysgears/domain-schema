@@ -119,7 +119,7 @@ class DomainKnex {
               .integer(`${column}_id`)
               .unsigned()
               .references('id')
-              .inTable(column)
+              .inTable(tableName)
               .onDelete('CASCADE');
             debug(`Foreign key ${tableName} -> ${column}.${column}_id`);
           }
