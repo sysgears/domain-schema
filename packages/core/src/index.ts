@@ -19,8 +19,6 @@ class DomainSchema extends Schema {
       this._schemaClass = clazz._schemaClass;
       this._schema = clazz._schema;
       this._values = clazz._values;
-    } else if (!DomainSchema._isConstructable(clazz)) {
-      DomainSchema._throwWrongSchema(clazz);
     } else {
       this._schemaClass = clazz;
       this._schema = new clazz();
@@ -99,21 +97,10 @@ class DomainSchema extends Schema {
   private static _isSchema(clazz: any): boolean {
     if (clazz instanceof DomainSchema) {
       return true;
-    } else if (!DomainSchema._isConstructable(clazz)) {
-      return false;
     } else {
       const schema = new clazz();
       return schema instanceof Schema;
     }
-  }
-
-  private static _isConstructable(f): boolean {
-    try {
-      Reflect.construct(String, [], f);
-    } catch (e) {
-      return false;
-    }
-    return true;
   }
 }
 
