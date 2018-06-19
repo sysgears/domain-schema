@@ -108,18 +108,23 @@ class DomainKnex {
       for (const key of domainSchema.keys()) {
         const column = decamelize(key);
         const value = domainSchema.values[key];
+        const isOneToMany = value.type.constructor === Array;
         const type = value.type.constructor === Array ? value.type[0] : value.type;
+
         if (type.isSchema) {
           const hostTableName = domainSchema.__.transient ? parentTableName : tableName;
-          const newPromise = this._createTables(hostTableName, type, seen);
+          const newPromise = this._createTables(isOneToMany ? hostTableName : null, type, seen);
+          const foreignTable = decamelize(type.__.name);
+
           promises.push(newPromise);
           debug(`Schema key: ${tableName}.${column} -> ${type.__.name}`);
-          if (value.type.constructor !== Array) {
+
+          if (!isOneToMany && parentTableName !== foreignTable) {
             table
               .integer(`${column}_id`)
               .unsigned()
               .references('id')
-              .inTable(tableName)
+              .inTable(foreignTable)
               .onDelete('CASCADE');
             debug(`Foreign key ${tableName} -> ${column}.${column}_id`);
           }
