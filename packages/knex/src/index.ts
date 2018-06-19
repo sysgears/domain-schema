@@ -97,7 +97,7 @@ class DomainKnex {
           .references('id')
           .inTable(parentTableName)
           .onDelete('CASCADE');
-        debug(`Foreign key parent ${tableName} -> ${parentTableName}.${parentTableName}_id`);
+        debug(`Foreign key ${tableName} -> ${parentTableName}.${parentTableName}_id`);
       }
 
       table.increments('id');
@@ -108,18 +108,18 @@ class DomainKnex {
       for (const key of domainSchema.keys()) {
         const column = decamelize(key);
         const value = domainSchema.values[key];
-        const oneToMany = value.type.constructor === Array;
-        const type = oneToMany ? value.type[0] : value.type;
+        const isOneToMany = value.type.constructor === Array;
+        const type = value.type.constructor === Array ? value.type[0] : value.type;
 
         if (type.isSchema) {
           const hostTableName = domainSchema.__.transient ? parentTableName : tableName;
-          const newPromise = this._createTables(oneToMany ? hostTableName : null, type, seen);
-          const foreignTable = column === 'parent' ? tableName : column;
+          const newPromise = this._createTables(isOneToMany ? hostTableName : null, type, seen);
+          const foreignTable = decamelize(type.__.name);
 
           promises.push(newPromise);
           debug(`Schema key: ${tableName}.${column} -> ${type.__.name}`);
 
-          if (!oneToMany && parentTableName !== foreignTable) {
+          if (!isOneToMany && parentTableName !== foreignTable) {
             table
               .integer(`${column}_id`)
               .unsigned()
