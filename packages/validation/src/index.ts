@@ -46,8 +46,18 @@ export default class DomainValidator {
                 collector[fieldName] = result;
               }
             });
-          } else if (!schemaField.blackbox) {
+          } else if (!schemaField.blackbox && !schemaField.optional) {
             validateSchema(values[fieldName], schema[fieldName].type.values, collector);
+          } else if (!schemaField.blackbox && schemaField.optional) {
+            const result = checkWithValidator(
+              'id',
+              values[fieldName] ? values[fieldName].id : '',
+              { values, fieldName, schema },
+              ''
+            );
+            if (result) {
+              collector[fieldName] = result;
+            }
           }
         });
       return collector;

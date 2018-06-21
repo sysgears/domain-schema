@@ -14,7 +14,8 @@ export const supportedValidators = {
   email: { createMsg: () => `Invalid email address` },
   alphaNumeric: { createMsg: () => `Only alphanumeric characters` },
   phoneNumber: { createMsg: () => `Invalid phone number, must be 10 digits` },
-  equals: { createMsg: ({ comparableValue }: ExtSchemaContext) => `Should match '${comparableValue}'` }
+  equals: { createMsg: ({ comparableValue }: ExtSchemaContext) => `Should match '${comparableValue}'` },
+  id: { createMsg: ({ computedFieldName }: ExtSchemaContext) => `${computedFieldName} must be selected` }
 };
 
 let messages: any = {};
@@ -63,6 +64,14 @@ const phoneNumber = (value: string, msg?: string) => (context: SchemaContext): s
 const equals = (value: Value, msg?: string) => (context: SchemaContext, comparableValue: Value): string | undefined =>
   value !== comparableValue ? msg || pickMsg('equals', { ...context, comparableValue }) : undefined;
 
+// Id validation
+const id = (value: Value, msg?: string) => (context: SchemaContext): string | undefined => {
+  const computedFieldName = context.schema[context.fieldName].type
+    ? context.schema[context.fieldName].type.name
+    : context.fieldName;
+  return !value || isNaN(Number(value)) ? msg || pickMsg('id', { ...context, computedFieldName }) : undefined;
+};
+
 /* HELPERS */
 
 // Provides a message
@@ -79,5 +88,6 @@ export default {
   email,
   alphaNumeric,
   phoneNumber,
-  equals
+  equals,
+  id
 };

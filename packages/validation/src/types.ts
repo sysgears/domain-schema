@@ -1,6 +1,7 @@
 export type Condition = Value | RichCondition;
 
 export interface ExtSchemaContext extends SchemaContext {
+  computedFieldName?: string;
   comparableField?: string;
   comparableValue?: Value;
   isString?: boolean;
