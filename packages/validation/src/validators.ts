@@ -14,7 +14,9 @@ export const supportedValidators = {
   email: { createMsg: () => `Invalid email address` },
   alphaNumeric: { createMsg: () => `Only alphanumeric characters` },
   phoneNumber: { createMsg: () => `Invalid phone number, must be 10 digits` },
-  equals: { createMsg: ({ comparableValue }: ExtSchemaContext) => `Should match '${comparableValue}'` }
+  equals: { createMsg: ({ comparableValue }: ExtSchemaContext) => `Should match '${comparableValue}'` },
+  numbers: { createMsg: () => `Must be number` },
+  booleans: { createMsg: () => `Must be boolean` }
 };
 
 let messages: any = {};
@@ -63,6 +65,14 @@ const phoneNumber = (value: string, msg?: string) => (context: SchemaContext): s
 const equals = (value: Value, msg?: string) => (context: SchemaContext, comparableValue: Value): string | undefined =>
   value !== comparableValue ? msg || pickMsg('equals', { ...context, comparableValue }) : undefined;
 
+// Number validator
+const numbers = (value: Value, msg?: string) => (context: SchemaContext): string | undefined =>
+  value && Number.isNaN(Number(value)) ? msg || pickMsg('number', context) : undefined;
+
+// Boolean validator
+const booleans = (value: Value, msg?: string) => (context: SchemaContext): string | undefined =>
+  value && typeof value !== 'boolean' ? msg || pickMsg('boolean', context) : undefined;
+
 /* HELPERS */
 
 // Provides a message
@@ -79,5 +89,7 @@ export default {
   email,
   alphaNumeric,
   phoneNumber,
-  equals
+  equals,
+  numbers,
+  booleans
 };

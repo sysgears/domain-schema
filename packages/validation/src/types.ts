@@ -40,4 +40,6 @@ export interface FieldValidators {
   alphaNumeric?: BooleanValidator;
   phoneNumber?: BooleanValidator;
   equals?: StringValidator;
+  number?: NumberValidator;
+  boolean?: BooleanValidator;
 }
