@@ -91,6 +91,5 @@ export default {
   phoneNumber,
   equals,
   numeric,
-  bool,
-  dateTime
+  bool
 };
