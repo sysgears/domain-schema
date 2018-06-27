@@ -4,11 +4,15 @@ import { Condition, SchemaContext, Value } from './types';
 import validators, { supportedValidators } from './validators';
 
 export default class DomainValidator {
+  /**
+   *
+   * @type {Map<any, BooleanConstructor | string>}
+   */
   public static readonly VALIDATION_RULES = new Map([
-    [Boolean, 'booleans'],
+    [Boolean, 'bool'],
     [DomainSchema.ID, 'id'],
-    [DomainSchema.Int, 'numbers'],
-    [DomainSchema.Float, 'numbers'],
+    [DomainSchema.Int, 'numeric'],
+    [DomainSchema.Float, 'numeric'],
     [String, 'string'],
     [Date, 'date'],
     [DomainSchema.DateTime, 'date'],
@@ -17,29 +21,37 @@ export default class DomainValidator {
 
   constructor() {}
 
-  public validate(initialSchema: Schema, initialValues: any = {}): any {
+  /**
+   *
+   * @param {} initialSchema
+   * @param values
+   * @returns {any}
+   */
+  public validate(initialSchema: Schema, values: any = {}): any {
     const domainSchema = new DomainSchema(initialSchema);
-    return this.validateSchema(domainSchema, initialValues, {}, []);
+    return this.validateSchema(domainSchema, values, []);
   }
 
-  private validateField(
-    schema: DomainSchema,
-    fieldName: any,
-    schemaField: any,
-    value: any,
-    values,
-    errors: any,
-    seen: string[]
-  ): any {
-    if (!schemaField.optional && !schemaField.type.isSchema && schemaField.type.constructor !== Array) {
-      const result = this._checkWithValidator(
+  /**
+   *
+   * @param {} schema
+   * @param fieldName
+   * @param schemaField
+   * @param value
+   * @param values
+   * @returns {any}
+   */
+  public validateField(schema: DomainSchema, fieldName: any, schemaField: any, value: any, values: any): any {
+    const error = { [fieldName]: [] };
+    if (!schemaField.optional && !schemaField.type.isSchema) {
+      const result = this.checkWithValidator(
         'required',
         value,
         { values, fieldName, schema },
         schemaField.required || true
       );
       if (result) {
-        errors[fieldName] = result;
+        error[fieldName].push(result);
       }
     }
     const hasTypeOf = targetType => schemaField.type === targetType || schemaField.type.prototype instanceof targetType;
@@ -47,64 +59,87 @@ export default class DomainValidator {
     // validation for schema type
     for (const [type, rule] of DomainValidator.VALIDATION_RULES) {
       if (hasTypeOf(type) && supportedValidators[rule]) {
-        const result = this._checkWithValidator(rule, value, { values, fieldName, schema }, '');
+        const result = this.checkWithValidator(rule, value, { values, fieldName, schema }, '');
         if (result) {
-          errors[fieldName] = result;
+          error[fieldName].push(result);
         }
       }
     }
 
-    // validation for additional attributes or custom validators
+    // validation for additional validators
     Object.keys(schemaField).forEach((key: string) => {
       if (supportedValidators[key] && key !== 'type') {
-        const result = this._checkWithValidator(key, value, { values, fieldName, schema }, schemaField[key]);
+        const result = this.checkWithValidator(key, value, { values, fieldName, schema }, schemaField[key]);
         if (result) {
-          errors[fieldName] = result;
+          error[fieldName].push(result);
         }
       } else if (key === 'validators') {
         // handling custom validators
         schemaField[key].forEach(validator => {
-          errors[fieldName] = validator(value, value);
+          const receivedError = validator(value);
+          if (receivedError) {
+            error[fieldName].push(receivedError);
+          }
         });
       }
     });
 
-    if (schemaField.type.isSchema) {
-      if (!schemaField.blackbox) {
-        if (seen.indexOf(schemaField.type.__.name) >= 0) {
-          return errors;
-        }
-        const camelizedSchemaName = camelize(schemaField.type.__.name);
-        errors[camelizedSchemaName] = {};
-        this.validateSchema(schemaField.type, value, errors[camelizedSchemaName], seen);
+    if (error[fieldName] && Array.isArray(error[fieldName])) {
+      if (error[fieldName].length === 0) {
+        return {};
+      } else if (error[fieldName].length === 1) {
+        return { [fieldName]: error[fieldName][0] };
       }
-    } else if (schemaField.type.constructor === Array) {
-      if (seen.indexOf(schemaField.type[0].__.name) >= 0) {
-        return errors;
-      }
-      const camelizedSchemaName = camelize(schemaField.type[0].__.name);
-      errors[camelizedSchemaName] = {};
-      this.validateSchema(schemaField.type[0], value, errors[camelizedSchemaName], seen);
     }
-    if (Object.keys(errors).length === 0 && errors.constructor === Object) {
-      errors = {};
-    }
-    return errors;
+
+    return error;
   }
 
-  private validateSchema(schema: DomainSchema, values: any, errors: any, seen: string[]): any {
-    if (seen.indexOf(schema.__.name) >= 0 || schema.__.exclude) {
-      return;
-    }
+  /**
+   *
+   * @param {} schema
+   * @param values
+   * @param {string[]} seen
+   * @returns {any}
+   */
+  private validateSchema(schema: DomainSchema, values: any, seen: string[]): any {
+    const errors = {};
     seen.push(schema.__.name);
     for (const key of schema.keys()) {
       const schemaField = schema.values[key];
-      errors = this.validateField(schema, key, schemaField, values[key], values, errors, seen);
+      const value = values ? (values[key] ? values[key] : null) : null;
+      let nestedSchema = null;
+      if (schemaField.type.isSchema) {
+        nestedSchema = schemaField.type;
+      } else if (schemaField.type.constructor === Array) {
+        nestedSchema = schemaField.type[0];
+      }
+      if (nestedSchema) {
+        if (seen.indexOf(nestedSchema.__.name) >= 0 || schemaField.blackbox) {
+          continue;
+        }
+        const nestedSchemaErrors = this.validateSchema(nestedSchema, value, seen);
+        if (Object.keys(nestedSchemaErrors).length === 0 && nestedSchemaErrors.constructor === Object) {
+          continue;
+        }
+        Object.assign(errors, { [key]: nestedSchemaErrors });
+      } else {
+        Object.assign(errors, this.validateField(schema, key, schemaField, value, values));
+      }
     }
 
     return errors;
   }
-  private _checkWithValidator(validatorName: string, value: Value, context: SchemaContext, condition: Condition) {
+
+  /**
+   *
+   * @param {string} validatorName
+   * @param {Value} value
+   * @param {SchemaContext} context
+   * @param {Condition} condition
+   * @returns {any}
+   */
+  private checkWithValidator(validatorName: string, value: Value, context: SchemaContext, condition: Condition) {
     return typeof condition !== 'object'
       ? validators[validatorName](value)(context, condition)
       : validators[validatorName](value, condition.msg)(context, condition.value);
