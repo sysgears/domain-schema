@@ -5,7 +5,8 @@
     "outDir": "lib",
     "paths": {
       "@domain-schema/core": ["../core/lib"]
-    }
+    },
+    "downlevelIteration": true
   },
   "include": ["src/**/*.ts"]
 }

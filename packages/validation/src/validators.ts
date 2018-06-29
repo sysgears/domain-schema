@@ -14,7 +14,9 @@ export const supportedValidators = {
   email: { createMsg: () => `Invalid email address` },
   alphaNumeric: { createMsg: () => `Only alphanumeric characters` },
   phoneNumber: { createMsg: () => `Invalid phone number, must be 10 digits` },
-  equals: { createMsg: ({ comparableValue }: ExtSchemaContext) => `Should match '${comparableValue}'` }
+  equals: { createMsg: ({ comparableValue }: ExtSchemaContext) => `Should match '${comparableValue}'` },
+  numeric: { createMsg: () => `Must be number` },
+  bool: { createMsg: () => `Must be boolean` }
 };
 
 let messages: any = {};
@@ -33,7 +35,7 @@ const matches = (value: Value, msg?: string) => (context: SchemaContext, compara
 
 // Min value/length validation
 const min = (value: Value, msg?: string) => (context: SchemaContext, minVal: number): string | undefined =>
-  context.schema[context.fieldName].type === String
+  context.schema.values[context.fieldName].type === String
     ? value && (value as string).length < minVal
       ? msg || pickMsg('min', { ...context, minVal, isString: true })
       : undefined
@@ -41,7 +43,7 @@ const min = (value: Value, msg?: string) => (context: SchemaContext, minVal: num
 
 // Max value/length validation
 const max = (value: Value, msg?: string) => (context: SchemaContext, maxVal: number): string | undefined =>
-  context.schema[context.fieldName].type === String
+  context.schema.values[context.fieldName].type === String
     ? value && (value as string).length > maxVal
       ? msg || pickMsg('max', { ...context, maxVal, isString: true })
       : undefined
@@ -63,6 +65,14 @@ const phoneNumber = (value: string, msg?: string) => (context: SchemaContext): s
 const equals = (value: Value, msg?: string) => (context: SchemaContext, comparableValue: Value): string | undefined =>
   value !== comparableValue ? msg || pickMsg('equals', { ...context, comparableValue }) : undefined;
 
+// Number validator
+const numeric = (value: Value, msg?: string) => (context: SchemaContext): string | undefined =>
+  value && Number.isNaN(Number(value)) ? msg || pickMsg('numeric', context) : undefined;
+
+// Boolean validator
+const bool = (value: Value, msg?: string) => (context: SchemaContext): string | undefined =>
+  value && typeof value !== 'boolean' ? msg || pickMsg('bool', context) : undefined;
+
 /* HELPERS */
 
 // Provides a message
@@ -79,5 +89,7 @@ export default {
   email,
   alphaNumeric,
   phoneNumber,
-  equals
+  equals,
+  numeric,
+  bool
 };
