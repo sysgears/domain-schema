@@ -146,7 +146,7 @@ class DomainKnex {
     const tableName = decamelize(domainSchema.__.name);
     let tableNames = [];
 
-    if (domainSchema.__.transient) {
+    if (!domainSchema.__.transient) {
       tableNames.push(tableName);
     }
     for (const key of domainSchema.keys()) {
