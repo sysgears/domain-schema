@@ -1,5 +1,4 @@
 import DomainSchema, { Schema } from '@domain-schema/core';
-import { camelize } from 'humps';
 import { Condition, SchemaContext, Value } from './types';
 import validators, { supportedValidators } from './validators';
 
@@ -8,7 +7,7 @@ export default class DomainValidator {
    *
    * @type {Map<any, BooleanConstructor | string>}
    */
-  public static readonly TYPE_VALIDATORS = new Map([
+  public static readonly TYPE_VALIDATORS = new Map<any, string>([
     [Boolean, 'bool'],
     [Number, 'numeric'],
     [String, 'string'],
