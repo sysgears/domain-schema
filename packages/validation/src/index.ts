@@ -43,7 +43,7 @@ export default class DomainValidator {
    */
   public validateField(schema: DomainSchema, fieldName: any, schemaField: any, value: any, values: any): any {
     const error = { [fieldName]: [] };
-    if (!schemaField.optional && !schemaField.type.isSchema) {
+    if (!schemaField.optional) {
       const result = this.checkWithValidator(
         'required',
         value,
