@@ -5,14 +5,15 @@ import validators, { supportedValidators } from './validators';
 export default class DomainValidator {
   /**
    *
-   * @type {Map<any, BooleanConstructor | string>}
+   * @type {([BooleanConstructor , string] | [NumberConstructor , string] | [StringConstructor , string] |
+   * [DateConstructor , string])[]}
    */
-  public static readonly TYPE_VALIDATORS = new Map<any, string>([
+  public static readonly TYPE_VALIDATORS: ReadonlyArray<[object, string]> = [
     [Boolean, 'bool'],
     [Number, 'numeric'],
     [String, 'string'],
     [Date, 'date']
-  ]);
+  ];
 
   constructor() {}
 
@@ -52,7 +53,8 @@ export default class DomainValidator {
     const hasTypeOf = targetType => schemaField.type === targetType || schemaField.type.prototype instanceof targetType;
 
     // validation for schema type
-    for (const [type, rule] of DomainValidator.TYPE_VALIDATORS) {
+    for (const validator of DomainValidator.TYPE_VALIDATORS) {
+      const [type, rule] = validator;
       if (hasTypeOf(type) && supportedValidators[rule]) {
         const result = this.checkWithValidator(rule, value, { values, fieldName, schema }, '');
         if (result) {
