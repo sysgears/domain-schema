@@ -141,4 +141,11 @@ export default class DomainValidator {
       ? validators[validatorName](value)(context, condition)
       : validators[validatorName](value, condition.msg)(context, condition.value);
   }
+
+  /**
+   * @param messages
+   */
+  public static setValidationMessages(messages: any) {
+    validators.setValidationMsg(messages);
+  }
 }
