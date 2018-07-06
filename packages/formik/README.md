@@ -426,7 +426,7 @@ and specified field component in ```component``` prop. All necessary props can b
 
 ## Validation
 
-Please check [`@domain-scheam/validation` documentation](https://github.com/domain-schema/packages/validation).
+Please check [`@domain-scheam/validation` documentation](https://github.com/sysgears/domain-schema/tree/master/packages/validation).
 
 ## License
 
