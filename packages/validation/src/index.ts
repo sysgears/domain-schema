@@ -23,9 +23,9 @@ export default class DomainValidator {
    * @param values
    * @returns {any}
    */
-  public validate(initialSchema: Schema, values: any = {}): any {
+  public static validate(initialSchema: Schema, values: any = {}): any {
     const domainSchema = new DomainSchema(initialSchema);
-    return this.validateSchema(domainSchema, values, []);
+    return DomainValidator.validateSchema(domainSchema, values, []);
   }
 
   /**
@@ -37,10 +37,10 @@ export default class DomainValidator {
    * @param values
    * @returns {any}
    */
-  public validateField(schema: DomainSchema, fieldName: any, schemaField: any, value: any, values: any): any {
+  public static validateField(schema: DomainSchema, fieldName: any, schemaField: any, value: any, values: any): any {
     const error = { [fieldName]: [] };
     if (!schemaField.optional) {
-      const result = this.checkWithValidator(
+      const result = DomainValidator.checkWithValidator(
         'required',
         value,
         { values, fieldName, schema },
@@ -56,7 +56,7 @@ export default class DomainValidator {
     for (const validator of DomainValidator.TYPE_VALIDATORS) {
       const [type, rule] = validator;
       if (hasTypeOf(type) && supportedValidators[rule]) {
-        const result = this.checkWithValidator(rule, value, { values, fieldName, schema }, '');
+        const result = DomainValidator.checkWithValidator(rule, value, { values, fieldName, schema }, '');
         if (result) {
           error[fieldName].push(result);
         }
@@ -66,7 +66,7 @@ export default class DomainValidator {
     // validation for additional validators
     Object.keys(schemaField).forEach((key: string) => {
       if (supportedValidators[key] && key !== 'type') {
-        const result = this.checkWithValidator(key, value, { values, fieldName, schema }, schemaField[key]);
+        const result = DomainValidator.checkWithValidator(key, value, { values, fieldName, schema }, schemaField[key]);
         if (result) {
           error[fieldName].push(result);
         }
@@ -99,7 +99,7 @@ export default class DomainValidator {
    * @param {string[]} seen
    * @returns {any}
    */
-  private validateSchema(schema: DomainSchema, values: any, seen: string[]): any {
+  private static validateSchema(schema: DomainSchema, values: any, seen: string[]): any {
     const errors = {};
     seen.push(schema.__.name);
     for (const key of schema.keys()) {
@@ -136,7 +136,7 @@ export default class DomainValidator {
    * @param {Condition} condition
    * @returns {any}
    */
-  private checkWithValidator(validatorName: string, value: Value, context: SchemaContext, condition: Condition) {
+  private static checkWithValidator(validatorName: string, value: Value, context: SchemaContext, condition: Condition) {
     return typeof condition !== 'object'
       ? validators[validatorName](value)(context, condition)
       : validators[validatorName](value, condition.msg)(context, condition.value);
