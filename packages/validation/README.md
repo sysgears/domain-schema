@@ -154,7 +154,7 @@ For more accurate validation you could use several approaches simultaneously
   ```
 
 ### Nested Schema Validation
-Be careful when establish relation via schema field on your domain schema
+Be careful when establishing relation via schema field on your domain schema
 ```js
 class Product extends Schema {
   __ = { name: 'Product', tablePrefix: '' };
