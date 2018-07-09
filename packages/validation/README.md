@@ -16,6 +16,39 @@ npm install @domain-schema/validation
 
 ## Validation
 
+Domain Validation intended to check values whether they comply with structure of
+ domain schema fields.
+
+### Usage
+Firstly import ```DomanValidator``` from domain-schema validation package
+```js
+    import DomainValidator from '@domain-schema/validation'
+```
+Then call ```DomanValidator``` static method ```validate``` 
+```js
+    DomainValidator.validate(schema, values)
+```
+With such params:
+   * ```schema``` - ```DomainSchema``` instance
+   * ```values``` - Formatted object from form or another source with values which 
+    ```DomainValidator``` will check on conformity of ```DomainSchema```
+      * key - Field name correspond to schema field
+      * value - Entity which must pass validation
+         ```js 
+          { name : "Jack" }
+        ```
+You can register domain-schema field validation using following approaches:
+   *  Type defining
+       ```js 
+        isAdmin: {
+            type: Boolean
+        }
+       ```
+   * Build-in validators
+   * Custom validators
+
+For more accurate validation you could use several approaches simultaneously
+
 ### Built-in validators
 
 * ```optional``` - By default, all keys are required. Set ```optional: true``` to change that.
@@ -27,7 +60,6 @@ npm install @domain-schema/validation
       ...
     }
   ```
-
   * ```matches``` - Checks if the value matches some specific field
 
   ```js
@@ -120,6 +152,70 @@ npm install @domain-schema/validation
       ...
     }
   ```
+
+### Nested Schema Validation
+Be careful when establish relation via schema field on your domain schema
+```js
+class Product extends Schema {
+  __ = { name: 'Product', tablePrefix: '' };
+  id = DomainSchema.Int;
+  name = {
+    type: String,
+    searchText: true
+  };
+  category = {
+    type: Category
+   };
+}
+```
+
+ ```js
+class Category extends Schema {
+  __ = { name: 'Category', tablePrefix: '' };
+  id = DomainSchema.Int;
+  name = {
+    type: String,
+    searchText: true,
+  };
+  products = {
+    type: [Product]
+  };
+}
+```
+In this case ```domainValidator``` also will check all fields of nested Category
+ schema and then Product again.
+
+So object must have the following structure in order to pass validation
+```js
+{
+  id : 1,
+  name : 'Iphone X'
+  category : {
+    id : 1,
+    name : 'Phones',
+    products : ...
+  }
+}
+```
+To prevent check of nested schema use ```blackbox``` attribute
+```js
+  products = {
+    type: [Product],
+    blackbox: true
+  };
+```
+Now the following object will pass validation
+```js
+{
+  id : 1,
+  name : 'Iphone X'
+  category : {
+    id : 1,
+    name : 'Phones'
+  }
+}
+```
+
 
 ### Customizing Validation Messages
 
