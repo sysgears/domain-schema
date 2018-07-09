@@ -73,7 +73,7 @@ export default class DomainValidator {
       } else if (key === 'validators') {
         // handling custom validators
         schemaField[key].forEach(validator => {
-          const receivedError = validator(value);
+          const receivedError = validator(value, values);
           if (receivedError) {
             error[fieldName].push(receivedError);
           }
