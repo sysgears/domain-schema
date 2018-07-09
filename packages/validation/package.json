@@ -21,9 +21,9 @@
     "lib/*.map"
   ],
   "devDependencies": {
+    "@domain-schema/core": ">= 0.0.30",
     "@types/jest": "^21.1.5",
     "@types/node": "^7.0.18",
-    "@domain-schema/core": ">= 0.0.30",
     "jest": "^21.2.1",
     "prettier": "^1.6.1",
     "ts-jest": "^21.2.1",
@@ -54,6 +54,7 @@
   },
   "dependencies": {
     "debug": "^3.1.0",
-    "humps": "^2.0.1"
+    "humps": "^2.0.1",
+    "lodash.startcase": "^4.4.0"
   }
 }

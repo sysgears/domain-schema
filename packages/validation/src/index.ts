@@ -1,4 +1,5 @@
 import DomainSchema, { Schema } from '@domain-schema/core';
+import startCase from 'lodash.startcase';
 import { Condition, SchemaContext, Value } from './types';
 import validators, { supportedValidators } from './validators';
 
@@ -21,11 +22,13 @@ export default class DomainValidator {
    *
    * @param {} initialSchema
    * @param values
+   * @param {string} type
    * @returns {any}
    */
-  public static validate(initialSchema: Schema, values: any = {}): any {
+  public static validate(initialSchema: Schema, values: any = {}, type: string = ''): any {
     const domainSchema = new DomainSchema(initialSchema);
-    return DomainValidator.validateSchema(domainSchema, values, []);
+    const validationErrors = DomainValidator.validateSchema(domainSchema, values, []);
+    return type === 'form' ? DomainValidator.domainValidationErrorsAdapter(validationErrors) : validationErrors;
   }
 
   /**
@@ -147,5 +150,39 @@ export default class DomainValidator {
    */
   public static setValidationMessages(messages: any) {
     validators.setValidationMsg(messages);
+  }
+
+  /**
+   *
+   * @param rawErrors
+   * @returns {{}}
+   */
+  public static domainValidationErrorsAdapter(rawErrors: object): object {
+    const computedErrors = {};
+    for (const errorField in rawErrors) {
+      if (rawErrors.hasOwnProperty(errorField) && rawErrors[errorField] === Object(rawErrors[errorField])) {
+        computedErrors[errorField] = 'Required ';
+        const nestedErrors = [];
+        nestedErrors.push(startCase(errorField));
+        for (const nestedErrorField in rawErrors[errorField]) {
+          if (
+            rawErrors[errorField].hasOwnProperty(nestedErrorField) &&
+            rawErrors[errorField][nestedErrorField] === Object(rawErrors[errorField][nestedErrorField])
+          ) {
+            nestedErrors.push(startCase(nestedErrorField));
+          }
+        }
+        computedErrors[errorField] += nestedErrors.join(', ');
+      } else {
+        if (errorField === 'id') {
+          continue;
+        }
+        computedErrors[errorField] =
+          Array.isArray(rawErrors[errorField]) && rawErrors[errorField].length > 0
+            ? rawErrors[errorField][0]
+            : (computedErrors[errorField] = rawErrors[errorField]);
+      }
+    }
+    return computedErrors;
   }
 }
