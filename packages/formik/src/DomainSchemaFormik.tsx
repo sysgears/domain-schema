@@ -30,7 +30,7 @@ export default class DomainSchemaFormik {
   }
 
   public validate(formValues: any) {
-    return DomainValidator.validate(formValues, this.schema);
+    return DomainValidator.validate(this.schema, formValues);
   }
 
   public generateFields({ values }: FormikProps<any>) {
@@ -51,10 +51,6 @@ export default class DomainSchemaFormik {
         </Form>
       );
     });
-  }
-
-  public static setValidationMessages(messages: any) {
-    DomainValidator.setValidationMessages(messages);
   }
 
   public setFormComponents(components: any) {
