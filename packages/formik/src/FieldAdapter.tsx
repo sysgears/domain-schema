@@ -12,20 +12,23 @@ export interface Props {
   onChange?: any;
   parent?: any;
   value?: string | number | boolean;
+  schema?: any
 }
 
 export default class Field extends Component<Props, {}> {
+  public props;
+  public context;
   public static contextTypes = {
     formik: PropTypes.object
   };
 
-  constructor(public props: Props, public context: any) {
+  constructor(props: Props, context: any) {
     super(props, context);
   }
 
   public render() {
-    const { formik: { setFieldValue, handleChange, handleBlur, touched, errors } } = this.context;
-    const { component, parent, attrs, fieldType, name, value } = this.props;
+    const { formik: { setFieldValue, setFieldTouched, handleChange, handleBlur, touched, errors } } = this.context;
+    const { component, parent, attrs, fieldType, name, value, schema } = this.props;
     const { onChange, onBlur, type } = attrs;
 
     const input = {
@@ -49,9 +52,16 @@ export default class Field extends Component<Props, {}> {
       error: errors[name]
     };
 
-    return React.createElement(component, {
+    const props = {
       input,
-      meta
-    });
+      meta,
+      setFieldValue,
+      setFieldTouched,
+      schema
+    };
+
+    const Component = component;
+
+    return <Component {...props}/>
   }
 }

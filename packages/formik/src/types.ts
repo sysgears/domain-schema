@@ -18,7 +18,7 @@ export interface RenderComponentProps {
   options?: any;
 }
 
-export interface FieldType {
+export interface FormFieldType {
   name: string;
   component?: ComponentType<any>;
 }

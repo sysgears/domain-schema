@@ -5,7 +5,7 @@ import * as React from 'react';
 import { ComponentType, CSSProperties, ReactElement } from 'react';
 
 import Field from './FieldAdapter';
-import { ButtonsConfig, FieldType, FSF } from './types';
+import { ButtonsConfig, FormFieldType, FSF } from './types';
 
 export default class DomainSchemaFormik {
   private static fields: any = {
@@ -13,47 +13,90 @@ export default class DomainSchemaFormik {
       name: 'custom'
     }
   };
+  private static defaultFormFieldTypes = {
+    schemaFieldType: 'select',
+    commonFieldType: 'input'
+  };
   private static formComponents: any = {};
   private fields: any = {};
   private formComponents: any = {};
   private configFormik = {
     enableReinitialize: true,
-    mapPropsToValues: () => this.getValuesFromSchema(),
-    handleSubmit(values, { props: { onSubmit }, ...formikBag }) {
+    mapPropsToValues: (props) => this.getValuesFromSchema(this.schema, props.values),
+    handleSubmit : (values, { props: { onSubmit }, ...formikBag }) => {
       onSubmit(values, formikBag);
     },
-    validate: (values: any) => this.validate(values)
+    //validate: (values: any) => this.validate(values)
   };
 
+  /**
+   * @param {} schema
+   */
   constructor(private schema: Schema) {
     this.schema = new DomainSchema(schema);
   }
 
+  /**
+   * @param {string} schemaFieldType
+   * @param {string} commonFieldType
+   */
+  public static setDefaultFormFieldTypes (schemaFieldType: string, commonFieldType: string): void{
+    DomainSchemaFormik.defaultFormFieldTypes  = {
+      schemaFieldType,
+      commonFieldType
+    }
+  }
+
+  /**
+   * @returns {object}
+   */
+  public static getDefaultFormFieldTypes () {
+    return DomainSchemaFormik.defaultFormFieldTypes;
+  }
+
+  /**
+   * Trigger fields validation
+   * @param formValues
+   * @returns {any}
+   */
   public validate(formValues: any) {
     return DomainValidator.validate(this.schema, formValues);
   }
 
+  /**
+   * @param {any} values
+   * @returns {any}
+   */
   public generateFields({ values }: FormikProps<any>) {
-    const formElements = this.generateFieldComponents(values, this.schema.values, null, []);
+    const formElements = this.generateFieldComponents(values, this.schema.values);
     return <React.Fragment>{formElements}</React.Fragment>;
   }
 
+  /**
+   *
+   * @param {ButtonsConfig | any} buttonsConfig
+   * @param formAttrs
+   * @returns {React.ComponentType<any>}
+   */
   public generateForm(buttonsConfig?: ButtonsConfig | any, formAttrs?: any) {
     return withFormik(this.configFormik)(({ values, isValid, handleReset, handleSubmit }: FormikProps<any>) => {
-      const formElements = this.generateFieldComponents(values, this.schema.values, null, []);
+      const formElements = this.generateFieldComponents(values, this.schema);
       formElements.push(this.genButtons(buttonsConfig || {}, isValid, handleReset));
-      const Form =
-        (this.formComponents.form && this.formComponents.form.component) ||
+      const Form = (this.formComponents.form && this.formComponents.form.component) ||
         (DomainSchemaFormik.formComponents.form && DomainSchemaFormik.formComponents.form.component);
       return (
-        <Form handleSubmit={handleSubmit} name={this.schema.name} input={formAttrs}>
+        <Form onSubmit={handleSubmit} name={this.schema.name} input={formAttrs}>
           {formElements}
         </Form>
       );
     });
   }
 
-  public setFormComponents(components: any) {
+  /**
+   * Set component to specific form fieldType, for instance scope
+   * @param components
+   */
+  public setFormComponents(components: any): void {
     Object.keys(components).forEach(fieldType => {
       if (fieldType === 'form' || fieldType === 'button') {
         this.formComponents[fieldType] = DomainSchemaFormik.getFieldType(fieldType, components);
@@ -66,7 +109,11 @@ export default class DomainSchemaFormik {
     };
   }
 
-  public static setFormComponents(components: any) {
+  /**
+   * Set component to specific form fieldType, for global scope
+   * @param components
+   */
+  public static setFormComponents(components: any): void {
     Object.keys(components).forEach(fieldType => {
       if (fieldType === 'form' || fieldType === 'button') {
         DomainSchemaFormik.formComponents[fieldType] = DomainSchemaFormik.getFieldType(fieldType, components);
@@ -76,85 +123,110 @@ export default class DomainSchemaFormik {
     });
   }
 
-  public getValuesFromSchema() {
-    const getValues = (schema: Schema, model: any) => {
-      Object.keys(schema)
-        .filter(schemaProp => schema.hasOwnProperty(schemaProp))
-        .forEach((fieldName: string) => {
-          if (fieldName === 'id' || schema[fieldName].ignore) {
-            return;
-          }
-          const schemaField = schema[fieldName];
-          model[fieldName] = schemaField.type.isSchema
-            ? getValues(schema[fieldName].type.values, {})
-            : schemaField.defaultValue || '';
-        });
-      return model;
-    };
-    return getValues(this.schema.values, {});
+  /**
+   * Collect proper values from form according to schema fields
+   * @param {} schema
+   * @param values
+   * @returns {object}
+   */
+  public getValuesFromSchema(schema: Schema, values: any ): object {
+    let fields = {};
+    for (const key of schema.keys()){
+      const value = schema.values[key];
+      if (value.show !== false && value.type.constructor !== Array) {
+        fields[key] = values ? values[key] : '';
+      } else if (value.type.constructor === Array) {
+        fields[key] = values ? values[key] : [];
+      }
+    }
+    return fields;
   }
 
-  private static getFieldType = (fieldType: string, components: any) => ({
+  /**
+   * Format object for fields and formComponents lists
+   * @param {string} fieldType
+   * @param components
+   * @returns {object}
+   */
+  private static getFieldType = (fieldType: string, components: any) : object => ({
     name: fieldType,
     component: components[fieldType]
   });
 
-  private generateFieldComponents(values: any, schema: DomainSchema, parent: string, collector: any[]) {
-    Object.keys(schema)
-      .filter(schemaProp => schema.hasOwnProperty(schemaProp))
-      .forEach((fieldName: string) => {
-        if (fieldName === 'id' || schema[fieldName].ignore) {
-          return;
-        }
-        const schemaField: FSF = schema[fieldName];
-        schemaField.fieldType = schemaField.fieldType || 'input';
-        if (!schemaField.type.isSchema) {
-          const fieldValue = parent ? values[parent][fieldName] : values[fieldName];
-          if (
-            (this.fields && this.fields.hasOwnProperty(schemaField.fieldType)) ||
-            DomainSchemaFormik.fields.hasOwnProperty(schemaField.fieldType)
-          ) {
-            collector.push(
-              this.genField(
-                (this.fields && this.fields[schemaField.fieldType]) || DomainSchemaFormik.fields[schemaField.fieldType],
-                schemaField,
-                fieldValue,
-                fieldName,
-                {
-                  name: parent,
-                  value: values[parent]
-                }
-              )
-            );
-          } else {
-            throw new Error(`${fieldName} has wrong field type`);
-          }
-        } else {
-          this.generateFieldComponents(values, schema[fieldName].type.values, fieldName, collector);
-        }
-      });
-    return collector;
+  /**
+   * Creates form fields with corresponding components
+   * @param values
+   * @param {} schema
+   * @returns {any[]}
+   */
+  private generateFieldComponents(values: any, schema: DomainSchema) {
+    let formFields = [];
+    for (const fieldName of schema.keys()){
+      if (fieldName === 'id' || schema.values[fieldName].ignore) {
+        continue;
+      }
+      const schemaField: FSF = schema.values[fieldName];
+      const type = Array.isArray(schemaField.type) ? schemaField.type[0] : schemaField.type;
+      const isSchema = type instanceof DomainSchema;
+      const { schemaFieldType , commonFieldType } = DomainSchemaFormik.getDefaultFormFieldTypes();
+      const defaultFormFieldType = isSchema ? schemaFieldType : commonFieldType;
+      const formFieldType = (schemaField.input ? schemaField.input.type : null) || defaultFormFieldType;
+      console.log('formFieldType',  formFieldType);
+      const fieldValue = values[fieldName];
+      const nestedSchema = isSchema ? type : null;
+      if ((this.fields && this.fields.hasOwnProperty(formFieldType)) ||
+        DomainSchemaFormik.fields.hasOwnProperty(formFieldType)) {
+        formFields.push(
+          this.genField(
+            (this.fields && this.fields[formFieldType]) || DomainSchemaFormik.fields[formFieldType],
+            schemaField,
+            fieldValue,
+            fieldName,
+            nestedSchema
+          )
+        );
+      } else {
+        throw new Error(`${fieldName} has wrong field type`);
+      }
+    }
+    return formFields;
   }
 
-  private genField(
-    fieldType: FieldType,
+  /**
+   * Generates form field
+   * @param {FormFieldType} formFieldType
+   * @param {FSF} schemaField
+   * @param {string | number | boolean} value
+   * @param {string} fieldName
+   * @param schema
+   * @returns {any}
+   */
+  private genField (
+    formFieldType: FormFieldType,
     schemaField: FSF,
     value: string | number | boolean,
     fieldName: string,
-    parent?: any
+    schema: any
   ) {
     const props = {
       key: fieldName,
       name: fieldName,
       attrs: schemaField.input,
-      fieldType: fieldType.name,
-      component: fieldType.component || schemaField.component,
-      parent,
-      value
+      fieldType: formFieldType.name,
+      component: formFieldType.component || schemaField.component,
+      value,
+      schema
     };
     return <Field {...props} />;
   }
 
+  /**
+   * Generates button
+   * @param {ButtonsConfig | any} buttonsConfig
+   * @param {boolean} valid
+   * @param {() => void} handleReset
+   * @returns {React.ReactElement<any>}
+   */
   private genButtons(buttonsConfig: ButtonsConfig | any, valid: boolean, handleReset: () => void): ReactElement<any> {
     let { submit } = buttonsConfig;
     const { reset } = buttonsConfig;
