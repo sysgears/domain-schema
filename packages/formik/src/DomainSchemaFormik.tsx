@@ -68,12 +68,12 @@ export default class DomainSchemaFormik {
    * @returns {any}
    */
   public generateFields({ values }: FormikProps<any>) {
-    const formElements = this.generateFieldComponents(values, this.schema.values);
+    const formElements = this.generateFieldComponents(values, this.schema);
     return <React.Fragment>{formElements}</React.Fragment>;
   }
 
   /**
-   *
+   * Generate form with fields
    * @param {ButtonsConfig | any} buttonsConfig
    * @param formAttrs
    * @returns {React.ComponentType<any>}
@@ -124,7 +124,7 @@ export default class DomainSchemaFormik {
   }
 
   /**
-   * Collect proper values from form according to schema fields
+   * Map initial values according to schema fields
    * @param {} schema
    * @param values
    * @returns {object}
@@ -143,7 +143,7 @@ export default class DomainSchemaFormik {
   }
 
   /**
-   * Format object for fields and formComponents lists
+   * Bound form field type with received component
    * @param {string} fieldType
    * @param components
    * @returns {object}
@@ -170,8 +170,7 @@ export default class DomainSchemaFormik {
       const isSchema = type instanceof DomainSchema;
       const { schemaFieldType , commonFieldType } = DomainSchemaFormik.getDefaultFormFieldTypes();
       const defaultFormFieldType = isSchema ? schemaFieldType : commonFieldType;
-      const formFieldType = (schemaField.input ? schemaField.input.type : null) || defaultFormFieldType;
-      console.log('formFieldType',  formFieldType);
+      const formFieldType = schemaField.fieldType || defaultFormFieldType;
       const fieldValue = values[fieldName];
       const nestedSchema = isSchema ? type : null;
       if ((this.fields && this.fields.hasOwnProperty(formFieldType)) ||
@@ -221,7 +220,7 @@ export default class DomainSchemaFormik {
   }
 
   /**
-   * Generates button
+   * Generates buttons
    * @param {ButtonsConfig | any} buttonsConfig
    * @param {boolean} valid
    * @param {() => void} handleReset
