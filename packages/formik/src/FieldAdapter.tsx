@@ -3,14 +3,13 @@ import * as React from 'react';
 import { Component } from 'react';
 
 export interface Props {
-  attrs: any;
+  attributes: any;
   checked?: boolean;
   component: any;
   fieldType?: string;
   name: string;
   onBlur?: any;
   onChange?: any;
-  parent?: any;
   value?: string | number | boolean;
   schema?: any
 }
@@ -28,19 +27,12 @@ export default class Field extends Component<Props, {}> {
 
   public render() {
     const { formik: { setFieldValue, setFieldTouched, handleChange, handleBlur, touched, errors } } = this.context;
-    const { component, parent, attrs, fieldType, name, value, schema } = this.props;
-    const { onChange, onBlur, type } = attrs;
+    const { component, attributes, fieldType, name, value, schema } = this.props;
+    const { onChange, onBlur, type, label, placeholder, ...restAttributes } = attributes;
 
     const input = {
-      ...attrs,
-      onChange:
-        parent && parent.name
-          ? e =>
-              setFieldValue(parent.name, {
-                ...parent.value,
-                [name]: e.target.value
-              })
-          : onChange ? onChange : handleChange,
+      ...restAttributes,
+      onChange: onChange ? onChange : handleChange,
       onBlur: onBlur ? onBlur : handleBlur,
       type: type || (fieldType === 'input' ? 'text' : fieldType),
       name,
@@ -57,7 +49,9 @@ export default class Field extends Component<Props, {}> {
       meta,
       setFieldValue,
       setFieldTouched,
-      schema
+      label,
+      placeholder,
+      ...(schema ? {schema} : {})
     };
 
     const Component = component;
