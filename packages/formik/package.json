@@ -16,7 +16,11 @@
     "snap": "jest -u",
     "prepublishOnly": "yarn clean && yarn build"
   },
-  "files": ["lib/*.js", "lib/*.d.ts", "lib/*.map"],
+  "files": [
+    "lib/*.js",
+    "lib/*.d.ts",
+    "lib/*.map"
+  ],
   "devDependencies": {
     "@domain-schema/core": ">= 0.0.30",
     "@domain-schema/validation": ">= 0.0.30",
@@ -54,10 +58,16 @@
       ".(ts|tsx)": "<rootDir>/../../node_modules/ts-jest/preprocessor.js"
     },
     "testRegex": "(/__tests__/.*\\.(test|spec))\\.(ts|tsx|js)$",
-    "moduleFileExtensions": ["ts", "tsx", "js", "json"]
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "json"
+    ]
   },
   "dependencies": {
     "debug": "^3.1.0",
+    "humps": "^2.0.1",
     "formik": "^0.11.11"
   },
   "optionalDependencies": {

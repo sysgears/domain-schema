@@ -6,6 +6,7 @@ import { ComponentType, CSSProperties, ReactElement } from 'react';
 
 import Field from './FieldAdapter';
 import { ButtonsConfig, FormFieldType, FSF } from './types';
+import { pascalize } from 'humps';
 
 export default class DomainSchemaFormik {
   private static fields: any = {
@@ -26,8 +27,9 @@ export default class DomainSchemaFormik {
     handleSubmit : (values, { props: { onSubmit }, ...formikBag }) => {
       onSubmit(values, formikBag);
     },
-    //validate: (values: any) => this.validate(values)
+    validate: (values: any) => this.validate(values)
   };
+  public requiredMessage = 'Required ';
 
   /**
    * @param {} schema
@@ -55,12 +57,12 @@ export default class DomainSchemaFormik {
   }
 
   /**
-   * Trigger fields validation
+   * Validate form fields
    * @param formValues
-   * @returns {any}
+   * @returns {object}
    */
-  public validate(formValues: any) {
-    return DomainValidator.validate(this.schema, formValues);
+  public validate(formValues: any): object {
+    return DomainSchemaFormik.transformErrors(DomainValidator.validate(this.schema, formValues), this.requiredMessage);
   }
 
   /**
@@ -216,6 +218,44 @@ export default class DomainSchemaFormik {
       schema
     };
     return <Field {...props} />;
+  }
+
+  /**
+   * Transform object with nested errors to valid formik errors object
+   * @param {object} rawErrors
+   * @param {string} requiredMessage
+   * @returns {object}
+   */
+  public static transformErrors(rawErrors: object, requiredMessage: string): object {
+    let computedErrors = {};
+    const collectNestedErrors = (nestedRawErrors, computedNestedErrors) => {
+      for (const nestedRawErrorKey in nestedRawErrors) {
+        if (nestedRawErrors.hasOwnProperty(nestedRawErrorKey) &&
+          typeof nestedRawErrors[nestedRawErrorKey] === 'object') {
+          if (computedNestedErrors.indexOf(pascalize(nestedRawErrorKey)) >= 0) {
+            return computedNestedErrors;
+          }
+          computedNestedErrors.push(pascalize(nestedRawErrorKey));
+          collectNestedErrors(nestedRawErrors[nestedRawErrorKey], computedNestedErrors);
+        }
+      }
+      return computedNestedErrors;
+    };
+    for (const errorField in rawErrors) {
+      if (rawErrors.hasOwnProperty(errorField) && typeof rawErrors[errorField] === 'object') {
+        const nestedErrors = collectNestedErrors(rawErrors[errorField], [pascalize(errorField)]);
+        computedErrors[errorField] = requiredMessage + nestedErrors.join(', ');
+      } else {
+        if (errorField === 'id') {
+          continue;
+        }
+        computedErrors[errorField] =
+          Array.isArray(rawErrors[errorField]) && rawErrors[errorField].length > 0
+            ? rawErrors[errorField][0]
+            : (computedErrors[errorField] = rawErrors[errorField]);
+      }
+    }
+    return computedErrors;
   }
 
   /**
