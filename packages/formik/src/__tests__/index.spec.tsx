@@ -101,9 +101,7 @@ describe('DomainFormik', () => {
           type: 'email',
           label: 'Email',
           placeholder: 'User email'
-        },
-        required: true,
-        email: true
+        }
       };
       public profile = {
         type: Profile
@@ -114,7 +112,6 @@ describe('DomainFormik', () => {
           type: 'password',
           label: 'Password'
         },
-        required: true,
         min: 5
       };
       public passwordConfirmation: FSF = {
@@ -138,7 +135,7 @@ describe('DomainFormik', () => {
   });
 
   it('should generate form with custom field', () => {
-    const MyComponent = ({ input: { name, label, value, className, ...attrs } }) => {
+    const MyComponent = ({ input: { name, value, className, ...attrs }, label }) => {
       return (
         <div>
           <input {...attrs} type="text" name={name} placeholder={label} value={value} className={className} />
@@ -176,7 +173,7 @@ describe('DomainFormik', () => {
   });
 
   it('should allow to set UI toolkit for particular instance', () => {
-    const MyInputComponent = ({ input: { name, label, value, className, ...attrs } }) => {
+    const MyInputComponent = ({ input: { name, value, className, ...attrs }, label }) => {
       return (
         <div>
           <input
@@ -211,7 +208,7 @@ describe('DomainFormik', () => {
         type: String,
         input: {
           type: 'password',
-          label: 'Email'
+          label: 'Password'
         }
       };
     };

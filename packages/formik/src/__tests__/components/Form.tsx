@@ -5,12 +5,11 @@ export interface Props {
   children?: any;
   input?: any;
   name: string;
-  handleSubmit: any;
 }
 
-const Form = ({ children, input, name, handleSubmit }: Props) => {
+const Form = ({ children, input, name }: Props) => {
   return (
-    <RSForm name={name} {...input} onSubmit={handleSubmit}>
+    <RSForm name={name} {...input} >
       {children}
     </RSForm>
   );

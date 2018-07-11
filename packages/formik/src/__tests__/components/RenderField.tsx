@@ -1,10 +1,8 @@
 import * as React from 'react';
 import { FormFeedback, FormGroup, Input, Label } from 'reactstrap';
+import { RenderComponentProps } from '../../types';
 
-import { RenderComponentProps } from '../types';
-
-const RenderField = ({ input, meta: { touched, error }, children }: RenderComponentProps) => {
-  const { label, placeholder } = input;
+const RenderField = ({ input, meta: { touched, error }, label, placeholder }: RenderComponentProps) => {
   const invalid = !!(touched && error);
 
   return (

@@ -174,13 +174,14 @@ export default class DomainSchemaFormik {
       const defaultFormFieldType = isSchema ? schemaFieldType : commonFieldType;
       const formFieldType = schemaField.fieldType || defaultFormFieldType;
       const nestedSchema = isSchema ? type : null;
+      const fieldValue = values[fieldName] || schemaField.defaultValue || '';
       if ((this.fields && this.fields.hasOwnProperty(formFieldType)) ||
         DomainSchemaFormik.fields.hasOwnProperty(formFieldType)) {
         formFields.push(
           this.genField(
             (this.fields && this.fields[formFieldType]) || DomainSchemaFormik.fields[formFieldType],
             schemaField,
-            values[fieldName],
+            fieldValue,
             fieldName,
             nestedSchema
           )
@@ -211,7 +212,7 @@ export default class DomainSchemaFormik {
     const props = {
       key: fieldName,
       name: fieldName,
-      attributes: schemaField.input,
+      attributes: schemaField.input || {},
       fieldType: formFieldType.name,
       component: formFieldType.component || schemaField.component,
       value,

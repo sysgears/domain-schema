@@ -4,7 +4,6 @@ exports[`DomainFormik should allow to set UI toolkit for particular instance 1`]
 <form
   className=""
   name="User"
-  onSubmit={[Function]}
 >
   <div>
     <input
@@ -34,7 +33,7 @@ exports[`DomainFormik should allow to set UI toolkit for particular instance 1`]
       name="custom_pass"
       onBlur={[Function]}
       onChange={[Function]}
-      placeholder="Email"
+      placeholder="Password"
       type="text"
       value=""
     />
@@ -216,7 +215,6 @@ exports[`DomainFormik should generate form with custom field 1`] = `
 <form
   className=""
   name="User"
-  onSubmit={[Function]}
 >
   <div
     className="form-group"
@@ -230,7 +228,6 @@ exports[`DomainFormik should generate form with custom field 1`] = `
     <input
       className="form-control"
       id="username"
-      label="Username"
       name="username"
       onBlur={[Function]}
       onChange={[Function]}
@@ -275,7 +272,6 @@ exports[`DomainFormik should generate simple form 1`] = `
 <form
   className=""
   name="User"
-  onSubmit={[Function]}
 >
   <div
     className="form-group"
@@ -289,7 +285,6 @@ exports[`DomainFormik should generate simple form 1`] = `
     <input
       className="form-control"
       id="username"
-      label="Username"
       name="username"
       onBlur={[Function]}
       onChange={[Function]}
@@ -310,7 +305,6 @@ exports[`DomainFormik should generate simple form 1`] = `
     <input
       className="form-control"
       id="email"
-      label="Email"
       name="email"
       onBlur={[Function]}
       onChange={[Function]}
@@ -331,7 +325,6 @@ exports[`DomainFormik should generate simple form 1`] = `
     <input
       className="form-control"
       id="pass"
-      label="Email"
       name="pass"
       onBlur={[Function]}
       onChange={[Function]}
@@ -350,7 +343,6 @@ exports[`DomainFormik should generate simple form 1`] = `
         checked={true}
         className="form-check-input"
         id="isActive"
-        label="Is Active"
         name="isActive"
         onBlur={[Function]}
         onChange={[Function]}
