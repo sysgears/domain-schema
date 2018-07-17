@@ -19,8 +19,16 @@ export type FSF = SchemaField & FieldValidators; // Full Schema Field
 export interface RenderComponentProps {
   input?: any;
   meta?: any;
-  children?: any[];
+  children?: any;
   options?: any;
+  label?: string;
+  placeholder?: string;
+  value?: any;
+  schema?: any;
+  style?: object;
+  setFieldValue?: any;
+  setFieldTouched?: any;
+  schemaName?: any;
 }
 
 export interface FormFieldType {

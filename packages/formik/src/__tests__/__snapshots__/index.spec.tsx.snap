@@ -63,22 +63,20 @@ exports[`DomainFormik should generate complex form 1`] = `
 <form
   className=""
   name="User"
-  onSubmit={[Function]}
 >
   <div
     className="form-group"
   >
     <label
       className=""
-      htmlFor="username"
+      htmlFor="name"
     >
       Username
     </label>
     <input
       className="form-control"
-      id="username"
-      label="Username"
-      name="username"
+      id="name"
+      name="name"
       onBlur={[Function]}
       onChange={[Function]}
       placeholder="Username"
@@ -98,7 +96,6 @@ exports[`DomainFormik should generate complex form 1`] = `
     <input
       className="form-control"
       id="email"
-      label="Email"
       name="email"
       onBlur={[Function]}
       onChange={[Function]}
@@ -107,47 +104,47 @@ exports[`DomainFormik should generate complex form 1`] = `
       value=""
     />
   </div>
-  <div
-    className="form-group"
-  >
-    <label
-      className=""
-      htmlFor="firstName"
-    >
-      First Name
-    </label>
-    <input
-      className="form-control"
-      id="firstName"
-      label="First Name"
-      name="firstName"
-      onBlur={[Function]}
-      onChange={[Function]}
-      placeholder="First Name"
-      type="text"
-      value="Ashley"
-    />
-  </div>
-  <div
-    className="form-group"
-  >
-    <label
-      className=""
-      htmlFor="lastName"
-    >
-      Last Name
-    </label>
-    <input
-      className="form-control"
-      id="lastName"
-      label="Last Name"
-      name="lastName"
-      onBlur={[Function]}
-      onChange={[Function]}
-      placeholder="Last Name"
-      type="text"
-      value=""
-    />
+  <div>
+    <div>
+      <select
+        className="form-control"
+        onBlur={[Function]}
+        onChange={[Function]}
+        style={
+          Object {
+            "width": "100%",
+          }
+        }
+        type="select"
+        value="0"
+      >
+        <option
+          value="1"
+        >
+          Group_1
+        </option>
+        <option
+          value="2"
+        >
+          Group_2
+        </option>
+        <option
+          value="3"
+        >
+          Group_3
+        </option>
+        <option
+          value="4"
+        >
+          Group_4
+        </option>
+        <option
+          value="5"
+        >
+          Group_5
+        </option>
+      </select>
+    </div>
   </div>
   <div
     className="form-group"
@@ -161,7 +158,6 @@ exports[`DomainFormik should generate complex form 1`] = `
     <input
       className="form-control"
       id="password"
-      label="Password"
       name="password"
       onBlur={[Function]}
       onChange={[Function]}
@@ -182,7 +178,6 @@ exports[`DomainFormik should generate complex form 1`] = `
     <input
       className="form-control"
       id="passwordConfirmation"
-      label="Password Confirmation"
       name="passwordConfirmation"
       onBlur={[Function]}
       onChange={[Function]}

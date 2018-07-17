@@ -1,10 +1,13 @@
-import DomainSchema, { Schema } from '@domain-schema/core';
+import { Schema } from '@domain-schema/core';
 import { FieldValidators } from '@domain-schema/validation';
 import * as React from 'react';
 import renderer from 'react-test-renderer';
 
+import  UserTestSchema1 from './schema/testSchema1';
+import { User as UserTestSchema2 } from './schema/testSchema2';
+import  UserTestSchema3 from './schema/testSchema3';
 import { DomainSchemaFormik, FSF } from '../';
-import { Button, Form, RenderCheckBox, RenderField, RenderSelect } from './components';
+import { Button, Form, RenderCheckBox, RenderField, RenderSelect, RenderSelectQuery } from './components';
 
 DomainSchemaFormik.setFormComponents({
   input: RenderField,
@@ -16,41 +19,7 @@ DomainSchemaFormik.setFormComponents({
 
 describe('DomainFormik', () => {
   it('should generate simple form', () => {
-    const schema = class extends Schema {
-      public __ = { name: 'User' };
-      public username: FSF = {
-        type: String,
-        input: {
-          label: 'Username',
-          placeholder: 'name'
-        },
-        defaultValue: 'John'
-      };
-      public email: FSF = {
-        type: String,
-        input: {
-          type: 'email',
-          label: 'Email'
-        }
-      };
-      public pass: FSF = {
-        type: String,
-        input: {
-          type: 'password',
-          label: 'Email'
-        }
-      };
-      public isActive: FSF = {
-        type: String,
-        fieldType: 'checkbox',
-        input: {
-          label: 'Is Active'
-        },
-        defaultValue: true
-      };
-    };
-
-    const form = new DomainSchemaFormik(schema);
+    const form = new DomainSchemaFormik(UserTestSchema1);
     const FormComponent = form.generateForm();
     const component = renderer.create(<FormComponent onSubmit={() => null} />);
     const tree = component.toJSON();
@@ -58,73 +27,10 @@ describe('DomainFormik', () => {
   });
 
   it('should generate complex form', () => {
-    class Profile extends Schema {
-      public __ = { name: 'Profile' };
-      public firstName: FSF = {
-        type: String,
-        input: {
-          label: 'First Name'
-        },
-        defaultValue: 'Ashley',
-        required: {
-          value: true,
-          msg: 'Required First Name'
-        }
-      };
-      public lastName: FSF = {
-        type: String,
-        input: {
-          label: 'Last Name'
-        },
-        required: true
-      };
-    }
-    const schema = class User extends Schema {
-      public __ = { name: 'User' };
-      public username: FSF = {
-        type: String,
-        input: {
-          type: 'text',
-          label: 'Username'
-        },
-        defaultValue: 'User',
-        required: true,
-        validators: [
-          value => {
-            return value.length > 3 ? undefined : 'Must Be more than 3 characters';
-          }
-        ]
-      };
-      public email: FSF = {
-        type: String,
-        input: {
-          type: 'email',
-          label: 'Email',
-          placeholder: 'User email'
-        }
-      };
-      public profile = {
-        type: Profile
-      };
-      public password: FSF = {
-        type: String,
-        input: {
-          type: 'password',
-          label: 'Password'
-        },
-        min: 5
-      };
-      public passwordConfirmation: FSF = {
-        type: String,
-        input: {
-          type: 'password',
-          label: 'Password Confirmation'
-        },
-        matches: 'password'
-      };
-    };
-
-    const userForm = new DomainSchemaFormik(schema);
+    const userForm = new DomainSchemaFormik(UserTestSchema2);
+    userForm.setFormComponents({
+      select: RenderSelectQuery
+    });
     const FormComponent = userForm.generateForm({
       label: 'Submit',
       disableOnInvalid: false
@@ -187,33 +93,7 @@ describe('DomainFormik', () => {
         </div>
       );
     };
-    const schema = class extends Schema {
-      public __ = { name: 'User' };
-      public username: FSF = {
-        type: String,
-        input: {
-          label: 'Username',
-          placeholder: 'name'
-        },
-        defaultValue: 'John'
-      };
-      public email: FSF = {
-        type: String,
-        input: {
-          type: 'email',
-          label: 'Email'
-        }
-      };
-      public pass: FSF = {
-        type: String,
-        input: {
-          type: 'password',
-          label: 'Password'
-        }
-      };
-    };
-
-    const form = new DomainSchemaFormik(schema);
+    const form = new DomainSchemaFormik(UserTestSchema3);
     form.setFormComponents({
       input: MyInputComponent
     });
