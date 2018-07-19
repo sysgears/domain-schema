@@ -40,8 +40,8 @@ export default class Field extends Component<Props, {}> {
     };
 
     const meta = {
-      touched: touched[name],
-      error: errors[name]
+      touched: touched ? touched[name]: '',
+      error: errors ? errors[name]: ''
     };
 
     const props = {
