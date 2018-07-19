@@ -69,11 +69,7 @@ export default class DomainSchemaFormik {
    * @returns {object}
    */
   public validate(formValues: any): object {
-    let va = DomainValidator.validate(this.schema, formValues);
-    console.log('validateVa', va );
-    let val = DomainSchemaFormik.transformErrors(va , this.requiredMessage);
-    console.log('validateVal11', val );
-    return val;
+    return DomainSchemaFormik.transformErrors(DomainValidator.validate(this.schema, formValues) , this.requiredMessage);
   }
 
   /**
