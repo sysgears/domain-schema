@@ -69,7 +69,7 @@ export default class DomainSchemaFormik {
    * @returns {object}
    */
   public validate(formValues: any): object {
-    return DomainSchemaFormik.transformErrors(DomainValidator.validate(this.schema, formValues) , this.requiredMessage);
+    return DomainSchemaFormik.transformErrors(DomainValidator.validate(this.schema, formValues), this.requiredMessage);
   }
 
   /**
@@ -139,7 +139,7 @@ export default class DomainSchemaFormik {
    * @returns {object}
    */
   public getValuesFromSchema(schema: Schema, values: any ): object {
-    let fields = {};
+    const fields = {};
     for (const key of schema.keys()){
       const value = schema.values[key];
       if (value.show !== false && value.type.constructor !== Array) {
@@ -245,7 +245,7 @@ export default class DomainSchemaFormik {
    * @returns {object}
    */
   public static transformErrors(rawErrors: object, requiredMessage: string): object {
-    let computedErrors = {};
+    const computedErrors = {};
 
     const collectNestedErrors = (nestedRawErrors, computedNestedErrors) => {
       for (const nestedRawErrorField in nestedRawErrors) {
@@ -288,18 +288,14 @@ export default class DomainSchemaFormik {
    * @returns {React.ReactElement<any>}
    */
   private genButtons(buttonsConfig: ButtonsConfig | any, valid: boolean, handleReset: () => void): ReactElement<any> {
-    let { submit } = buttonsConfig;
-    const { reset } = buttonsConfig;
-    if (!submit) {
-      if (Object.keys(buttonsConfig).length) {
-        submit = buttonsConfig;
-      } else {
-        submit = {
+    const {
+      reset, submit = Object.keys(buttonsConfig).length ?
+        buttonsConfig : {
           label: 'Save',
           disableOnInvalid: true
-        };
-      }
-    }
+        }
+    } = buttonsConfig;
+
     if (!submit.hasOwnProperty('disableOnInvalid')) {
       submit.disableOnInvalid = true;
     }
