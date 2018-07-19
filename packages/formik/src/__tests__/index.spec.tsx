@@ -5,7 +5,8 @@ import renderer from 'react-test-renderer';
 
 import  UserTestSchema1 from './schema/testSchema1';
 import { User as UserTestSchema2 } from './schema/testSchema2';
-import  UserTestSchema3 from './schema/testSchema3';
+import  { User as UserTestSchema3 } from './schema/testSchema3';
+import  UserTestSchema4 from './schema/testSchema4';
 import { DomainSchemaFormik, FSF } from '../';
 import { Button, Form, RenderCheckBox, RenderField, RenderSelect, RenderSelectQuery } from './components';
 
@@ -26,7 +27,7 @@ describe('DomainFormik', () => {
     expect(tree).toMatchSnapshot();
   });
 
-  it('should generate complex form', () => {
+  it('should generate complex form with schema select field', () => {
     const userForm = new DomainSchemaFormik(UserTestSchema2);
     userForm.setFormComponents({
       select: RenderSelectQuery
@@ -34,6 +35,16 @@ describe('DomainFormik', () => {
     const FormComponent = userForm.generateForm({
       label: 'Submit',
       disableOnInvalid: false
+    });
+    const component = renderer.create(<FormComponent onSubmit={() => null} />);
+    const tree = component.toJSON();
+    expect(tree).toMatchSnapshot();
+  });
+
+  it('should generate complex form with one-to-one nested schema field relation', () => {
+    const userForm = new DomainSchemaFormik(UserTestSchema3);
+    const FormComponent = userForm.generateForm({
+      label: 'Submit'
     });
     const component = renderer.create(<FormComponent onSubmit={() => null} />);
     const tree = component.toJSON();
@@ -93,7 +104,7 @@ describe('DomainFormik', () => {
         </div>
       );
     };
-    const form = new DomainSchemaFormik(UserTestSchema3);
+    const form = new DomainSchemaFormik(UserTestSchema4);
     form.setFormComponents({
       input: MyInputComponent
     });

@@ -59,7 +59,153 @@ exports[`DomainFormik should allow to set UI toolkit for particular instance 1`]
 </form>
 `;
 
-exports[`DomainFormik should generate complex form 1`] = `
+exports[`DomainFormik should generate complex form with one-to-one nested schema field relation 1`] = `
+<form
+  className=""
+  name="User"
+>
+  <div
+    className="form-group"
+  >
+    <label
+      className=""
+      htmlFor="username"
+    >
+      Username
+    </label>
+    <input
+      className="form-control"
+      id="username"
+      name="username"
+      onBlur={[Function]}
+      onChange={[Function]}
+      placeholder="Username"
+      type="text"
+      value="User"
+    />
+  </div>
+  <div
+    className="form-group"
+  >
+    <label
+      className=""
+      htmlFor="email"
+    >
+      Email
+    </label>
+    <input
+      className="form-control"
+      id="email"
+      name="email"
+      onBlur={[Function]}
+      onChange={[Function]}
+      placeholder="User email"
+      type="email"
+      value=""
+    />
+  </div>
+  <div
+    className="form-group"
+  >
+    <label
+      className=""
+      htmlFor="firstName"
+    >
+      First Name
+    </label>
+    <input
+      className="form-control"
+      id="firstName"
+      name="firstName"
+      onBlur={[Function]}
+      onChange={[Function]}
+      placeholder="First Name"
+      type="text"
+      value="Ashley"
+    />
+  </div>
+  <div
+    className="form-group"
+  >
+    <label
+      className=""
+      htmlFor="lastName"
+    >
+      Last Name
+    </label>
+    <input
+      className="form-control"
+      id="lastName"
+      name="lastName"
+      onBlur={[Function]}
+      onChange={[Function]}
+      placeholder="Last Name"
+      type="text"
+      value=""
+    />
+  </div>
+  <div
+    className="form-group"
+  >
+    <label
+      className=""
+      htmlFor="password"
+    >
+      Password
+    </label>
+    <input
+      className="form-control"
+      id="password"
+      name="password"
+      onBlur={[Function]}
+      onChange={[Function]}
+      placeholder="Password"
+      type="password"
+      value=""
+    />
+  </div>
+  <div
+    className="form-group"
+  >
+    <label
+      className=""
+      htmlFor="passwordConfirmation"
+    >
+      Password Confirmation
+    </label>
+    <input
+      className="form-control"
+      id="passwordConfirmation"
+      name="passwordConfirmation"
+      onBlur={[Function]}
+      onChange={[Function]}
+      placeholder="Password Confirmation"
+      type="password"
+      value=""
+    />
+  </div>
+  <div
+    style={
+      Object {
+        "display": "flex",
+        "flex": 1,
+        "justifyContent": "center",
+      }
+    }
+  >
+    <button
+      className="btn btn-secondary disabled"
+      disabled={true}
+      onClick={[Function]}
+      type="submit"
+    >
+      Submit
+    </button>
+  </div>
+</form>
+`;
+
+exports[`DomainFormik should generate complex form with schema select field 1`] = `
 <form
   className=""
   name="User"
