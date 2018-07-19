@@ -69,7 +69,11 @@ export default class DomainSchemaFormik {
    * @returns {object}
    */
   public validate(formValues: any): object {
-    return DomainSchemaFormik.transformErrors(DomainValidator.validate(this.schema, formValues), this.requiredMessage);
+    let va = DomainValidator.validate(this.schema, formValues);
+    console.log('validateVa', va );
+    let val = DomainSchemaFormik.transformErrors(va , this.requiredMessage);
+    console.log('validateVal11', val );
+    return val;
   }
 
   /**
@@ -246,31 +250,35 @@ export default class DomainSchemaFormik {
    */
   public static transformErrors(rawErrors: object, requiredMessage: string): object {
     let computedErrors = {};
+
     const collectNestedErrors = (nestedRawErrors, computedNestedErrors) => {
-      for (const nestedRawErrorKey in nestedRawErrors) {
-        if (nestedRawErrors.hasOwnProperty(nestedRawErrorKey) &&
-          typeof nestedRawErrors[nestedRawErrorKey] === 'object') {
-          if (computedNestedErrors.indexOf(pascalize(nestedRawErrorKey)) >= 0) {
-            return computedNestedErrors;
+      for (const nestedRawErrorField in nestedRawErrors) {
+        if (nestedRawErrors.hasOwnProperty(nestedRawErrorField) &&
+          typeof nestedRawErrors[nestedRawErrorField] === 'object') {
+          if (computedNestedErrors.indexOf(pascalize(nestedRawErrorField)) >= 0) {
+            continue;
           }
-          computedNestedErrors.push(pascalize(nestedRawErrorKey));
-          collectNestedErrors(nestedRawErrors[nestedRawErrorKey], computedNestedErrors);
+          computedNestedErrors.push(pascalize(nestedRawErrorField));
+          collectNestedErrors(nestedRawErrors[nestedRawErrorField], computedNestedErrors);
         }
       }
       return computedNestedErrors;
     };
+
     for (const errorField in rawErrors) {
       if (rawErrors.hasOwnProperty(errorField) && typeof rawErrors[errorField] === 'object') {
+        // collect only nested schema which has errors fields
         const nestedErrors = collectNestedErrors(rawErrors[errorField], [pascalize(errorField)]);
         computedErrors[errorField] = requiredMessage + nestedErrors.join(', ');
       } else {
         if (errorField === 'id') {
           continue;
         }
+        // collect field with error
         computedErrors[errorField] =
           Array.isArray(rawErrors[errorField]) && rawErrors[errorField].length > 0
             ? rawErrors[errorField][0]
-            : (computedErrors[errorField] = rawErrors[errorField]);
+            :  rawErrors[errorField];
       }
     }
     return computedErrors;
