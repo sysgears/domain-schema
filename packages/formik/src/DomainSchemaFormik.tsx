@@ -17,7 +17,7 @@ export default class DomainSchemaFormik {
   private static defaultFormFieldTypes = {
     oneToOneFieldType: 'form',
     plainFieldType: 'input',
-    oneToMany: 'select'
+    oneToManyFieldType: 'select'
   };
   private static formComponents: any = {};
   private fields: any = {};
@@ -43,17 +43,17 @@ export default class DomainSchemaFormik {
    * Set default field types for the form
    * @param {string} oneToOneFieldType
    * @param {string} plainFieldType
-   * @param {string} oneToMany
+   * @param {string} oneToManyFieldType
    */
   public static setDefaultFormFieldTypes(
     oneToOneFieldType: string,
     plainFieldType: string,
-    oneToMany: string
+    oneToManyFieldType: string
   ): void {
     DomainSchemaFormik.defaultFormFieldTypes = {
     oneToOneFieldType,
     plainFieldType,
-    oneToMany
+    oneToManyFieldType
     };
   }
 
@@ -191,13 +191,13 @@ export default class DomainSchemaFormik {
       const {
         oneToOneFieldType,
         plainFieldType,
-        oneToMany
+        oneToManyFieldType
       } = DomainSchemaFormik.getDefaultFormFieldTypes();
       if (oneToOne || schemaField.fieldType === oneToOneFieldType) {
         formFields.push(...this.generateFieldComponents(values, schemaField.type, true));
         continue;
       }
-      const defaultFormFieldType = isSchema(schemaField.type) ? oneToMany : plainFieldType;
+      const defaultFormFieldType = isSchema(schemaField.type) ? oneToManyFieldType : plainFieldType;
       const formFieldType = schemaField.fieldType || defaultFormFieldType;
       const fieldValue = values[fieldName] || schemaField.defaultValue || '';
       if (

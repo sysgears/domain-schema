@@ -450,7 +450,7 @@ Default field types can be set globally.
 DomainSchemaFormik.setDefaultFormFieldTypes({
     oneToOneFieldType: 'form',
     plainFieldType: 'input',
-    oneToMany: 'select'
+    oneToManyFieldType: 'select'
 });
 ...
 ```
