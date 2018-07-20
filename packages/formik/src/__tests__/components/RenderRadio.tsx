@@ -1,19 +1,19 @@
 import * as React from 'react';
 import { FormFeedback, FormGroup, Input, Label } from 'reactstrap';
 
-import { RenderComponentProps } from '../types';
+import { RenderComponentProps } from '../../types';
 
-const RenderRadio = ({ input, meta: { touched, error } }: RenderComponentProps) => {
+const RenderRadio = ({ input, meta: { touched, error }, label }: RenderComponentProps) => {
   const invalid = !!(touched && error);
 
   return (
     <FormGroup tag="fieldset">
-      {input.label && <legend>{input.label}</legend>}
+      {label && <legend>{label}</legend>}
       {input.values.map((radio, index) => {
         return radio.value ? (
           <FormGroup key={radio.value} check>
             <Input {...input} value={radio.value} checked={radio.value === input.value} />
-            <Label check>{radio.label}</Label>
+            <Label check>{label}</Label>
             {index === input.values.length - 1 && invalid && <FormFeedback>{error}</FormFeedback>}
           </FormGroup>
         ) : (

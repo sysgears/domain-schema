@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { FormFeedback, FormGroup, Input, Label } from 'reactstrap';
 
-import { RenderComponentProps } from '../types';
+import { RenderComponentProps } from '../../types';
 import Option from './Option';
 
 const RenderSelect = ({ input, meta: { touched, error } }: RenderComponentProps) => {

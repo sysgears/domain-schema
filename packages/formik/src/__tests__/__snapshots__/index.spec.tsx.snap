@@ -4,7 +4,6 @@ exports[`DomainFormik should allow to set UI toolkit for particular instance 1`]
 <form
   className=""
   name="User"
-  onSubmit={[Function]}
 >
   <div>
     <input
@@ -34,7 +33,7 @@ exports[`DomainFormik should allow to set UI toolkit for particular instance 1`]
       name="custom_pass"
       onBlur={[Function]}
       onChange={[Function]}
-      placeholder="Email"
+      placeholder="Password"
       type="text"
       value=""
     />
@@ -60,11 +59,10 @@ exports[`DomainFormik should allow to set UI toolkit for particular instance 1`]
 </form>
 `;
 
-exports[`DomainFormik should generate complex form 1`] = `
+exports[`DomainFormik should generate complex form with one-to-one nested schema field relation 1`] = `
 <form
   className=""
   name="User"
-  onSubmit={[Function]}
 >
   <div
     className="form-group"
@@ -78,7 +76,6 @@ exports[`DomainFormik should generate complex form 1`] = `
     <input
       className="form-control"
       id="username"
-      label="Username"
       name="username"
       onBlur={[Function]}
       onChange={[Function]}
@@ -99,7 +96,6 @@ exports[`DomainFormik should generate complex form 1`] = `
     <input
       className="form-control"
       id="email"
-      label="Email"
       name="email"
       onBlur={[Function]}
       onChange={[Function]}
@@ -120,7 +116,6 @@ exports[`DomainFormik should generate complex form 1`] = `
     <input
       className="form-control"
       id="firstName"
-      label="First Name"
       name="firstName"
       onBlur={[Function]}
       onChange={[Function]}
@@ -141,7 +136,6 @@ exports[`DomainFormik should generate complex form 1`] = `
     <input
       className="form-control"
       id="lastName"
-      label="Last Name"
       name="lastName"
       onBlur={[Function]}
       onChange={[Function]}
@@ -162,7 +156,6 @@ exports[`DomainFormik should generate complex form 1`] = `
     <input
       className="form-control"
       id="password"
-      label="Password"
       name="password"
       onBlur={[Function]}
       onChange={[Function]}
@@ -183,7 +176,154 @@ exports[`DomainFormik should generate complex form 1`] = `
     <input
       className="form-control"
       id="passwordConfirmation"
-      label="Password Confirmation"
+      name="passwordConfirmation"
+      onBlur={[Function]}
+      onChange={[Function]}
+      placeholder="Password Confirmation"
+      type="password"
+      value=""
+    />
+  </div>
+  <div
+    style={
+      Object {
+        "display": "flex",
+        "flex": 1,
+        "justifyContent": "center",
+      }
+    }
+  >
+    <button
+      className="btn btn-secondary disabled"
+      disabled={true}
+      onClick={[Function]}
+      type="submit"
+    >
+      Submit
+    </button>
+  </div>
+</form>
+`;
+
+exports[`DomainFormik should generate complex form with schema select field 1`] = `
+<form
+  className=""
+  name="User"
+>
+  <div
+    className="form-group"
+  >
+    <label
+      className=""
+      htmlFor="name"
+    >
+      Username
+    </label>
+    <input
+      className="form-control"
+      id="name"
+      name="name"
+      onBlur={[Function]}
+      onChange={[Function]}
+      placeholder="Username"
+      type="text"
+      value="User"
+    />
+  </div>
+  <div
+    className="form-group"
+  >
+    <label
+      className=""
+      htmlFor="email"
+    >
+      Email
+    </label>
+    <input
+      className="form-control"
+      id="email"
+      name="email"
+      onBlur={[Function]}
+      onChange={[Function]}
+      placeholder="User email"
+      type="email"
+      value=""
+    />
+  </div>
+  <div>
+    <div>
+      <select
+        className="form-control"
+        onBlur={[Function]}
+        onChange={[Function]}
+        style={
+          Object {
+            "width": "100%",
+          }
+        }
+        type="select"
+        value="0"
+      >
+        <option
+          value="1"
+        >
+          Group_1
+        </option>
+        <option
+          value="2"
+        >
+          Group_2
+        </option>
+        <option
+          value="3"
+        >
+          Group_3
+        </option>
+        <option
+          value="4"
+        >
+          Group_4
+        </option>
+        <option
+          value="5"
+        >
+          Group_5
+        </option>
+      </select>
+    </div>
+  </div>
+  <div
+    className="form-group"
+  >
+    <label
+      className=""
+      htmlFor="password"
+    >
+      Password
+    </label>
+    <input
+      className="form-control"
+      id="password"
+      name="password"
+      onBlur={[Function]}
+      onChange={[Function]}
+      placeholder="Password"
+      type="password"
+      value=""
+    />
+  </div>
+  <div
+    className="form-group"
+  >
+    <label
+      className=""
+      htmlFor="passwordConfirmation"
+    >
+      Password Confirmation
+    </label>
+    <input
+      className="form-control"
+      id="passwordConfirmation"
       name="passwordConfirmation"
       onBlur={[Function]}
       onChange={[Function]}
@@ -216,7 +356,6 @@ exports[`DomainFormik should generate form with custom field 1`] = `
 <form
   className=""
   name="User"
-  onSubmit={[Function]}
 >
   <div
     className="form-group"
@@ -230,7 +369,6 @@ exports[`DomainFormik should generate form with custom field 1`] = `
     <input
       className="form-control"
       id="username"
-      label="Username"
       name="username"
       onBlur={[Function]}
       onChange={[Function]}
@@ -275,7 +413,6 @@ exports[`DomainFormik should generate simple form 1`] = `
 <form
   className=""
   name="User"
-  onSubmit={[Function]}
 >
   <div
     className="form-group"
@@ -289,7 +426,6 @@ exports[`DomainFormik should generate simple form 1`] = `
     <input
       className="form-control"
       id="username"
-      label="Username"
       name="username"
       onBlur={[Function]}
       onChange={[Function]}
@@ -310,7 +446,6 @@ exports[`DomainFormik should generate simple form 1`] = `
     <input
       className="form-control"
       id="email"
-      label="Email"
       name="email"
       onBlur={[Function]}
       onChange={[Function]}
@@ -331,7 +466,6 @@ exports[`DomainFormik should generate simple form 1`] = `
     <input
       className="form-control"
       id="pass"
-      label="Email"
       name="pass"
       onBlur={[Function]}
       onChange={[Function]}
@@ -350,7 +484,6 @@ exports[`DomainFormik should generate simple form 1`] = `
         checked={true}
         className="form-check-input"
         id="isActive"
-        label="Is Active"
         name="isActive"
         onBlur={[Function]}
         onChange={[Function]}
