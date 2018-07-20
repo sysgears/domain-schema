@@ -15,9 +15,9 @@ export default class DomainSchemaFormik {
     }
   };
   private static defaultFormFieldTypes = {
-    schemaFieldType: 'select',
-    commonFieldType: 'input',
-    complexSchemaFieldType: 'nested'
+    oneToOneFieldType: 'form',
+    plainFieldType: 'input',
+    oneToMany: 'select'
   };
   private static formComponents: any = {};
   private fields: any = {};
@@ -41,19 +41,19 @@ export default class DomainSchemaFormik {
 
   /**
    * Set default field types for the form
-   * @param {string} schemaFieldType
-   * @param {string} commonFieldType
-   * @param {string} complexSchemaFieldType
+   * @param {string} oneToOneFieldType
+   * @param {string} plainFieldType
+   * @param {string} oneToMany
    */
   public static setDefaultFormFieldTypes(
-    schemaFieldType: string,
-    commonFieldType: string,
-    complexSchemaFieldType: string = 'nested'
+    oneToOneFieldType: string,
+    plainFieldType: string,
+    oneToMany: string
   ): void {
     DomainSchemaFormik.defaultFormFieldTypes = {
-      schemaFieldType,
-      commonFieldType,
-      complexSchemaFieldType
+    oneToOneFieldType,
+    plainFieldType,
+    oneToMany
     };
   }
 
@@ -189,15 +189,15 @@ export default class DomainSchemaFormik {
         schemaField.type.values[camelize(schema.__.name)] &&
         isSchema(schemaField.type.values[camelize(schema.__.name)].type);
       const {
-        schemaFieldType,
-        commonFieldType,
-        complexSchemaFieldType
+        oneToOneFieldType,
+        plainFieldType,
+        oneToMany
       } = DomainSchemaFormik.getDefaultFormFieldTypes();
-      if (oneToOne || schemaField.fieldType === complexSchemaFieldType) {
+      if (oneToOne || schemaField.fieldType === oneToOneFieldType) {
         formFields.push(...this.generateFieldComponents(values, schemaField.type, true));
         continue;
       }
-      const defaultFormFieldType = isSchema(schemaField.type) ? schemaFieldType : commonFieldType;
+      const defaultFormFieldType = isSchema(schemaField.type) ? oneToMany : plainFieldType;
       const formFieldType = schemaField.fieldType || defaultFormFieldType;
       const fieldValue = values[fieldName] || schemaField.defaultValue || '';
       if (
