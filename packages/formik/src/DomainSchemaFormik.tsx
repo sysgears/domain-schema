@@ -4,9 +4,9 @@ import { FormikProps, withFormik } from 'formik';
 import * as React from 'react';
 import { ComponentType, CSSProperties, ReactElement } from 'react';
 
+import { camelize, pascalize } from 'humps';
 import Field from './FieldAdapter';
 import { ButtonsConfig, FormFieldType, FSF } from './types';
-import { pascalize, camelize } from 'humps';
 
 export default class DomainSchemaFormik {
   private static fields: any = {
@@ -24,8 +24,8 @@ export default class DomainSchemaFormik {
   private formComponents: any = {};
   private configFormik = {
     enableReinitialize: true,
-    mapPropsToValues: (props) => this.getValuesFromSchema(this.schema, props.values),
-    handleSubmit : (values, { props: { onSubmit }, ...formikBag }) => {
+    mapPropsToValues: props => this.getValuesFromSchema(this.schema, props.values),
+    handleSubmit: (values, { props: { onSubmit }, ...formikBag }) => {
       onSubmit(values, formikBag);
     },
     validate: (values: any) => this.validate(values)
@@ -45,21 +45,23 @@ export default class DomainSchemaFormik {
    * @param {string} commonFieldType
    * @param {string} complexSchemaFieldType
    */
-  public static setDefaultFormFieldTypes (schemaFieldType: string,
-                                          commonFieldType: string,
-                                          complexSchemaFieldType : string = 'nested'): void{
-    DomainSchemaFormik.defaultFormFieldTypes  = {
+  public static setDefaultFormFieldTypes(
+    schemaFieldType: string,
+    commonFieldType: string,
+    complexSchemaFieldType: string = 'nested'
+  ): void {
+    DomainSchemaFormik.defaultFormFieldTypes = {
       schemaFieldType,
       commonFieldType,
       complexSchemaFieldType
-    }
+    };
   }
 
   /**
    * Get default field types for the form
    * @returns {object}
    */
-  public static getDefaultFormFieldTypes () {
+  public static getDefaultFormFieldTypes() {
     return DomainSchemaFormik.defaultFormFieldTypes;
   }
 
@@ -91,7 +93,8 @@ export default class DomainSchemaFormik {
     return withFormik(this.configFormik)(({ values, isValid, handleReset, handleSubmit }: FormikProps<any>) => {
       const formElements = this.generateFieldComponents(values, this.schema);
       formElements.push(this.genButtons(buttonsConfig || {}, isValid, handleReset));
-      const Form = (this.formComponents.form && this.formComponents.form.component) ||
+      const Form =
+        (this.formComponents.form && this.formComponents.form.component) ||
         (DomainSchemaFormik.formComponents.form && DomainSchemaFormik.formComponents.form.component);
       return (
         <Form onSubmit={handleSubmit} name={this.schema.name} input={formAttrs}>
@@ -138,9 +141,9 @@ export default class DomainSchemaFormik {
    * @param values
    * @returns {object}
    */
-  public getValuesFromSchema(schema: Schema, values: any ): object {
+  public getValuesFromSchema(schema: Schema, values: any): object {
     const fields = {};
-    for (const key of schema.keys()){
+    for (const key of schema.keys()) {
       const value = schema.values[key];
       if (value.show !== false && value.type.constructor !== Array) {
         fields[key] = values ? values[key] : '';
@@ -157,7 +160,7 @@ export default class DomainSchemaFormik {
    * @param components
    * @returns {object}
    */
-  private static getFieldType = (fieldType: string, components: any) : object => ({
+  private static getFieldType = (fieldType: string, components: any): object => ({
     name: fieldType,
     component: components[fieldType]
   });
@@ -171,29 +174,36 @@ export default class DomainSchemaFormik {
    */
   private generateFieldComponents(values: any, schema: DomainSchema, nested: boolean = false) {
     const formFields = [];
-    for (const fieldName of schema.keys()){
+    for (const fieldName of schema.keys()) {
       if (fieldName === 'id' || schema.values[fieldName].ignore) {
         continue;
       }
       const schemaField: FSF = schema.values[fieldName];
-      const isSchema = (type) => type instanceof DomainSchema;
+      const isSchema = type => type instanceof DomainSchema;
       // if hasMany relation exists or nested schema in nested schema - skip field creation
-      if (Array.isArray(schemaField.type) || (isSchema(schemaField.type) && nested)){
+      if (Array.isArray(schemaField.type) || (isSchema(schemaField.type) && nested)) {
         continue;
       }
-      const oneToOne = isSchema(schemaField.type) &&
+      const oneToOne =
+        isSchema(schemaField.type) &&
         schemaField.type.values[camelize(schema.__.name)] &&
-      isSchema(schemaField.type.values[camelize(schema.__.name)].type);
-      const { schemaFieldType , commonFieldType, complexSchemaFieldType } = DomainSchemaFormik.getDefaultFormFieldTypes();
-      if (oneToOne || schemaField.fieldType === complexSchemaFieldType){
+        isSchema(schemaField.type.values[camelize(schema.__.name)].type);
+      const {
+        schemaFieldType,
+        commonFieldType,
+        complexSchemaFieldType
+      } = DomainSchemaFormik.getDefaultFormFieldTypes();
+      if (oneToOne || schemaField.fieldType === complexSchemaFieldType) {
         formFields.push(...this.generateFieldComponents(values, schemaField.type, true));
         continue;
       }
       const defaultFormFieldType = isSchema(schemaField.type) ? schemaFieldType : commonFieldType;
       const formFieldType = schemaField.fieldType || defaultFormFieldType;
       const fieldValue = values[fieldName] || schemaField.defaultValue || '';
-      if ((this.fields && this.fields.hasOwnProperty(formFieldType)) ||
-        DomainSchemaFormik.fields.hasOwnProperty(formFieldType)) {
+      if (
+        (this.fields && this.fields.hasOwnProperty(formFieldType)) ||
+        DomainSchemaFormik.fields.hasOwnProperty(formFieldType)
+      ) {
         formFields.push(
           this.genField(
             (this.fields && this.fields[formFieldType]) || DomainSchemaFormik.fields[formFieldType],
@@ -219,7 +229,7 @@ export default class DomainSchemaFormik {
    * @param schema
    * @returns {any}
    */
-  private genField (
+  private genField(
     formFieldType: FormFieldType,
     schemaField: FSF,
     value: string | number | boolean,
@@ -249,8 +259,10 @@ export default class DomainSchemaFormik {
 
     const collectNestedErrors = (nestedRawErrors, computedNestedErrors) => {
       for (const nestedRawErrorField in nestedRawErrors) {
-        if (nestedRawErrors.hasOwnProperty(nestedRawErrorField) &&
-          typeof nestedRawErrors[nestedRawErrorField] === 'object') {
+        if (
+          nestedRawErrors.hasOwnProperty(nestedRawErrorField) &&
+          typeof nestedRawErrors[nestedRawErrorField] === 'object'
+        ) {
           if (computedNestedErrors.indexOf(pascalize(nestedRawErrorField)) >= 0) {
             continue;
           }
@@ -274,7 +286,7 @@ export default class DomainSchemaFormik {
         computedErrors[errorField] =
           Array.isArray(rawErrors[errorField]) && rawErrors[errorField].length > 0
             ? rawErrors[errorField][0]
-            :  rawErrors[errorField];
+            : rawErrors[errorField];
       }
     }
     return computedErrors;
@@ -289,11 +301,13 @@ export default class DomainSchemaFormik {
    */
   private genButtons(buttonsConfig: ButtonsConfig | any, valid: boolean, handleReset: () => void): ReactElement<any> {
     const {
-      reset, submit = Object.keys(buttonsConfig).length ?
-        buttonsConfig : {
-          label: 'Save',
-          disableOnInvalid: true
-        }
+      reset,
+      submit = Object.keys(buttonsConfig).length
+        ? buttonsConfig
+        : {
+            label: 'Save',
+            disableOnInvalid: true
+          }
     } = buttonsConfig;
 
     if (!submit.hasOwnProperty('disableOnInvalid')) {

@@ -3,12 +3,12 @@ import { FieldValidators } from '@domain-schema/validation';
 import * as React from 'react';
 import renderer from 'react-test-renderer';
 
-import  UserTestSchema1 from './schema/testSchema1';
-import { User as UserTestSchema2 } from './schema/testSchema2';
-import  { User as UserTestSchema3 } from './schema/testSchema3';
-import  UserTestSchema4 from './schema/testSchema4';
 import { DomainSchemaFormik, FSF } from '../';
 import { Button, Form, RenderCheckBox, RenderField, RenderSelect, RenderSelectQuery } from './components';
+import UserTestSchema1 from './schema/testSchema1';
+import { User as UserTestSchema2 } from './schema/testSchema2';
+import { User as UserTestSchema3 } from './schema/testSchema3';
+import UserTestSchema4 from './schema/testSchema4';
 
 DomainSchemaFormik.setFormComponents({
   input: RenderField,

@@ -11,15 +11,15 @@ export interface Props {
   onBlur?: any;
   onChange?: any;
   value?: string | number | boolean;
-  schema?: any
+  schema?: any;
 }
 
 export default class Field extends Component<Props, {}> {
-  public props;
-  public context;
   public static contextTypes = {
     formik: PropTypes.object
   };
+  public props;
+  public context;
 
   constructor(props: Props, context: any) {
     super(props, context);
@@ -40,8 +40,8 @@ export default class Field extends Component<Props, {}> {
     };
 
     const meta = {
-      touched: touched ? touched[name]: '',
-      error: errors ? errors[name]: ''
+      touched: touched ? touched[name] : '',
+      error: errors ? errors[name] : ''
     };
 
     const props = {
@@ -51,11 +51,11 @@ export default class Field extends Component<Props, {}> {
       setFieldTouched,
       label,
       placeholder,
-      ...(schema ? {schema} : {})
+      ...(schema ? { schema } : {})
     };
 
-    const Component = component;
+    const FieldComponent = component;
 
-    return <Component {...props}/>
+    return <FieldComponent {...props} />;
   }
 }

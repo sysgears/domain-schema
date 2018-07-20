@@ -9,7 +9,7 @@ export interface Props {
 
 const Form = ({ children, input, name }: Props) => {
   return (
-    <RSForm name={name} {...input} >
+    <RSForm name={name} {...input}>
       {children}
     </RSForm>
   );
