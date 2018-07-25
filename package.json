@@ -6,6 +6,7 @@
     "clean": "lerna run -- clean",
     "test": "lerna run -- test",
     "lint": "lerna run -- lint",
+    "watch": "lerna run --parallel -- watch",
     "predeploy": "yarn build && yarn test",
     "deploy": "lerna publish -m \"chore: Publish\" --independent",
     "precommit": "lint-staged"
