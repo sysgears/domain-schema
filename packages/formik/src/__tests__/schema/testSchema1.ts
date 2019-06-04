@@ -1,9 +1,9 @@
 import { Schema } from '@domain-schema/core';
-import { FSF } from '../../index';
+import { SchemaField } from '../../index';
 
 export default class extends Schema {
   public __ = { name: 'User' };
-  public username: FSF = {
+  public username: SchemaField = {
     type: String,
     input: {
       label: 'Username',
@@ -11,21 +11,21 @@ export default class extends Schema {
     },
     defaultValue: 'John'
   };
-  public email: FSF = {
+  public email: SchemaField = {
     type: String,
     input: {
       type: 'email',
       label: 'Email'
     }
   };
-  public pass: FSF = {
+  public pass: SchemaField = {
     type: String,
     input: {
       type: 'password',
       label: 'Email'
     }
   };
-  public isActive: FSF = {
+  public isActive: SchemaField = {
     type: String,
     fieldType: 'checkbox',
     input: {

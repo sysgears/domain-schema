@@ -1,9 +1,8 @@
 import { Schema } from '@domain-schema/core';
-import { FieldValidators } from '@domain-schema/validation';
 import * as React from 'react';
-import renderer from 'react-test-renderer';
+import * as renderer from 'react-test-renderer';
 
-import { DomainSchemaFormik, FSF } from '../';
+import { DomainSchemaFormik, SchemaField } from '../';
 import { Button, Form, RenderCheckBox, RenderField, RenderSelect, RenderSelectQuery } from './components';
 import UserTestSchema1 from './schema/testSchema1';
 import { User as UserTestSchema2 } from './schema/testSchema2';
@@ -61,14 +60,14 @@ describe('DomainFormik', () => {
     };
     const schema = class User extends Schema {
       public __ = { name: 'User' };
-      public username: FSF = {
+      public username: SchemaField = {
         type: String,
         input: {
           label: 'Username'
         },
         defaultValue: 'User'
       };
-      public userfield: FSF = {
+      public userfield: SchemaField = {
         type: String,
         fieldType: 'custom',
         component: MyComponent,

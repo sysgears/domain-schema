@@ -24,15 +24,12 @@ describe('DomainValidator', () => {
         };
       }
     );
-    const errors = DomainValidation.validate(
-      {
-        username: '',
-        email: 'test@email.com',
-        pass: '123456',
-        confPass: '123'
-      },
-      schema
-    );
+    const errors = DomainValidation.validate(schema, {
+      username: '',
+      email: 'test@email.com',
+      pass: '123456',
+      confPass: '123'
+    });
     expect(errors).toHaveProperty('username');
     expect(errors).toHaveProperty('confPass');
   });
@@ -61,17 +58,15 @@ describe('DomainValidator', () => {
         };
       }
     );
-    const errors = DomainValidation.validate(
-      {
-        login: 'user',
-        profile: {
-          firstName: '',
-          lastName: ''
-        }
-      },
-      schema
-    );
-    expect(errors).toEqual({ firstName: 'Required' });
+    const errors = DomainValidation.validate(schema, {
+      id: 1,
+      login: 'user',
+      profile: {
+        firstName: '',
+        lastName: ''
+      }
+    });
+    expect(errors).toEqual({ profile: { firstName: 'Required' } });
   });
 
   it('should redefine error message for all fields', () => {
@@ -92,13 +87,11 @@ describe('DomainValidator', () => {
         return `Field ${fieldName} is required!`;
       }
     });
-    const errors = DomainValidation.validate(
-      {
-        login: '',
-        pass: ''
-      },
-      schema
-    );
+    const errors = DomainValidation.validate(schema, {
+      id: 1,
+      login: '',
+      pass: ''
+    });
     expect(errors).toEqual({ login: 'Field login is required!', pass: 'Field pass is required!' });
   });
 
@@ -119,13 +112,11 @@ describe('DomainValidator', () => {
         };
       }
     );
-    const errors = DomainValidation.validate(
-      {
-        login: 'admin',
-        pass: ''
-      },
-      schema
-    );
+    const errors = DomainValidation.validate(schema, {
+      id: 1,
+      login: 'admin',
+      pass: ''
+    });
     expect(errors).toEqual({ pass: 'Password is required!' });
   });
 
@@ -147,13 +138,11 @@ describe('DomainValidator', () => {
         };
       }
     );
-    const errors = DomainValidation.validate(
-      {
-        login: 'admin',
-        pass: '123'
-      },
-      schema
-    );
+    const errors = DomainValidation.validate(schema, {
+      id: 1,
+      login: 'admin',
+      pass: '123'
+    });
     expect(errors).toEqual({ pass: 'Must Be more than 5 characters' });
   });
 });

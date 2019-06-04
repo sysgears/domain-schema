@@ -12,7 +12,7 @@ class DomainKnex {
     this.knex = knex;
   }
 
-  public selectBy = (schema: Schema, fields: string[]) => {
+  public selectBy = (schema: typeof Schema, fields: string[]) => {
     const domainSchema = new DomainSchema(schema);
     // form table name
     const tableName = decamelize(domainSchema.__.name);
@@ -36,7 +36,7 @@ class DomainKnex {
     };
   };
 
-  public createTables(schema: Schema): Promise<any> {
+  public createTables(schema: typeof Schema): Promise<any> {
     const domainSchema = new DomainSchema(schema);
     if (domainSchema.__.transient) {
       throw new Error(`Unable to create tables for transient schema: ${domainSchema.__.name}`);
@@ -44,7 +44,7 @@ class DomainKnex {
     return this._createTables(null, domainSchema, []);
   }
 
-  public dropTables(schema: Schema): Promise<any> {
+  public dropTables(schema: typeof Schema): Promise<any> {
     const domainSchema = new DomainSchema(schema);
     const tableNames = this._getTableNames(domainSchema, []);
     debug('Dropping tables:', tableNames);

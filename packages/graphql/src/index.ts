@@ -6,7 +6,7 @@ const debug = Debug('@domain-schema/graphql');
 export default class {
   constructor() {}
 
-  public generateTypes(schema: Schema, options: any = {}): string {
+  public generateTypes(schema: typeof Schema, options: any = {}): string {
     const domainSchema = new DomainSchema(schema);
     options.deep = options.deep || true;
 

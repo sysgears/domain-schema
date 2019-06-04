@@ -1,12 +1,12 @@
 import DomainSchema, { Schema } from '@domain-schema/core';
-import DomainValidator, { FieldValidators } from '@domain-schema/validation';
+import DomainValidator from '@domain-schema/validation';
 import { FormikProps, withFormik } from 'formik';
 import * as React from 'react';
-import { ComponentType, CSSProperties, ReactElement } from 'react';
+import { CSSProperties, ReactElement } from 'react';
 
 import { camelize, pascalize } from 'humps';
 import Field from './FieldAdapter';
-import { ButtonsConfig, FormFieldType, FSF } from './types';
+import { ButtonsConfig, FormFieldType, SchemaField } from './types';
 
 export default class DomainSchemaFormik {
   private static fields: any = {
@@ -20,6 +20,7 @@ export default class DomainSchemaFormik {
     oneToManyFieldType: 'select'
   };
   private static formComponents: any = {};
+  private schema: DomainSchema;
   private fields: any = {};
   private formComponents: any = {};
   private configFormik = {
@@ -35,7 +36,7 @@ export default class DomainSchemaFormik {
   /**
    * @param {} schema
    */
-  constructor(private schema: Schema) {
+  constructor(schema: typeof Schema) {
     this.schema = new DomainSchema(schema);
   }
 
@@ -51,9 +52,9 @@ export default class DomainSchemaFormik {
     oneToManyFieldType: string
   ): void {
     DomainSchemaFormik.defaultFormFieldTypes = {
-    oneToOneFieldType,
-    plainFieldType,
-    oneToManyFieldType
+      oneToOneFieldType,
+      plainFieldType,
+      oneToManyFieldType
     };
   }
 
@@ -141,7 +142,7 @@ export default class DomainSchemaFormik {
    * @param values
    * @returns {object}
    */
-  public getValuesFromSchema(schema: Schema, values: any): object {
+  public getValuesFromSchema(schema: DomainSchema, values: any): object {
     const fields = {};
     for (const key of schema.keys()) {
       const value = schema.values[key];
@@ -178,7 +179,7 @@ export default class DomainSchemaFormik {
       if (fieldName === 'id' || schema.values[fieldName].ignore) {
         continue;
       }
-      const schemaField: FSF = schema.values[fieldName];
+      const schemaField: SchemaField = schema.values[fieldName];
       const isSchema = type => type instanceof DomainSchema;
       // if hasMany relation exists or nested schema in nested schema - skip field creation
       if (Array.isArray(schemaField.type) || (isSchema(schemaField.type) && nested)) {
@@ -188,11 +189,7 @@ export default class DomainSchemaFormik {
         isSchema(schemaField.type) &&
         schemaField.type.values[camelize(schema.__.name)] &&
         isSchema(schemaField.type.values[camelize(schema.__.name)].type);
-      const {
-        oneToOneFieldType,
-        plainFieldType,
-        oneToManyFieldType
-      } = DomainSchemaFormik.getDefaultFormFieldTypes();
+      const { oneToOneFieldType, plainFieldType, oneToManyFieldType } = DomainSchemaFormik.getDefaultFormFieldTypes();
       if (oneToOne || schemaField.fieldType === oneToOneFieldType) {
         formFields.push(...this.generateFieldComponents(values, schemaField.type, true));
         continue;
@@ -231,7 +228,7 @@ export default class DomainSchemaFormik {
    */
   private genField(
     formFieldType: FormFieldType,
-    schemaField: FSF,
+    schemaField: SchemaField,
     value: string | number | boolean,
     fieldName: string,
     schema: any
@@ -325,12 +322,16 @@ export default class DomainSchemaFormik {
         ? (submitProps.align === 'left' && reset.align !== 'right') || (reset.align === 'left' && !submitProps.align)
           ? 'flex-start'
           : (submitProps.align === 'right' && reset.align !== 'left') || (reset.align === 'right' && !submitProps.align)
-            ? 'flex-end'
-            : (submitProps.align === 'right' && reset.align === 'left') ||
-              (reset.align === 'right' && submitProps.align === 'left')
-              ? 'space-between'
-              : 'center'
-        : submitProps.align === 'left' ? 'flex-start' : submitProps.align === 'right' ? 'flex-end' : 'center'
+          ? 'flex-end'
+          : (submitProps.align === 'right' && reset.align === 'left') ||
+            (reset.align === 'right' && submitProps.align === 'left')
+          ? 'space-between'
+          : 'center'
+        : submitProps.align === 'left'
+        ? 'flex-start'
+        : submitProps.align === 'right'
+        ? 'flex-end'
+        : 'center'
     };
     const Button =
       (this.formComponents.button && this.formComponents.button.component) ||

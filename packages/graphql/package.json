@@ -21,28 +21,17 @@
     "lib/*.map"
   ],
   "devDependencies": {
-    "@types/jest": "^21.1.5",
-    "@types/node": "^7.0.18",
-    "@domain-schema/core": ">= 0.0.30",
-    "jest": "^21.2.1",
-    "prettier": "^1.6.1",
-    "ts-jest": "^21.2.1",
-    "tslint": "^5.2.0",
-    "tslint-config-prettier": "^1.5.0",
-    "tslint-plugin-prettier": "^1.3.0",
-    "typescript": "^2.7.2"
+    "@domain-schema/core": ">= 0.0.30"
   },
   "peerDependencies": {
     "@domain-schema/core": ">= 0.0.30"
   },
-  "prettier": {
-    "printWidth": 120,
-    "singleQuote": true,
-    "parser": "babylon"
+  "dependencies": {
+    "debug": "^3.1.0"
   },
   "jest": {
     "transform": {
-      ".(ts|tsx)": "<rootDir>/../../node_modules/ts-jest/preprocessor.js"
+      ".(ts|tsx)": "ts-jest"
     },
     "testRegex": "(/__tests__/.*\\.(test|spec))\\.(ts|tsx|js)$",
     "moduleFileExtensions": [
@@ -50,9 +39,7 @@
       "tsx",
       "js",
       "json"
-    ]
-  },
-  "dependencies": {
-    "debug": "^3.1.0"
+    ],
+    "testEnvironment": "node"
   }
 }

@@ -39,7 +39,9 @@ const min = (value: Value, msg?: string) => (context: SchemaContext, minVal: num
     ? value && (value as string).length < minVal
       ? msg || pickMsg('min', { ...context, minVal, isString: true })
       : undefined
-    : value && value < minVal ? msg || pickMsg('min', { ...context, minVal, isString: false }) : undefined;
+    : value && value < minVal
+    ? msg || pickMsg('min', { ...context, minVal, isString: false })
+    : undefined;
 
 // Max value/length validation
 const max = (value: Value, msg?: string) => (context: SchemaContext, maxVal: number): string | undefined =>
@@ -47,7 +49,9 @@ const max = (value: Value, msg?: string) => (context: SchemaContext, maxVal: num
     ? value && (value as string).length > maxVal
       ? msg || pickMsg('max', { ...context, maxVal, isString: true })
       : undefined
-    : value && value > maxVal ? msg || pickMsg('max', { ...context, maxVal, isString: false }) : undefined;
+    : value && value > maxVal
+    ? msg || pickMsg('max', { ...context, maxVal, isString: false })
+    : undefined;
 
 // Email validation
 const email = (value: string, msg?: string) => (context: SchemaContext): string | undefined =>

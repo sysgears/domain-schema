@@ -1,9 +1,9 @@
 import { Schema } from '@domain-schema/core';
-import { FSF } from '../../index';
+import { SchemaField } from '../../index';
 
 export class Profile extends Schema {
   public __ = { name: 'Profile' };
-  public firstName: FSF = {
+  public firstName: SchemaField = {
     type: String,
     input: {
       label: 'First Name'
@@ -14,7 +14,7 @@ export class Profile extends Schema {
       msg: 'Required First Name'
     }
   };
-  public lastName: FSF = {
+  public lastName: SchemaField = {
     type: String,
     input: {
       label: 'Last Name'
@@ -22,13 +22,13 @@ export class Profile extends Schema {
     required: true
   };
 
-  public user: FSF = {
+  public user: SchemaField = {
     type: User
   };
 }
 export class User extends Schema {
   public __ = { name: 'User' };
-  public username: FSF = {
+  public username: SchemaField = {
     type: String,
     input: {
       type: 'text',
@@ -42,7 +42,7 @@ export class User extends Schema {
       }
     ]
   };
-  public email: FSF = {
+  public email: SchemaField = {
     type: String,
     input: {
       type: 'email',
@@ -55,7 +55,7 @@ export class User extends Schema {
   public profile = {
     type: Profile
   };
-  public password: FSF = {
+  public password: SchemaField = {
     type: String,
     input: {
       type: 'password',
@@ -64,7 +64,7 @@ export class User extends Schema {
     required: true,
     min: 5
   };
-  public passwordConfirmation: FSF = {
+  public passwordConfirmation: SchemaField = {
     type: String,
     input: {
       type: 'password',

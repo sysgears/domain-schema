@@ -1,30 +1,30 @@
 import DomainSchema, { Schema } from '@domain-schema/core';
-import { FSF } from '../../index';
+import { SchemaField } from '../../index';
 
 export class Group extends Schema {
   public __ = { name: 'Group' };
-  public id: FSF = {
+  public id: SchemaField = {
     type: DomainSchema.Int
   };
-  public name: FSF = {
+  public name: SchemaField = {
     type: String,
     input: {
       label: 'Group Name'
     }
   };
-  public description: FSF = {
+  public description: SchemaField = {
     type: String
   };
-  public users: FSF = {
+  public users: SchemaField = {
     type: [User]
   };
 }
 export class User extends Schema {
   public __ = { name: 'User' };
-  public id: FSF = {
+  public id: SchemaField = {
     type: DomainSchema.Int
   };
-  public name: FSF = {
+  public name: SchemaField = {
     type: String,
     input: {
       type: 'text',
@@ -38,7 +38,7 @@ export class User extends Schema {
       }
     ]
   };
-  public email: FSF = {
+  public email: SchemaField = {
     type: String,
     input: {
       type: 'email',
@@ -49,7 +49,7 @@ export class User extends Schema {
   public group = {
     type: Group
   };
-  public password: FSF = {
+  public password: SchemaField = {
     type: String,
     input: {
       type: 'password',
@@ -57,7 +57,7 @@ export class User extends Schema {
     },
     min: 5
   };
-  public passwordConfirmation: FSF = {
+  public passwordConfirmation: SchemaField = {
     type: String,
     input: {
       type: 'password',

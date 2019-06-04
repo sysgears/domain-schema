@@ -1,10 +1,10 @@
-import { FieldValidators } from '@domain-schema/validation';
 import { ComponentType } from 'react';
 
 export interface SchemaField {
   type: any;
   fieldType?: string;
   input?: any;
+  email?: boolean;
   defaultValue?: string | boolean | number;
   component?: ComponentType<any>;
   matches?: string;
@@ -13,8 +13,6 @@ export interface SchemaField {
   min?: number;
   max?: number;
 }
-
-export type FSF = SchemaField & FieldValidators; // Full Schema Field
 
 export interface RenderComponentProps {
   input?: any;

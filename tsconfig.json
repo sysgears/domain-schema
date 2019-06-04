@@ -1,9 +1,8 @@
 {
   "compilerOptions": {
+    "baseUrl": ".",
     "target": "es5",
     "module": "commonjs",
-    "rootDir": "packages",
-    "baseUrl": "packages/",
     "lib": ["es2016"],
     "moduleResolution": "node",
     "sourceMap": true,
@@ -13,5 +12,8 @@
     "experimentalDecorators": true,
     "pretty": true,
     "removeComments": true
-  }
+  },
+  "include": [
+    "packages/*/src/**/*"
+  ]
 }

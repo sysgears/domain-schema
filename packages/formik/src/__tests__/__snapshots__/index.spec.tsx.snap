@@ -7,7 +7,6 @@ exports[`DomainFormik should allow to set UI toolkit for particular instance 1`]
 >
   <div>
     <input
-      className={undefined}
       name="custom_username"
       onBlur={[Function]}
       onChange={[Function]}
@@ -18,7 +17,6 @@ exports[`DomainFormik should allow to set UI toolkit for particular instance 1`]
   </div>
   <div>
     <input
-      className={undefined}
       name="custom_email"
       onBlur={[Function]}
       onChange={[Function]}
@@ -29,7 +27,6 @@ exports[`DomainFormik should allow to set UI toolkit for particular instance 1`]
   </div>
   <div>
     <input
-      className={undefined}
       name="custom_pass"
       onBlur={[Function]}
       onChange={[Function]}
@@ -48,6 +45,7 @@ exports[`DomainFormik should allow to set UI toolkit for particular instance 1`]
     }
   >
     <button
+      aria-label={null}
       className="btn btn-secondary disabled"
       disabled={true}
       onClick={[Function]}
@@ -65,7 +63,7 @@ exports[`DomainFormik should generate complex form with one-to-one nested schema
   name="User"
 >
   <div
-    className="form-group"
+    className="position-relative form-group"
   >
     <label
       className=""
@@ -85,7 +83,7 @@ exports[`DomainFormik should generate complex form with one-to-one nested schema
     />
   </div>
   <div
-    className="form-group"
+    className="position-relative form-group"
   >
     <label
       className=""
@@ -105,7 +103,7 @@ exports[`DomainFormik should generate complex form with one-to-one nested schema
     />
   </div>
   <div
-    className="form-group"
+    className="position-relative form-group"
   >
     <label
       className=""
@@ -125,7 +123,7 @@ exports[`DomainFormik should generate complex form with one-to-one nested schema
     />
   </div>
   <div
-    className="form-group"
+    className="position-relative form-group"
   >
     <label
       className=""
@@ -145,7 +143,7 @@ exports[`DomainFormik should generate complex form with one-to-one nested schema
     />
   </div>
   <div
-    className="form-group"
+    className="position-relative form-group"
   >
     <label
       className=""
@@ -165,7 +163,7 @@ exports[`DomainFormik should generate complex form with one-to-one nested schema
     />
   </div>
   <div
-    className="form-group"
+    className="position-relative form-group"
   >
     <label
       className=""
@@ -194,6 +192,7 @@ exports[`DomainFormik should generate complex form with one-to-one nested schema
     }
   >
     <button
+      aria-label={null}
       className="btn btn-secondary disabled"
       disabled={true}
       onClick={[Function]}
@@ -211,7 +210,7 @@ exports[`DomainFormik should generate complex form with schema select field 1`] 
   name="User"
 >
   <div
-    className="form-group"
+    className="position-relative form-group"
   >
     <label
       className=""
@@ -231,7 +230,7 @@ exports[`DomainFormik should generate complex form with schema select field 1`] 
     />
   </div>
   <div
-    className="form-group"
+    className="position-relative form-group"
   >
     <label
       className=""
@@ -261,7 +260,6 @@ exports[`DomainFormik should generate complex form with schema select field 1`] 
             "width": "100%",
           }
         }
-        type="select"
         value="0"
       >
         <option
@@ -293,7 +291,7 @@ exports[`DomainFormik should generate complex form with schema select field 1`] 
     </div>
   </div>
   <div
-    className="form-group"
+    className="position-relative form-group"
   >
     <label
       className=""
@@ -313,7 +311,7 @@ exports[`DomainFormik should generate complex form with schema select field 1`] 
     />
   </div>
   <div
-    className="form-group"
+    className="position-relative form-group"
   >
     <label
       className=""
@@ -342,6 +340,7 @@ exports[`DomainFormik should generate complex form with schema select field 1`] 
     }
   >
     <button
+      aria-label={null}
       className="btn btn-secondary"
       onClick={[Function]}
       type="submit"
@@ -358,7 +357,7 @@ exports[`DomainFormik should generate form with custom field 1`] = `
   name="User"
 >
   <div
-    className="form-group"
+    className="position-relative form-group"
   >
     <label
       className=""
@@ -398,6 +397,7 @@ exports[`DomainFormik should generate form with custom field 1`] = `
     }
   >
     <button
+      aria-label={null}
       className="btn btn-secondary disabled"
       disabled={true}
       onClick={[Function]}
@@ -415,7 +415,7 @@ exports[`DomainFormik should generate simple form 1`] = `
   name="User"
 >
   <div
-    className="form-group"
+    className="position-relative form-group"
   >
     <label
       className=""
@@ -435,7 +435,7 @@ exports[`DomainFormik should generate simple form 1`] = `
     />
   </div>
   <div
-    className="form-group"
+    className="position-relative form-group"
   >
     <label
       className=""
@@ -455,7 +455,7 @@ exports[`DomainFormik should generate simple form 1`] = `
     />
   </div>
   <div
-    className="form-group"
+    className="position-relative form-group"
   >
     <label
       className=""
@@ -475,10 +475,10 @@ exports[`DomainFormik should generate simple form 1`] = `
     />
   </div>
   <div
-    className="form-group"
+    className="position-relative form-group"
   >
     <div
-      className="form-check"
+      className="position-relative form-check"
     >
       <input
         checked={true}
@@ -490,7 +490,7 @@ exports[`DomainFormik should generate simple form 1`] = `
         type="checkbox"
       />
       <label
-        className="form-check-label "
+        className="form-check-label"
         htmlFor="isActive"
       >
         Is Active
@@ -507,6 +507,7 @@ exports[`DomainFormik should generate simple form 1`] = `
     }
   >
     <button
+      aria-label={null}
       className="btn btn-secondary disabled"
       disabled={true}
       onClick={[Function]}

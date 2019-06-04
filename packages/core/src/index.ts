@@ -79,7 +79,9 @@ class DomainSchema extends Schema {
 
       const type = def.type.constructor === Array ? def.type[0] : def.type;
       const targetType = DomainSchema._isSchema(type)
-        ? _defs.hasOwnProperty(type) ? _defs[type] : new DomainSchema(type, _defs)
+        ? _defs.hasOwnProperty(type)
+          ? _defs[type]
+          : new DomainSchema(type, _defs)
         : type;
 
       if (def.type.constructor === Array) {

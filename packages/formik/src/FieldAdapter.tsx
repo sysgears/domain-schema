@@ -26,7 +26,9 @@ export default class Field extends Component<Props, {}> {
   }
 
   public render() {
-    const { formik: { setFieldValue, setFieldTouched, handleChange, handleBlur, touched, errors } } = this.context;
+    const {
+      formik: { setFieldValue, setFieldTouched, handleChange, handleBlur, touched, errors }
+    } = this.context;
     const { component, attributes, fieldType, name, value, schema } = this.props;
     const { onChange, onBlur, type, label, placeholder, ...restAttributes } = attributes;
 
