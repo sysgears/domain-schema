@@ -7,8 +7,7 @@
     "tests": "jest",
     "test": "yarn jest && yarn lint",
     "lint": "tslint -c tslint.json -p tsconfig.json",
-    "watch": "yarn workspaces foreach -t -v -p -i run watch",
-    "precommit": "lint-staged"
+    "watch": "yarn workspaces foreach -t -v -p -i run watch"
   },
   "workspaces": [
     "packages/*"
@@ -17,15 +16,16 @@
     "@babel/core": "^7.5.5",
     "@babel/plugin-proposal-class-properties": "^7.5.5",
     "@babel/plugin-transform-modules-commonjs": "^7.5.0",
+    "@babel/plugin-transform-react-jsx": "^7.3.0",
     "@babel/preset-typescript": "^7.3.3",
     "@berry/pnpify": "^0.0.6",
     "@types/jest": "^21.1.5",
     "@types/node": "^7.0.18",
     "babel-jest": "^24.8.0",
-    "husky": "^2.2.0",
+    "husky": "^3.0.1",
     "jest": "^24.8.0",
     "lerna": "^3.13.4",
-    "lint-staged": "^8.1.5",
+    "lint-staged": "^9.2.1",
     "prettier": "^1.17.0",
     "ts-jest": "^24.0.2",
     "tslint": "^5.16.0",
@@ -34,21 +34,19 @@
     "typescript": "^3.4.5"
   },
   "lint-staged": {
-    "*.ts": [
+    "*.{ts,tsx}": [
       "tslint --fix",
       "git add"
-    ],
-    "*.{json}": [
-      "prettier --write",
-      "git add"
     ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   },
   "prettier": {
     "printWidth": 120,
     "singleQuote": true,
     "parser": "babel"
-  },
-  "dependencies": {
-    "@babel/plugin-transform-react-jsx": "^7.3.0"
   }
 }
