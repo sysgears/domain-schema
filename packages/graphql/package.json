@@ -4,15 +4,12 @@
   "description": "GraphQL generator for Domain Schema",
   "repository": "https://github.com/sysgears/domain-schema.git",
   "author": "Victor Vlasenko <victor.vlasenko@sysgears.com>",
-  "main": "lib/index.js",
+  "main": "src/index.ts",
   "license": "MIT",
   "scripts": {
     "clean": "rm -rf ./lib",
     "build": "tsc -p tsconfig.build.json",
     "watch": "tsc -p tsconfig.build.json -w",
-    "lint": "tslint -p tsconfig.json --fix -c ../../tslint.json",
-    "tests": "jest",
-    "test": "yarn tests && yarn lint",
     "prepublishOnly": "yarn clean && yarn build"
   },
   "files": [
@@ -29,17 +26,8 @@
   "dependencies": {
     "debug": "^3.1.0"
   },
-  "jest": {
-    "transform": {
-      ".(ts|tsx)": "ts-jest"
-    },
-    "testRegex": "(/__tests__/.*\\.(test|spec))\\.(ts|tsx|js)$",
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js",
-      "json"
-    ],
-    "testEnvironment": "node"
+  "publishConfig": {
+    "main": "lib/index.js",
+    "types": "lib/index.d.js"
   }
 }

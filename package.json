@@ -2,27 +2,32 @@
   "private": true,
   "license": "MIT",
   "scripts": {
-    "build": "lerna run build",
-    "clean": "lerna run clean",
-    "test": "lerna run test",
-    "lint": "lerna run -lint",
-    "watch": "lerna run --parallel watch",
-    "predeploy": "yarn build && yarn test",
-    "deploy": "lerna publish -m \"chore: Publish\" --independent",
+    "build": "yarn workspaces foreach -t -v -p -i run build",
+    "clean": "yarn workspaces foreach -t -v -p -i run clean",
+    "tests": "jest",
+    "test": "yarn jest && yarn lint",
+    "lint": "tslint -c tslint.json -p tsconfig.json",
+    "watch": "yarn workspaces foreach -t -v -p -i run watch",
     "precommit": "lint-staged"
   },
   "workspaces": [
     "packages/*"
   ],
   "devDependencies": {
+    "@babel/core": "^7.5.5",
+    "@babel/plugin-proposal-class-properties": "^7.5.5",
+    "@babel/plugin-transform-modules-commonjs": "^7.5.0",
+    "@babel/preset-typescript": "^7.3.3",
+    "@berry/pnpify": "^0.0.6",
     "@types/jest": "^21.1.5",
     "@types/node": "^7.0.18",
-    "jest": "^24.7.1",
-    "ts-jest": "^24.0.2",
+    "babel-jest": "^24.8.0",
     "husky": "^2.2.0",
+    "jest": "^24.8.0",
     "lerna": "^3.13.4",
     "lint-staged": "^8.1.5",
     "prettier": "^1.17.0",
+    "ts-jest": "^24.0.2",
     "tslint": "^5.16.0",
     "tslint-config-prettier": "^1.18.0",
     "tslint-plugin-prettier": "^2.0.1",
@@ -43,17 +48,7 @@
     "singleQuote": true,
     "parser": "babel"
   },
-  "jest": {
-    "transform": {
-      ".(ts|tsx)": "ts-jest"
-    },
-    "testRegex": "(/__tests__/.*\\.(test|spec))\\.(ts|tsx|js)$",
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js",
-      "json"
-    ],
-    "testEnvironment": "node"
+  "dependencies": {
+    "@babel/plugin-transform-react-jsx": "^7.3.0"
   }
 }

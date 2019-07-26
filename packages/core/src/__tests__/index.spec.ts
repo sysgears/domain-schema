@@ -1,4 +1,4 @@
-import DomainSchema, { Schema } from '../index';
+import DomainSchema, { Schema } from '..';
 
 class Product extends Schema {
   public __ = { name: 'Product' };

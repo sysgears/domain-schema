@@ -17,11 +17,13 @@ class DomainSchema extends Schema {
     super();
     if (clazz instanceof DomainSchema) {
       this._schemaClass = clazz._schemaClass;
+      this.__ = clazz._schema.__;
       this._schema = clazz._schema;
       this._values = clazz._values;
     } else {
       this._schemaClass = clazz;
       this._schema = new clazz();
+      this.__ = this._schema.__;
       this._values = this._normalizeValues({ ..._defs, [clazz]: this });
       if (!(this._schema instanceof Schema)) {
         DomainSchema._throwWrongSchema(clazz);
@@ -31,10 +33,6 @@ class DomainSchema extends Schema {
 
   public get isSchema(): boolean {
     return true;
-  }
-
-  public get __(): any {
-    return this._schema.__ || {};
   }
 
   public get values(): any {
@@ -59,7 +57,7 @@ class DomainSchema extends Schema {
 
   private _normalizeValues(_defs: any): any {
     const values = {};
-    if (!('__' in this._schema) || !this.__.name) {
+    if (!this.__ || !this.__.name) {
       throw new Error(`Schema class ${this._schemaClass.name} must define __.name`);
     }
     for (const key of Object.keys(this._schema)) {
